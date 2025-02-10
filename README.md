@@ -5,10 +5,10 @@ random chord application
 ## Getting Started
 
 # version info for build
-- Flutter 3.27.3 • channel stable • https://github.com/flutter/flutter.git
-- Framework • revision c519ee916e
-- Engine • revision e672b006cb
-- Tools • Dart 3.6.1 • DevTools 2.40.2
+- Flutter 3.27.4 • channel stable • https://github.com/flutter/flutter.git
+- Framework • revision d8a9f9a52e
+- Engine • revision 82bd5b7209
+- Tools • Dart 3.6.2 • DevTools 2.40.3
 
 This project is a starting point for a Flutter application.
 
