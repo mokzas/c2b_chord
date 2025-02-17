@@ -23,6 +23,8 @@ class _PlayScreenState extends State<PlayScreen> {
           onChanged: (newValue) {},
         ),
       );
+
+  // Beat/BPM/ChordCount
   Widget _optionSelector() => Row(
         children: [
           Column(
@@ -33,7 +35,10 @@ class _PlayScreenState extends State<PlayScreen> {
               ),
               Text(
                 'Beat',
-                style: Theme.of(context).textTheme.labelMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: CustomColorScheme.neutral50),
               ),
             ],
           ),
@@ -46,7 +51,10 @@ class _PlayScreenState extends State<PlayScreen> {
               ),
               Text(
                 'BPM',
-                style: Theme.of(context).textTheme.labelMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: CustomColorScheme.neutral50),
               ),
             ],
           ),
@@ -59,12 +67,17 @@ class _PlayScreenState extends State<PlayScreen> {
               ),
               Text(
                 'Chords',
-                style: Theme.of(context).textTheme.labelMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: CustomColorScheme.neutral50),
               ),
             ],
           ),
         ],
       );
+
+  // practice start/stop/repeat
   Widget _playStopRepeatController() => Row(
         children: [
           Container(
@@ -99,6 +112,7 @@ class _PlayScreenState extends State<PlayScreen> {
         ],
       );
 
+  // upper widgets (volume, option, controller)
   Widget _controllerWidgets() => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -118,31 +132,28 @@ class _PlayScreenState extends State<PlayScreen> {
         ],
       );
 
+  // beat indicator widget
   Widget _beatIndicator({required bool active}) => CircleAvatar(
         radius: 8.0,
         backgroundColor: active ? Color(0xff655a6f) : Color(0xffe9e0eb),
       );
 
-  List<Widget> _buildBeatIndicatorsWithGap(int count, int active) {
-    List<Widget> widgets = [];
+  Widget _beatIndicatorWidgets(int count, int active) {
+    List<Widget> beatIndicatorWidgets = [];
     for (int i = 0; i < count; ++i) {
-      widgets.add(_beatIndicator(active: (active == i + 1)));
+      beatIndicatorWidgets.add(_beatIndicator(active: (active == i + 1)));
       if (count != i + 1) {
-        widgets.add(wGap4());
+        beatIndicatorWidgets.add(wGap4());
       }
     }
-    return widgets;
+    return Row(
+      children: [
+        Expanded(child: Container()),
+        Row(children: beatIndicatorWidgets),
+        Expanded(child: Container()),
+      ],
+    );
   }
-
-  Widget _beatIndicatorWidget() => Row(
-        children: [
-          Expanded(child: Container()),
-          Row(
-            children: _buildBeatIndicatorsWithGap(5, 2),
-          ),
-          Expanded(child: Container()),
-        ],
-      );
 
   Widget _playCard(String chord, bool on) => FittedBox(
         child: Column(
@@ -157,20 +168,17 @@ class _PlayScreenState extends State<PlayScreen> {
                 borderRadius: BorderRadius.circular(RadiusValue.small),
               ),
               alignment: Alignment.center,
-              child: Text.rich(
-                TextSpan(children: [
-                  for (final c in chord.characters)
-                    TextSpan(
-                      text: c,
-                      style: c == '♯' || c == '♭'
-                          ? Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Colors.red,
-                              fontFeatures: [FontFeature.subscripts()])
-                          : Theme.of(context).textTheme.headlineSmall,
-                    )
-                ]),
-                // chord,
-                // style: Theme.of(context).textTheme.headlineSmall,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  chord,
+                  style: musicTextTheme(context).titleLarge?.copyWith(
+                        color: on
+                            ? Theme.of(context).colorScheme.onPrimaryContainer
+                            : CustomColorScheme.neutral50,
+                        fontWeight: on ? FontWeight.bold : null,
+                      ),
+                ),
               ),
             ),
             hGap4(),
@@ -180,75 +188,71 @@ class _PlayScreenState extends State<PlayScreen> {
               decoration: BoxDecoration(
                 color: on
                     ? Theme.of(context).colorScheme.onPrimaryContainer
-                    : Theme.of(context).colorScheme.onErrorContainer,
+                    : CustomColorScheme.neutral50,
                 borderRadius: BorderRadius.circular(RadiusValue.full),
               ),
-              child: Text(
-                chord,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(color: Colors.transparent),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  chord,
+                  style: musicTextTheme(context)
+                      .titleLarge
+                      ?.copyWith(color: Colors.transparent),
+                ),
               ),
             ),
           ],
         ),
       );
 
-  Widget _playCards(List<String> chords, int on) {
-    // chords는 8, 4, 2, 1 의 길이만 가져야 한다
-    if (chords.length == 8) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              for (int i = 0; i < 4; ++i) _playCard(chords[i], on == (i + 1))
-            ],
-          ),
-          hGap16(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              for (int i = 4; i < 8; ++i) _playCard(chords[i], on == (i + 1))
-            ],
-          ),
-        ],
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          for (int i = 0; i < chords.length; ++i)
-            _playCard(chords[i], on == (i + 1))
-        ],
-      );
-    }
-  }
+  Widget _playerWidgets(List<String> chords, int on) {
+    Widget playCards =
+        // chords는 8, 4, 2, 1 의 길이만 가져야 한다
+        (chords.length == 8)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (int i = 0; i < 4; ++i)
+                        _playCard(chords[i], on == (i + 1))
+                    ],
+                  ),
+                  hGap16(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (int i = 4; i < 8; ++i)
+                        _playCard(chords[i], on == (i + 1))
+                    ],
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: chords.length == 1
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.spaceBetween,
+                children: [
+                  for (int i = 0; i < chords.length; ++i)
+                    _playCard(chords[i], on == (i + 1))
+                ],
+              );
 
-  Widget _playerWidgets() => Expanded(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(RadiusValue.large),
-          ),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: _playCards([
-              'Bdim',
-              'C♯7sus4♭9♭13',
-              'Dm7',
-              'E♭7sus4♭9♯9',
-              'G7sus4',
-              'Am6',
-              'Cm7',
-              'C♯dim7',
-            ], 3),
-          ),
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(RadiusValue.large),
         ),
-      );
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: playCards,
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -259,6 +263,17 @@ class _PlayScreenState extends State<PlayScreen> {
     ]);
     super.initState();
   }
+
+  final sampleChords = [
+    'Bdim',
+    'C♯7sus4♭9♭13',
+    'Dm7',
+    'E♭7sus4♭9♯9',
+    'G7sus4',
+    'Am6',
+    'Cm7',
+    'C♯dim7',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -276,9 +291,9 @@ class _PlayScreenState extends State<PlayScreen> {
                 children: [
                   _controllerWidgets(),
                   hGap8(),
-                  _beatIndicatorWidget(),
+                  _beatIndicatorWidgets(5, 2),
                   hGap24(),
-                  _playerWidgets(),
+                  _playerWidgets(sampleChords, 2),
                 ],
               ),
               IconButton(
