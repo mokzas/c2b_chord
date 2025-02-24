@@ -11,7 +11,6 @@ void main() {
   // 기본은 세로 화면 UI
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
   ]);
   // Launch development config by default
   development.main();

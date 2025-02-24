@@ -2,12 +2,15 @@ import 'package:c2b/ui/theme/const.dart';
 import 'package:c2b/ui/view_models/play_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class PlayScreen extends StatefulWidget {
   const PlayScreen({
     super.key,
     required this.viewModel,
   });
+
+  static const name = 'play';
 
   final PlayViewModel viewModel;
 
@@ -257,6 +260,7 @@ class _PlayScreenState extends State<PlayScreen> {
   @override
   void initState() {
     // 가로모드 고정
+    SystemChrome.setPreferredOrientations([]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -282,28 +286,32 @@ class _PlayScreenState extends State<PlayScreen> {
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: GridMargin.longSide,
-            horizontal: GridMargin.shortSide,
+            // horizontal: GridMargin.shortSide,
           ),
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _controllerWidgets(),
-                  hGap8(),
-                  _beatIndicatorWidgets(5, 2),
-                  hGap24(),
-                  _playerWidgets(sampleChords, 2),
-                ],
-              ),
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
+          child: OrientationBuilder(builder: (context, orientation) {
+            return orientation == Orientation.portrait
+                ? CircularProgressIndicator()
+                : Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _controllerWidgets(),
+                          hGap8(),
+                          _beatIndicatorWidgets(5, 2),
+                          hGap24(),
+                          _playerWidgets(sampleChords, 2),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          context.pop();
+                        },
+                      ),
+                    ],
+                  );
+          }),
         ),
       ),
     );

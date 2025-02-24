@@ -1,6 +1,8 @@
 import 'package:c2b/routing/routes.dart';
+import 'package:c2b/ui/screens/chord_select_screen.dart';
 import 'package:c2b/ui/screens/home_screen.dart';
 import 'package:c2b/ui/screens/play_screen.dart';
+import 'package:c2b/ui/view_models/chord_select_view_model.dart';
 import 'package:c2b/ui/view_models/play_view_model.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,17 +11,32 @@ GoRouter router() => GoRouter(
       routes: [
         GoRoute(
           path: Routes.home,
+          name: HomeScreen.name,
           builder: (context, state) {
             return HomeScreen();
           },
-        ),
-        GoRoute(
-          path: Routes.play,
-          builder: (context, state) {
-            return PlayScreen(
-              viewModel: PlayViewModel(),
-            );
-          },
+          routes: [
+            GoRoute(
+              path: ChordSelectScreen.name,
+              name: ChordSelectScreen.name,
+              builder: (context, state) {
+                return ChordSelectScreen(
+                  viewModel: ChordSelectViewModel(),
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: PlayScreen.name,
+                  name: PlayScreen.name,
+                  builder: (context, state) {
+                    return PlayScreen(
+                      viewModel: PlayViewModel(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ],
     );

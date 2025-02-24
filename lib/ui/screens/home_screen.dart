@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  static const name = 'home';
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -15,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // 가로모드 고정
+    SystemChrome.setPreferredOrientations([]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -39,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(child: Container()),
               ElevatedButton(
                 onPressed: () {
-                  context.push(Routes.play);
+                  // context.go 사용 시 orientation이 전환되지 않는 문제가 있음.
+                  context.push(Routes.chordSelect);
                 },
                 child: Text('Go To Play'),
               ),
