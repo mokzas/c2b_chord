@@ -1,11 +1,18 @@
 import 'package:c2b/routing/routes.dart';
+import 'package:c2b/ui/screens/home_screen.dart';
 import 'package:c2b/ui/screens/play_screen.dart';
 import 'package:c2b/ui/view_models/play_view_model.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router() => GoRouter(
-      initialLocation: Routes.play, // 임시처리
+      initialLocation: Routes.home, // 임시처리
       routes: [
+        GoRoute(
+          path: Routes.home,
+          builder: (context, state) {
+            return HomeScreen();
+          },
+        ),
         GoRoute(
           path: Routes.play,
           builder: (context, state) {
