@@ -4,6 +4,7 @@ import 'package:c2b/ui/screens/home_screen.dart';
 import 'package:c2b/ui/screens/play_screen.dart';
 import 'package:c2b/ui/view_models/chord_select_view_model.dart';
 import 'package:c2b/ui/view_models/play_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router() => GoRouter(
@@ -20,8 +21,10 @@ GoRouter router() => GoRouter(
               path: ChordSelectScreen.name,
               name: ChordSelectScreen.name,
               builder: (context, state) {
-                return ChordSelectScreen(
-                  viewModel: ChordSelectViewModel(),
+                return ProviderScope(
+                  child: ChordSelectScreen(
+                    viewModel: ChordSelectViewModel(),
+                  ),
                 );
               },
               routes: [
@@ -45,18 +48,18 @@ GoRouter router() => GoRouter(
  * Top-level routing redirection definition
  * 앱 전체 영역에서 auth changed 등의 event에 따른 redirection을 세팅하고 싶을 때 설정하는 함수
  * 초기 구현에서는 로그인 없이 앱의 코어 기능들을 사용하도록 설계하였기에, 사용하지 않도록 한다
-Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-  final signedIn = false;
-  final signingIn = state.matchedLocation == Routes.signIn;
+    Future<String?> _redirect(BuildContext context, GoRouterState state) async {
+    final signedIn = false;
+    final signingIn = state.matchedLocation == Routes.signIn;
 
-  if (!signedIn) {
+    if (!signedIn) {
     return Routes.signIn;
-  }
+    }
 
-  if (signingIn) {
+    if (signingIn) {
     return Routes.home;
-  }
+    }
 
-  return null;
-}
-**/
+    return null;
+    }
+ **/

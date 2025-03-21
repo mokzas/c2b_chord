@@ -1,6 +1,8 @@
 import 'package:c2b/routing/routes.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:c2b/ui/view_models/chord_select_view_model.dart';
+import 'package:c2b/ui/widget/chord_list_widget.dart';
+import 'package:c2b/ui/widget/selected_chords_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -70,15 +72,12 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
       );
 
   final List<String> _sampleFilter = [
-    'E♭M7',
-    'Csus4',
-    'D♭dim',
-    'C♯7sus2sus4♭9♯9♯11♭13/F♯',
-    'Csus4',
-    'Csus4',
-    'Csus4',
-    'D♭dim',
+    'M7',
+    'dim',
+    '7sus2sus4♭9♯9♯11♭13',
+    'dim',
   ];
+
   final Map<String, List<String>> _samplePresetCategory = {
     'User': ['U1', 'U2', 'U3'],
     '* Diatonic': [
@@ -103,6 +102,7 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              /* 선택된 Filter 보여주는 section */
               Row(
                 children: [
                   Container(
@@ -137,6 +137,7 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
                   ),
                 ],
               ),
+              /* "Chords" (제목) */
               ListTile(
                 contentPadding: EdgeInsets.only(right: 24.0),
                 title: Text(
@@ -150,27 +151,9 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
                 ),
               ),
               Divider(height: 1.0),
+              /* 선택 가능한 Chord 리스트 */
               Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                      _sampleFilter[index],
-                      style: musicTextTheme(context).titleMedium,
-                    ),
-                    trailing: Checkbox(
-                      value: index % 3 == 0
-                          ? false
-                          : index % 3 == 1
-                              ? null
-                              : true,
-                      onChanged: (value) {},
-                      tristate: true,
-                    ),
-                  ),
-                  separatorBuilder: (context, index) => Divider(height: 1.0),
-                  itemCount: _sampleFilter.length,
-                  // shrinkWrap: true,
-                ),
+                child: ChordListWidget(),
               ),
             ],
           ),
@@ -253,6 +236,7 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
           ),
         ),
       );
+
   Widget _selectedChordWidget() => Container(
         width: 260.0,
         padding: EdgeInsets.only(left: 16.0),
@@ -281,37 +265,7 @@ class _ChordSelectScreenState extends State<ChordSelectScreen> {
             ),
             hGap16(),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(RadiusValue.small),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1.0,
-                        color: Colors.grey.shade400,
-                        offset: Offset(0.0, 1.0),
-                      ),
-                    ],
-                    color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      _sampleFilter[index],
-                      style: musicTextTheme(context).titleMedium,
-                      // overflow: TextOverflow.,
-                    ),
-                    trailing: Icon(
-                      Icons.remove_circle,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(RadiusValue.small),
-                    ),
-                  ),
-                ),
-                separatorBuilder: (_, __) => hGap4(),
-                itemCount: _sampleFilter.length,
-              ),
+              child: SelectedChordsWidget(),
             ),
             hGap16(),
             Row(
