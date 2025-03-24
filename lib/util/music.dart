@@ -6,6 +6,7 @@ enum Notation {
 }
 
 // 12key의 모든 가능한 표현 방식
+// suffix S는 sharp, F는 flat.
 enum Note {
   c(0, "C", Notation.natural),
   bS(0, "B♯", Notation.sharp),
