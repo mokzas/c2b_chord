@@ -1,0 +1,1268 @@
+[
+    {
+        "name": "M",
+        "aliases": [
+            "Maj",
+            "\u0394"
+        ],
+        "intervals": [
+            0,
+            4,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m",
+        "aliases": [
+            "min",
+            "-"
+        ],
+        "intervals": [
+            0,
+            3,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "dim",
+        "aliases": [
+            "\u00b0",
+            "diminished"
+        ],
+        "intervals": [
+            0,
+            3,
+            6
+        ],
+        "notation": [
+            "follow root",
+            "b",
+            "b"
+        ]
+    },
+    {
+        "name": "aug",
+        "aliases": [
+            "+",
+            "augmented"
+        ],
+        "intervals": [
+            0,
+            4,
+            8
+        ],
+        "notation": [
+            "follow root",
+            "#",
+            "#"
+        ]
+    },
+    {
+        "name": "sus2",
+        "aliases": [],
+        "intervals": [
+            0,
+            2,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "sus4",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "quartal",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M7",
+        "aliases": [
+            "Maj7",
+            "\u03947"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m7",
+        "aliases": [
+            "min7",
+            "-7"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7",
+        "aliases": [
+            "Dom7"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "dim7",
+        "aliases": [
+            "\u00b07",
+            "diminished7"
+        ],
+        "intervals": [
+            0,
+            3,
+            6,
+            9
+        ],
+        "notation": [
+            "follow root",
+            "b",
+            "b",
+            "b"
+        ]
+    },
+    {
+        "name": "aug7",
+        "aliases": [
+            "+7",
+            "augmented7"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "#",
+            "#",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7sus2",
+        "aliases": [],
+        "intervals": [
+            0,
+            2,
+            7,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7sus4",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            7,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "mM7",
+        "aliases": [
+            "minMaj7"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "\u00f87",
+        "aliases": [
+            "half-diminished7",
+            "m7\u266d5"
+        ],
+        "intervals": [
+            0,
+            3,
+            6,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "b",
+            "b",
+            "follow root"
+        ]
+    },
+    {
+        "name": "quartal7",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            10,
+            15
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "6",
+        "aliases": [
+            "Maj6"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            9
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "6/7",
+        "aliases": [
+            "Maj6/7"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            9,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "6/9",
+        "aliases": [
+            "Maj6/9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            9,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m6",
+        "aliases": [
+            "min6"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            9
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m6/7",
+        "aliases": [
+            "min6/7"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            9,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M9",
+        "aliases": [
+            "Maj9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            11,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m9",
+        "aliases": [
+            "min9"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "9",
+        "aliases": [
+            "Dominant9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "mM9",
+        "aliases": [
+            "minMaj9"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            11,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "9sus4",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            7,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m11",
+        "aliases": [
+            "min11"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            10,
+            14,
+            17
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "11",
+        "aliases": [
+            "Dominant11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            17
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "11\u266f",
+        "aliases": [
+            "Lydian11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            18
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "M13",
+        "aliases": [
+            "Maj13"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            11,
+            14,
+            17,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m13",
+        "aliases": [
+            "min13"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            10,
+            14,
+            17,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "13",
+        "aliases": [
+            "Dominant13"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            17,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "mM13",
+        "aliases": [
+            "minMaj13"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            11,
+            14,
+            17,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M7\u266d5",
+        "aliases": [
+            "Maj7\u266d5"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M7\u266f5",
+        "aliases": [
+            "Maj7\u266f5"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "#",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M7\u266d9",
+        "aliases": [
+            "Maj7\u266d9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            11,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "M7\u266f11",
+        "aliases": [
+            "Maj7\u266f11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            11,
+            18
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "m7\u266d5",
+        "aliases": [
+            "min7\u266d5",
+            "half-diminished"
+        ],
+        "intervals": [
+            0,
+            3,
+            6,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "b",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m7\u266d9",
+        "aliases": [
+            "min7\u266d9"
+        ],
+        "intervals": [
+            0,
+            3,
+            7,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "m7\u266d9\u266d5",
+        "aliases": [
+            "min7\u266d9\u266d5"
+        ],
+        "intervals": [
+            0,
+            3,
+            6,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "b",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7\u266d5",
+        "aliases": [
+            "Dominant7\u266d5"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7\u266f5",
+        "aliases": [
+            "Dominant7\u266f5"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            10
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "#",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7sus4\u266d9",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            7,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7\u266d9",
+        "aliases": [
+            "Dominant7\u266d9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7\u266d9\u266d5",
+        "aliases": [
+            "Dominant7\u266d9\u266d5"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7\u266d9\u266f5",
+        "aliases": [
+            "Dominant7\u266d9\u266f5"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "#",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7\u266d9\u266f9",
+        "aliases": [
+            "Dominant7\u266d9\u266f9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            13,
+            15
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "b",
+            "#"
+        ]
+    },
+    {
+        "name": "7\u266f9",
+        "aliases": [
+            "Dominant7\u266f9"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            15
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "7\u266f9\u266f5",
+        "aliases": [
+            "Dominant7\u266f9\u266f5"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            10,
+            15
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "#",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "7\u266f11",
+        "aliases": [
+            "Dominant7\u266f11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            18
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "7(13)",
+        "aliases": [
+            "Dominant7(13)"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            17,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "7\u266d13",
+        "aliases": [
+            "Dominant7\u266d13"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            17,
+            20
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "7alt",
+        "aliases": [
+            "Dominant7alt"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            10,
+            13
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root",
+            "b"
+        ]
+    },
+    {
+        "name": "M9\u266d5",
+        "aliases": [
+            "Maj9\u266d5"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            11,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m9\u266d5",
+        "aliases": [
+            "min9\u266d5"
+        ],
+        "intervals": [
+            0,
+            3,
+            6,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "b",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "9\u266f5",
+        "aliases": [
+            "Dominant9\u266f5"
+        ],
+        "intervals": [
+            0,
+            4,
+            8,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "#",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "9\u266d5",
+        "aliases": [
+            "Dominant9\u266d5"
+        ],
+        "intervals": [
+            0,
+            4,
+            6,
+            10,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "b",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "9\u266f11",
+        "aliases": [
+            "Dominant9\u266f11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            18
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "#"
+        ]
+    },
+    {
+        "name": "13\u266f11",
+        "aliases": [
+            "Dominant13\u266f11"
+        ],
+        "intervals": [
+            0,
+            4,
+            7,
+            10,
+            14,
+            18,
+            21
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root",
+            "follow root",
+            "#",
+            "follow root"
+        ]
+    },
+    {
+        "name": "add2",
+        "aliases": [],
+        "intervals": [
+            0,
+            2,
+            4,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "# if sharp root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "add9",
+        "aliases": [],
+        "intervals": [
+            0,
+            4,
+            7,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "add11",
+        "aliases": [],
+        "intervals": [
+            0,
+            4,
+            7,
+            17
+        ],
+        "notation": [
+            "follow root",
+            "# if sharp root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m(add2)",
+        "aliases": [],
+        "intervals": [
+            0,
+            2,
+            3,
+            7
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "b if flat root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m(add9)",
+        "aliases": [],
+        "intervals": [
+            0,
+            3,
+            7,
+            14
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "m(add11)",
+        "aliases": [],
+        "intervals": [
+            0,
+            3,
+            7,
+            17
+        ],
+        "notation": [
+            "follow root",
+            "b if flat root",
+            "follow root",
+            "follow root"
+        ]
+    }
+]
