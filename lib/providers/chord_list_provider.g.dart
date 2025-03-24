@@ -6,7 +6,7 @@ part of 'chord_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chordListHash() => r'2674248002ddab2877a0c2e5c14407c0debabf45';
+String _$chordListHash() => r'ee3bd08adc72780e9c7e48c1cf57ab9aa6ce3744';
 
 /// See also [ChordList].
 @ProviderFor(ChordList)

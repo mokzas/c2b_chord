@@ -1,7 +1,7 @@
+import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/chord_list_provider.dart';
 
 class ChordListWidget extends ConsumerWidget {
   const ChordListWidget({super.key});
@@ -24,7 +24,9 @@ class ChordListWidget extends ConsumerWidget {
             ),
             trailing: Checkbox(
               value: chordItem.isSelected,
-              onChanged: (_) => ref.read(chordListProvider.notifier).updateSelection(chordItem.chord, !chordItem.isSelected),
+              onChanged: (_) => ref
+                  .read(chordListProvider.notifier)
+                  .updateSelection(chordItem.chord, !chordItem.isSelected),
               tristate: true,
             ),
           );

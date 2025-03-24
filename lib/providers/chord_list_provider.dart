@@ -1,10 +1,9 @@
 import 'package:c2b/model/chord_list_item_model.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:c2b/util/music.dart';
 import 'package:c2b/model/chord_model.dart';
 import 'package:c2b/model/quality_model.dart';
 import 'package:c2b/providers/quality_provider.dart';
+import 'package:c2b/util/music.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chord_list_provider.g.dart';
 
@@ -15,7 +14,7 @@ class ChordList extends _$ChordList {
     final qualities = await ref.watch(qualityProvider.future);
     final List<ChordListItemModel> chordList = [];
 
-    for (final root in c_rootNotes) {
+    for (final root in rootNotes) {
       for (final quality in qualities) {
         final name = root.str + quality.name;
         final nameAlt = quality.aliases.map((alt) => root.str + alt).toList();

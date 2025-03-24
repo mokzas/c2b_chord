@@ -1,24 +1,19 @@
 import 'package:c2b/routing/routes.dart';
+import 'package:c2b/ui/screens/chord_select/chord_list_widget.dart';
+import 'package:c2b/ui/screens/chord_select/selected_chords_widget.dart';
 import 'package:c2b/ui/theme/const.dart';
-import 'package:c2b/ui/view_models/chord_select_view_model.dart';
-import 'package:c2b/ui/widget/chord_list_widget.dart';
-import 'package:c2b/ui/widget/selected_chords_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ChordSelectScreen extends StatefulWidget {
-  const ChordSelectScreen({
-    super.key,
-    required this.viewModel,
-  });
+class ChordSelectScreen extends ConsumerStatefulWidget {
+  const ChordSelectScreen({super.key});
 
-  static const name = 'chordSelect';
-
-  final ChordSelectViewModel viewModel;
+  static const name = 'chord_select';
 
   @override
-  State<ChordSelectScreen> createState() => _ChordSelectScreenState();
+  ConsumerState<ChordSelectScreen> createState() => _ChordSelectScreenState();
 }
 
 enum SelectType {
@@ -26,7 +21,7 @@ enum SelectType {
   preset,
 }
 
-class _ChordSelectScreenState extends State<ChordSelectScreen> {
+class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   SelectType _selectType = SelectType.select;
   String? _selectedPresetCategory;
 

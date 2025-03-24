@@ -1,4 +1,4 @@
-import 'package:c2b/ui/screens/chord_select_screen.dart';
+import 'package:c2b/ui/screens/chord_select/chord_select_screen.dart';
 import 'package:c2b/ui/screens/play_screen.dart';
 
 abstract final class Routes {

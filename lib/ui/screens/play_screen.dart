@@ -1,18 +1,12 @@
 import 'package:c2b/ui/theme/const.dart';
-import 'package:c2b/ui/view_models/play_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class PlayScreen extends StatefulWidget {
-  const PlayScreen({
-    super.key,
-    required this.viewModel,
-  });
+  const PlayScreen({super.key});
 
   static const name = 'play';
-
-  final PlayViewModel viewModel;
 
   @override
   State<PlayScreen> createState() => _PlayScreenState();
