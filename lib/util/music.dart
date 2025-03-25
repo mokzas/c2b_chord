@@ -57,3 +57,42 @@ const List<Note> rootNotes = [
   Note.bF,
   Note.b
 ];
+
+// 하나의 chord quality를 구성하는 속성들의 정보
+// chord 선택 화면의 filter 기능에 사용
+const List<Map<String, String>> qualityProperties = [
+  {"name": "M", "group": "Triad"},
+  {"name": "m", "group": "Triad"},
+  {"name": "dim", "group": "Triad"},
+  {"name": "aug", "group": "Triad"},
+  {"name": "sus2", "group": "Triad"},
+  {"name": "sus4", "group": "Triad"},
+  {"name": "Quartal", "group": "Triad"},
+  {"name": "M7", "group": "7th"},
+  {"name": "m7", "group": "7th"},
+  {"name": "7", "group": "7th"},
+  {"name": "dim7", "group": "7th"},
+  {"name": "aug7", "group": "7th"},
+  {"name": "7sus2", "group": "7th"},
+  {"name": "7sus4", "group": "7th"},
+  {"name": "M7sus2", "group": "7th"},
+  {"name": "M7sus4", "group": "7th"},
+  {"name": "ø7", "group": "7th"},
+  {"name": "mM7", "group": "7th"},
+  {"name": "augM7", "group": "7th"},
+  {"name": "6", "group": "Extension"},
+  {"name": "9", "group": "Extension"},
+  {"name": "11", "group": "Extension"},
+  {"name": "13", "group": "Extension"},
+  {"name": "♭5", "group": "Alter, add"},
+  {"name": "♯5", "group": "Alter, add"},
+  {"name": "♭9", "group": "Alter, add"},
+  {"name": "♯9", "group": "Alter, add"},
+  {"name": "♯11", "group": "Alter, add"},
+  {"name": "♭13", "group": "Alter, add"},
+  {"name": "alt", "group": "Alter, add"},
+  {"name": "add2", "group": "Alter, add"},
+  {"name": "add9", "group": "Alter, add"},
+  {"name": "add11", "group": "Alter, add"},
+  {"name": "add13", "group": "Alter, add"},
+];
