@@ -51,29 +51,34 @@ class ChordList extends _$ChordList {
 
     if (notation == '#') {
       return candidates.firstWhere((n) => n.notation == Notation.sharp,
-          orElse: () => candidates.firstWhere(
-              (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+          orElse: () =>
+              candidates.firstWhere(
+                      (n) => n.notation == Notation.natural,
+                  orElse: () => candidates.first));
     } else if (notation == 'b') {
       return candidates.firstWhere((n) => n.notation == Notation.flat,
-          orElse: () => candidates.firstWhere(
-              (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+          orElse: () =>
+              candidates.firstWhere(
+                      (n) => n.notation == Notation.natural,
+                  orElse: () => candidates.first));
     } else if (root.notation == Notation.sharp) {
       return candidates.firstWhere((n) => n.notation == Notation.sharp,
-          orElse: () => candidates.firstWhere(
-              (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+          orElse: () =>
+              candidates.firstWhere(
+                      (n) => n.notation == Notation.natural,
+                  orElse: () => candidates.first));
     } else if (root.notation == Notation.flat) {
       return candidates.firstWhere((n) => n.notation == Notation.flat,
-          orElse: () => candidates.firstWhere(
-              (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+          orElse: () =>
+              candidates.firstWhere(
+                      (n) => n.notation == Notation.natural,
+                  orElse: () => candidates.first));
     } else {
       return candidates.firstWhere((n) => n.notation == Notation.natural,
-          orElse: () => candidates.firstWhere(
-              (n) => n.notation == Notation.flat,
-              orElse: () => candidates.first));
+          orElse: () =>
+              candidates.firstWhere(
+                      (n) => n.notation == Notation.flat,
+                  orElse: () => candidates.first));
     }
   }
 

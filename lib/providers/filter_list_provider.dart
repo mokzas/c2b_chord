@@ -10,6 +10,15 @@ class FilterList extends _$FilterList {
   List<FilterListItemModel> build() {
     final List<FilterListItemModel> filterList = [];
 
+    for (final note in rootNotes) {
+      filterList.add(
+        FilterListItemModel(
+          name: note.str,
+          group: "Root",
+          isSelected: false,
+        ),
+      );
+    }
     for (final property in qualityProperties) {
       if (property['name'] == null) continue;
 
@@ -23,5 +32,19 @@ class FilterList extends _$FilterList {
     }
 
     return filterList;
+  }
+
+  void updateSelection(String name, bool isSelected) {
+    final current = state;
+
+    final updatedList = current.map((e) {
+      if (e.name == name) {
+        return e.copyWith(isSelected: isSelected);
+      } else {
+        return e;
+      }
+    }).toList();
+
+    state = updatedList;
   }
 }

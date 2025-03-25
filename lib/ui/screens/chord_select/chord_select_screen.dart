@@ -1,6 +1,7 @@
 import 'package:c2b/routing/routes.dart';
 import 'package:c2b/ui/screens/chord_select/chord_list_widget.dart';
 import 'package:c2b/ui/screens/chord_select/selected_chords_widget.dart';
+import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_widget.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,33 +47,6 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         groupAlignment: 0.0,
       );
 
-  Widget _chordChip(String chord) => Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
-        constraints: BoxConstraints(maxHeight: 28.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.full),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.check),
-            wGap4(),
-            Text(
-              chord,
-              style: musicTextTheme(context).bodyMedium,
-            ),
-          ],
-        ),
-      );
-
-  final List<String> _sampleFilter = [
-    'M7',
-    'dim',
-    '7sus2sus4♭9♯9♯11♭13',
-    'dim',
-  ];
-
   final Map<String, List<String>> _samplePresetCategory = {
     'User': ['U1', 'U2', 'U3'],
     '* Diatonic': [
@@ -98,40 +72,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               /* 선택된 Filter 보여주는 section */
-              Row(
-                children: [
-                  Container(
-                    width: 44.0,
-                    height: 28.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.outline),
-                      borderRadius: BorderRadius.circular(RadiusValue.full),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(RadiusValue.full),
-                        child: Icon(Icons.filter_list),
-                      ),
-                    ),
-                  ),
-                  wGap4(),
-                  Expanded(
-                    child: SizedBox(
-                      height: 28.0,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) =>
-                            _chordChip(_sampleFilter[index]),
-                        separatorBuilder: (_, __) => wGap8(),
-                        itemCount: _sampleFilter.length,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              SelectedFiltersHorizontalWidget(),
               /* "Chords" (제목) */
               ListTile(
                 contentPadding: EdgeInsets.only(right: 24.0),
@@ -243,7 +184,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Selected (${_sampleFilter.length})',
+                  'Selected (7)',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Icon(
