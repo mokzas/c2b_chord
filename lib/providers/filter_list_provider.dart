@@ -4,12 +4,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'filter_list_provider.g.dart';
 
+/// 선택가능한 모든 Filter 리스트의 데이터를 관리하는 Provider
 @riverpod
 class FilterList extends _$FilterList {
   @override
   List<FilterListItemModel> build() {
     final List<FilterListItemModel> filterList = [];
 
+    // filter 그룹 중 Root 그룹만 music.dart의 rootNotes 정보를 사용
+    // 나머지 그룹은 모두 quality를 나타내는 filter. qualityProperties 사용.
     for (final note in rootNotes) {
       filterList.add(
         FilterListItemModel(
@@ -34,6 +37,7 @@ class FilterList extends _$FilterList {
     return filterList;
   }
 
+  // 각 FilterLitsItem의 선택 여부를 업데이트하는 함수
   void updateSelection(String name, bool isSelected) {
     final current = state;
 

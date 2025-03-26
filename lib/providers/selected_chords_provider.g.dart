@@ -8,7 +8,9 @@ part of 'selected_chords_provider.dart';
 
 String _$selectedChordsHash() => r'b8c64e9e586187f987f778e3d822b99181887ddd';
 
-/// See also [selectedChords].
+/// 전체 Chord 중 선택된 Chord만을 반환하는 Provider
+///
+/// Copied from [selectedChords].
 @ProviderFor(selectedChords)
 final selectedChordsProvider = AutoDisposeProvider<List<ChordModel>>.internal(
   selectedChords,

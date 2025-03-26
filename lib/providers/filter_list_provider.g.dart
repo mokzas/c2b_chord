@@ -8,7 +8,9 @@ part of 'filter_list_provider.dart';
 
 String _$filterListHash() => r'46bd27c8f0cfe0d0cc94a56d530d2ca5c9792ca5';
 
-/// See also [FilterList].
+/// 선택가능한 모든 Filter 리스트의 데이터를 관리하는 Provider
+///
+/// Copied from [FilterList].
 @ProviderFor(FilterList)
 final filterListProvider =
     AutoDisposeNotifierProvider<FilterList, List<FilterListItemModel>>.internal(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// 오른쪽에서 들어오는 Modal Side Sheet.
+/// Material Design을 참고함.
 class ModalSideSheet {
   static Future<void> show({
     required BuildContext context,

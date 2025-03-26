@@ -3,8 +3,9 @@ import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChordListWidget extends ConsumerWidget {
-  const ChordListWidget({super.key});
+/// 선택가능한 Chord들을 보여주는 영역
+class ChordListArea extends ConsumerWidget {
+  const ChordListArea({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

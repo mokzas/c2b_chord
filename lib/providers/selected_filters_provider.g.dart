@@ -8,7 +8,9 @@ part of 'selected_filters_provider.dart';
 
 String _$selectedFiltersHash() => r'1c8e5b394da3c137fd2242268a632908df591c08';
 
-/// See also [selectedFilters].
+/// 전체 Filter 리스트 중 선택된 Filter만을 반환하는 Provider
+///
+/// Copied from [selectedFilters].
 @ProviderFor(selectedFilters)
 final selectedFiltersProvider =
     AutoDisposeProvider<List<FilterListItemModel>>.internal(

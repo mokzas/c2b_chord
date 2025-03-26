@@ -4,8 +4,9 @@ import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FilterListWidget extends ConsumerWidget {
-  const FilterListWidget({super.key});
+/// 선택가능한 Filter들을 보여주는 영역
+class FilterListArea extends ConsumerWidget {
+  const FilterListArea({super.key});
 
   Widget _filterGroup(
           BuildContext context, String title, List<Widget> children) =>

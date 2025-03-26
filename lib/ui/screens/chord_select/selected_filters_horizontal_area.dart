@@ -1,14 +1,15 @@
 import 'package:c2b/providers/filter_list_provider.dart';
 import 'package:c2b/providers/selected_filters_provider.dart';
 import 'package:c2b/ui/screens/chord_select/filter_chip_widget.dart';
-import 'package:c2b/ui/screens/chord_select/filter_list_widget.dart';
+import 'package:c2b/ui/screens/chord_select/filter_list_area.dart';
 import 'package:c2b/ui/screens/chord_select/modal_side_sheet.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SelectedFiltersHorizontalWidget extends ConsumerWidget {
-  const SelectedFiltersHorizontalWidget({super.key});
+/// 선택된 필터들을 보여주는 영역
+class SelectedFiltersHorizontalArea extends ConsumerWidget {
+  const SelectedFiltersHorizontalArea({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,7 +32,7 @@ class SelectedFiltersHorizontalWidget extends ConsumerWidget {
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: GridMargin.shortSide, right: GridMargin.longSide),
-                  child: FilterListWidget(),
+                  child: FilterListArea(),
                 ),
               ),
               borderRadius: BorderRadius.circular(RadiusValue.full),

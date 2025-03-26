@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chord_list_item_model.freezed.dart';
 part 'chord_list_item_model.g.dart';
 
+/// 선택가능한 Chord 리스트의 각 아이템이 갖는 데이터
 @freezed
 abstract class ChordListItemModel with _$ChordListItemModel {
   const factory ChordListItemModel({

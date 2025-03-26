@@ -6,9 +6,11 @@ part of 'chord_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chordListHash() => r'c8cba6e034dc0e52d0b6bc35404645b683d4ac73';
+String _$chordListHash() => r'ee3bd08adc72780e9c7e48c1cf57ab9aa6ce3744';
 
-/// See also [ChordList].
+/// 선택가능한 모든 Chord 리스트의 데이터를 관리하는 Provider
+///
+/// Copied from [ChordList].
 @ProviderFor(ChordList)
 final chordListProvider = AutoDisposeAsyncNotifierProvider<ChordList,
     List<ChordListItemModel>>.internal(

@@ -1,6 +1,8 @@
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 
+/// Filter 리스트 아이템을 위한 위젯. Selectable Chip.
+/// Material3 Design을 참고함.
 class FilterChipWidget extends StatelessWidget {
   final String label;
   final bool isSelected;

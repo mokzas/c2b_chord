@@ -1,13 +1,14 @@
 import 'package:c2b/routing/routes.dart';
-import 'package:c2b/ui/screens/chord_select/chord_list_widget.dart';
-import 'package:c2b/ui/screens/chord_select/selected_chords_widget.dart';
-import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_widget.dart';
+import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
+import 'package:c2b/ui/screens/chord_select/selected_chords_area.dart';
+import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_area.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+/// 연습할 Chord를 선택하는 화면
 class ChordSelectScreen extends ConsumerStatefulWidget {
   const ChordSelectScreen({super.key});
 
@@ -72,7 +73,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               /* 선택된 Filter 보여주는 section */
-              SelectedFiltersHorizontalWidget(),
+              SelectedFiltersHorizontalArea(),
               /* "Chords" (제목) */
               ListTile(
                 contentPadding: EdgeInsets.only(right: 24.0),
@@ -89,7 +90,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
               Divider(height: 1.0),
               /* 선택 가능한 Chord 리스트 */
               Expanded(
-                child: ChordListWidget(),
+                child: ChordListArea(),
               ),
             ],
           ),
@@ -201,7 +202,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             ),
             hGap16(),
             Expanded(
-              child: SelectedChordsWidget(),
+              child: SelectedChordsArea(),
             ),
             hGap16(),
             Row(
