@@ -1,4 +1,4 @@
-import 'package:c2b/providers/filter_list_provider.dart';
+import 'package:c2b/providers/filter_map_provider.dart';
 import 'package:c2b/ui/screens/chord_select/filter_chip_widget.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +22,9 @@ class FilterListArea extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filterList = ref.watch(filterListProvider);
+    final filterMap = ref.watch(filterMapProvider);
     // filter group의 종류를 가져옴
-    final filterGroups = filterList.map((e) => e.group).toSet().toList();
-    print(filterGroups);
+    final filterGroups = filterMap.keys.toList();
 
     return ListView.separated(
       itemCount: filterGroups.length,
@@ -33,13 +32,12 @@ class FilterListArea extends ConsumerWidget {
         return _filterGroup(
             context,
             filterGroups[index],
-            filterList
-                .where((e) => e.group == filterGroups[index])
+            (filterMap[filterGroups[index]] ?? [])
                 .map((item) => FilterChipWidget(
                     label: item.name,
                     isSelected: item.isSelected,
                     onTap: () => ref
-                        .read(filterListProvider.notifier)
+                        .read(filterMapProvider.notifier)
                         .updateSelection(item.name, !item.isSelected)))
                 .toList());
       },
@@ -47,9 +45,7 @@ class FilterListArea extends ConsumerWidget {
         children: [
           hGap8(),
           Divider(
-            height: 1.0,
-            color: Theme.of(context).colorScheme.outlineVariant,
-          ),
+              height: 1.0, color: Theme.of(context).colorScheme.outlineVariant),
           hGap16(),
         ],
       ),

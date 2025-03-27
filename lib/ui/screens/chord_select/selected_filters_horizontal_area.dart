@@ -1,5 +1,4 @@
-import 'package:c2b/providers/filter_list_provider.dart';
-import 'package:c2b/providers/selected_filters_provider.dart';
+import 'package:c2b/providers/filter_map_provider.dart';
 import 'package:c2b/ui/screens/chord_select/filter_chip_widget.dart';
 import 'package:c2b/ui/screens/chord_select/filter_list_area.dart';
 import 'package:c2b/ui/screens/chord_select/modal_side_sheet.dart';
@@ -13,7 +12,11 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedFilters = ref.watch(selectedFiltersProvider);
+    final selectedFilters = ref.watch(filterMapProvider).values
+        .expand((itemList) => itemList)
+        .where((item) => item.isSelected)
+        .toList();
+
     return Row(
       children: [
         Container(
@@ -52,7 +55,7 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
                     label: filter.name,
                     isSelected: filter.isSelected,
                     onTap: () => ref
-                        .read(filterListProvider.notifier)
+                        .read(filterMapProvider.notifier)
                         .updateSelection(filter.name, !filter.isSelected));
               },
               separatorBuilder: (_, __) => wGap8(),
