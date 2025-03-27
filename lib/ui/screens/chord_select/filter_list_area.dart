@@ -41,14 +41,17 @@ class FilterListArea extends ConsumerWidget {
                         .updateSelection(item.name, !item.isSelected)))
                 .toList());
       },
-      separatorBuilder: (context, index) => Column(
-        children: [
-          hGap8(),
-          Divider(
-              height: 1.0, color: Theme.of(context).colorScheme.outlineVariant),
-          hGap16(),
-        ],
-      ),
+      separatorBuilder: (context, index) => filterGroups[index] != '7th'
+          ? Column(
+              children: [
+                hGap8(),
+                Divider(
+                    height: 1.0,
+                    color: Theme.of(context).colorScheme.outlineVariant),
+                hGap16(),
+              ],
+            )
+          : Container(),
     );
   }
 }
