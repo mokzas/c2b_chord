@@ -49,9 +49,12 @@ class ChordList extends _$ChordList {
   /// pitch, chord의 root, notation 매뉴얼을 참조하여
   /// natural표기/#표기/b표기 중 한 방식을 결정. 해당 pitch를 갖는 Note 중
   /// 결정한 방식에 맞는 Note를 반환하는 함수
+  ///
+  /// [notation] 각 Note를 표현하는 방식. 'natural', 'sharp', 'flat'
   Note _getNoteByPitchAndNotation(int pitch, Note root, String notation) {
-    // chord_qualities.json의 notation 데이터는 개선이 필요한 것으로 확인.
-    // 아래는 notation 데이터를 보완적으로 사용하는 알고리즘
+    // TODO: chord_qualities.json의 notation 데이터 오류 수정
+    // 현재 notation 데이터 일부에서 오류 발견되어 notation 데이터를 보완적으로
+    // 사용하도록 알고리즘을 작성함.
     //
     // 1. notation이 '#' 또는 'b'인 경우, 이를 따름. 해당하는 Note가 없으면 natural표기를 우선으로 함
     // 2. root의 notation이 '#' 또는 'b'인 경우, 이를 따름. 해당하는 Note가 없으면 natural표기를 우선으로 함
@@ -92,7 +95,7 @@ class ChordList extends _$ChordList {
     }
   }
 
-  /// 각 ChordLitsItem의 선택 여부를 업데이트하는 함수
+  /// chordList의 isSelected 값을 변경하는 함수
   void updateSelection(ChordModel chord, bool isSelected) {
     final current = state.valueOrNull;
     if (current == null) return;
