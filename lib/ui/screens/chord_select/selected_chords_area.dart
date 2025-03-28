@@ -1,5 +1,4 @@
 import 'package:c2b/providers/chord_list_provider.dart';
-import 'package:c2b/providers/selected_chords_provider.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,43 +9,52 @@ class SelectedChordsArea extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedChords = ref.watch(selectedChordsProvider);
+    final chordListAsync = ref.watch(chordListProvider);
 
-    return ListView.separated(
-      itemCount: selectedChords.length,
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(RadiusValue.small),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1.0,
-              color: Colors.grey.shade400,
-              offset: Offset(0.0, 1.0),
+    return chordListAsync.when(
+        loading: () => CircularProgressIndicator(),
+        error: (err, stack) => Text('Error: $err'),
+        data: (chordList) {
+          final selectedChords = chordList
+              .where((item) => item.isSelected)
+              .map((item) => item.chord)
+              .toList();
+          return ListView.separated(
+            itemCount: selectedChords.length,
+            itemBuilder: (context, index) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(RadiusValue.small),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 1.0,
+                    color: Colors.grey.shade400,
+                    offset: Offset(0.0, 1.0),
+                  ),
+                ],
+                color: Theme.of(context).colorScheme.surfaceContainerLowest,
+              ),
+              child: ListTile(
+                title: Text(
+                  selectedChords[index].name,
+                  style: musicTextTheme(context).titleMedium,
+                  // overflow: TextOverflow.,
+                ),
+                trailing: IconButton(
+                  onPressed: () => ref
+                      .read(chordListProvider.notifier)
+                      .updateSelection(selectedChords[index], false),
+                  icon: Icon(
+                    Icons.remove_circle,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(RadiusValue.small),
+                ),
+              ),
             ),
-          ],
-          color: Theme.of(context).colorScheme.surfaceContainerLowest,
-        ),
-        child: ListTile(
-          title: Text(
-            selectedChords[index].name,
-            style: musicTextTheme(context).titleMedium,
-            // overflow: TextOverflow.,
-          ),
-          trailing: IconButton(
-            onPressed: () => ref
-                .read(chordListProvider.notifier)
-                .updateSelection(selectedChords[index], false),
-            icon: Icon(
-              Icons.remove_circle,
-              color: Theme.of(context).colorScheme.error,
-            ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(RadiusValue.small),
-          ),
-        ),
-      ),
-      separatorBuilder: (_, __) => hGap4(),
-    );
+            separatorBuilder: (_, __) => hGap4(),
+          );
+        });
   }
 }
