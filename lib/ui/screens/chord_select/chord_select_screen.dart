@@ -35,10 +35,10 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             icon: Icon(Icons.check),
             label: Text('Select'),
           ),
-          NavigationRailDestination(
-            icon: Icon(Icons.bookmark_outline),
-            label: Text('Preset'),
-          ),
+          // NavigationRailDestination(
+          //   icon: Icon(Icons.bookmark_outline),
+          //   label: Text('Preset'),
+          // ),
         ],
         selectedIndex: _selectType.index,
         onDestinationSelected: (index) {
