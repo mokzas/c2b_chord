@@ -18,16 +18,25 @@ class ChordListArea extends ConsumerWidget {
       itemBuilder: (context, index) {
         final chordItem = filteredChords[index];
         return ListTile(
-          title: Text(
-            '${chordItem.chord.name} ${chordItem.chord.tones.map((n) => n.str).join(", ")}',
-            style: musicTextTheme(context).titleMedium,
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                chordItem.chord.name,
+                style: musicTextTheme(context).titleMedium,
+              ),
+              wGap8(),
+              Text(
+                chordItem.chord.tones.map((n) => n.str).join(", "),
+                style: musicTextTheme(context).bodySmall,
+              ),
+            ],
           ),
           trailing: Checkbox(
             value: chordItem.isSelected,
             onChanged: (_) => ref
                 .read(chordListProvider.notifier)
                 .updateSelection(chordItem.chord, !chordItem.isSelected),
-            tristate: true,
           ),
         );
       },

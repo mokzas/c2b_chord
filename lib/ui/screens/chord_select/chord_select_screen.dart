@@ -1,4 +1,5 @@
 import 'package:c2b/routing/routes.dart';
+import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
 import 'package:c2b/ui/screens/chord_select/selected_chords_area.dart';
 import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_area.dart';
@@ -24,6 +25,7 @@ enum SelectType {
 }
 
 class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
+  bool _topCheckBoxState = false;
   SelectType _selectType = SelectType.select;
   String? _selectedPresetCategory;
 
@@ -82,9 +84,16 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 trailing: Checkbox(
-                  value: null,
-                  onChanged: (value) {},
-                  tristate: true,
+                  value: _topCheckBoxState,
+                  onChanged: (value) {
+                    setState(() {
+                      _topCheckBoxState = value ?? false;
+                    });
+
+                    ref
+                        .read(chordListProvider.notifier)
+                        .updateFilteredSelectionAll(_topCheckBoxState);
+                  },
                 ),
               ),
               Divider(height: 1.0),
@@ -181,26 +190,6 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Selected (7)',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Icon(
-                  Icons.bookmark_add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ],
-            ),
-            hGap4(),
-            Container(
-              width: 36.0,
-              height: 1.0,
-              color: Theme.of(context).colorScheme.outline,
-            ),
-            hGap16(),
             Expanded(
               child: SelectedChordsArea(),
             ),
@@ -211,7 +200,6 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                 Container(
                   width: 96.0,
                   height: 40.0,
-                  // alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     border: Border.all(
@@ -221,7 +209,9 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => ref
+                          .read(chordListProvider.notifier)
+                          .updateSelectionAll(false),
                       borderRadius: BorderRadius.circular(RadiusValue.full),
                       child: Center(
                         child: Text(

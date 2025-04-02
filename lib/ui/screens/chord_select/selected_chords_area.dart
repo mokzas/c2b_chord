@@ -12,49 +12,92 @@ class SelectedChordsArea extends ConsumerWidget {
     final chordListAsync = ref.watch(chordListProvider);
 
     return chordListAsync.when(
-        loading: () => CircularProgressIndicator(),
-        error: (err, stack) => Text('Error: $err'),
-        data: (chordList) {
-          final selectedChords = chordList
-              .where((item) => item.isSelected)
-              .map((item) => item.chord)
-              .toList();
-          return ListView.separated(
-            itemCount: selectedChords.length,
-            itemBuilder: (context, index) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(RadiusValue.small),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 1.0,
-                    color: Colors.grey.shade400,
-                    offset: Offset(0.0, 1.0),
-                  ),
-                ],
-                color: Theme.of(context).colorScheme.surfaceContainerLowest,
-              ),
-              child: ListTile(
-                title: Text(
-                  selectedChords[index].name,
-                  style: musicTextTheme(context).titleMedium,
-                  // overflow: TextOverflow.,
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+      data: (chordList) {
+        final selectedChords = chordList
+            .where((item) => item.isSelected)
+            .map((item) => item.chord)
+            .toList();
+
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Selected (${selectedChords.length})',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    hGap4(),
+                    Container(
+                      width: 36.0,
+                      height: 1.0,
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ],
                 ),
-                trailing: IconButton(
-                  onPressed: () => ref
-                      .read(chordListProvider.notifier)
-                      .updateSelection(selectedChords[index], false),
-                  icon: Icon(
-                    Icons.remove_circle,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                Icon(
+                  Icons.bookmark_add,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(RadiusValue.small),
-                ),
-              ),
+              ],
             ),
-            separatorBuilder: (_, __) => hGap4(),
-          );
-        });
+            hGap16(),
+            Expanded(
+              child: selectedChords.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No chords.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: selectedChords.length,
+                      itemBuilder: (context, index) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(RadiusValue.small),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1.0,
+                              color: Colors.grey.shade400,
+                              offset: Offset(0.0, 1.0),
+                            ),
+                          ],
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerLowest,
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            selectedChords[index].name,
+                            style: musicTextTheme(context).titleMedium,
+                          ),
+                          trailing: IconButton(
+                            onPressed: () => ref
+                                .read(chordListProvider.notifier)
+                                .updateSelection(selectedChords[index], false),
+                            icon: Icon(
+                              Icons.remove_circle,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(RadiusValue.small),
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (_, __) => hGap4(),
+                    ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
