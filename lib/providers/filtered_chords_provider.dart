@@ -17,31 +17,36 @@ List<ChordListItemModel> filteredChords(Ref ref) {
   if (chordList == null) return [];
 
   // Group filters by category
-  final selectedRoots = filterMap["Root"]
+  final selectedRoots = filterMap['Root']
           ?.where((e) => e.isSelected == true)
           .map((e) => e.name)
           .toList() ??
       [];
 
   final selectedTriads =
-      filterMap["Triad"]?.where((e) => e.isSelected == true).toList() ?? [];
+      filterMap['Triad']?.where((e) => e.isSelected == true).toList() ?? [];
 
   final selectedSevenths =
-      filterMap["7th"]?.where((e) => e.isSelected == true).toList() ?? [];
+      filterMap['7th']?.where((e) => e.isSelected == true).toList() ?? [];
 
   // extension filter 적용시 사용.
   final extensionBase =
-      selectedSevenths.isEmpty ? (filterMap["7th"] ?? []) : selectedSevenths;
+      selectedSevenths.isEmpty ? (filterMap['7th'] ?? []) : selectedSevenths;
   assert(extensionBase.isNotEmpty);
 
   final selectedExtensions =
-      filterMap["Extension"]?.where((e) => e.isSelected == true).toList() ?? [];
+      filterMap['Extension']?.where((e) => e.isSelected == true).toList() ?? [];
 
   final selectedAlters =
-      (filterMap["Alter, add"]?.where((e) => e.isSelected == true) ?? [])
+      (filterMap['Alter, add']?.where((e) => e.isSelected == true) ?? [])
           .map((e) => e.name);
-  final allAlters = filterMap["Alter, add"] ?? [];
+  final allAlters = filterMap['Alter, add'] ?? [];
   assert(allAlters.isNotEmpty);
+
+  final isSelectedFilterEmpty = selectedTriads.isEmpty &&
+      selectedSevenths.isEmpty &&
+      selectedExtensions.isEmpty &&
+      selectedAlters.isEmpty;
 
   // Step 1: Match root
   // 선택된 Root를 갖는 모든 chord를 필터링
@@ -51,6 +56,11 @@ List<ChordListItemModel> filteredChords(Ref ref) {
       : chordList.where((e) {
           return selectedRoots.contains(e.chord.root.str);
         });
+
+  // 1. Root 포함 모든 그룹에서 선택된 필터가 없는 경우: 모든 코드를 보여줌
+  // 2. Root 그룹에는 선택한 filter가 있는데, 나머지 그룹에서 선택한 filter가
+  //    없으면 선택한 root의 모든 chord를 보여주도록 함.
+  if (isSelectedFilterEmpty) return step1.toList();
 
   // Step 2: Exact match of root + triad
   // <선택된 root> x <선택된 triad>와 정확히 일치하는 항목
@@ -122,12 +132,6 @@ List<ChordListItemModel> filteredChords(Ref ref) {
           });
         }).toList();
 
-  // 선택된 필터가 없으면 모든 코드를 보여주도록 함.
-  // Root 그룹에는 선택한 filter가 있는데, 나머지 그룹에서 선택한 filter가
-  // 없으면 선택한 root의 모든 chord를 보여주도록 함.
-  final isSelectedFilterEmpty = selectedTriads.isEmpty &&
-      selectedSevenths.isEmpty &&
-      selectedExtensions.isEmpty &&
-      selectedAlters.isEmpty;
-  return isSelectedFilterEmpty ? step1.toList() : step5;
+  // Root 이외 그룹에서 선택한 filter가 하나라도 있으면 step5를 보여줌.
+  return step5;
 }
