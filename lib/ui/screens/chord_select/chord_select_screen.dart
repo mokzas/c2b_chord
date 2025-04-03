@@ -239,7 +239,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => context.push(Routes.play),
                       borderRadius: BorderRadius.circular(RadiusValue.full),
                       child: Center(
                         child: Text(
