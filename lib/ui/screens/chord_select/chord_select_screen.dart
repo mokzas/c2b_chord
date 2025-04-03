@@ -1,12 +1,15 @@
 import 'package:c2b/routing/routes.dart';
-import 'package:c2b/ui/screens/chord_select/chord_list_widget.dart';
-import 'package:c2b/ui/screens/chord_select/selected_chords_widget.dart';
+import 'package:c2b/providers/chord_list_provider.dart';
+import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
+import 'package:c2b/ui/screens/chord_select/selected_chords_area.dart';
+import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_area.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+/// 연습할 Chord를 선택하는 화면
 class ChordSelectScreen extends ConsumerStatefulWidget {
   const ChordSelectScreen({super.key});
 
@@ -22,6 +25,7 @@ enum SelectType {
 }
 
 class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
+  bool _topCheckBoxState = false;
   SelectType _selectType = SelectType.select;
   String? _selectedPresetCategory;
 
@@ -31,10 +35,10 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             icon: Icon(Icons.check),
             label: Text('Select'),
           ),
-          NavigationRailDestination(
-            icon: Icon(Icons.bookmark_outline),
-            label: Text('Preset'),
-          ),
+          // NavigationRailDestination(
+          //   icon: Icon(Icons.bookmark_outline),
+          //   label: Text('Preset'),
+          // ),
         ],
         selectedIndex: _selectType.index,
         onDestinationSelected: (index) {
@@ -45,33 +49,6 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         labelType: NavigationRailLabelType.all,
         groupAlignment: 0.0,
       );
-
-  Widget _chordChip(String chord) => Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
-        constraints: BoxConstraints(maxHeight: 28.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.full),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.check),
-            wGap4(),
-            Text(
-              chord,
-              style: musicTextTheme(context).bodyMedium,
-            ),
-          ],
-        ),
-      );
-
-  final List<String> _sampleFilter = [
-    'M7',
-    'dim',
-    '7sus2sus4♭9♯9♯11♭13',
-    'dim',
-  ];
 
   final Map<String, List<String>> _samplePresetCategory = {
     'User': ['U1', 'U2', 'U3'],
@@ -98,40 +75,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               /* 선택된 Filter 보여주는 section */
-              Row(
-                children: [
-                  Container(
-                    width: 44.0,
-                    height: 28.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.outline),
-                      borderRadius: BorderRadius.circular(RadiusValue.full),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(RadiusValue.full),
-                        child: Icon(Icons.filter_list),
-                      ),
-                    ),
-                  ),
-                  wGap4(),
-                  Expanded(
-                    child: SizedBox(
-                      height: 28.0,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) =>
-                            _chordChip(_sampleFilter[index]),
-                        separatorBuilder: (_, __) => wGap8(),
-                        itemCount: _sampleFilter.length,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              SelectedFiltersHorizontalArea(),
               /* "Chords" (제목) */
               ListTile(
                 contentPadding: EdgeInsets.only(right: 24.0),
@@ -140,15 +84,22 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 trailing: Checkbox(
-                  value: null,
-                  onChanged: (value) {},
-                  tristate: true,
+                  value: _topCheckBoxState,
+                  onChanged: (value) {
+                    setState(() {
+                      _topCheckBoxState = value ?? false;
+                    });
+
+                    ref
+                        .read(chordListProvider.notifier)
+                        .updateFilteredSelectionAll(_topCheckBoxState);
+                  },
                 ),
               ),
               Divider(height: 1.0),
               /* 선택 가능한 Chord 리스트 */
               Expanded(
-                child: ChordListWidget(),
+                child: ChordListArea(),
               ),
             ],
           ),
@@ -239,28 +190,8 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Selected (${_sampleFilter.length})',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Icon(
-                  Icons.bookmark_add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ],
-            ),
-            hGap4(),
-            Container(
-              width: 36.0,
-              height: 1.0,
-              color: Theme.of(context).colorScheme.outline,
-            ),
-            hGap16(),
             Expanded(
-              child: SelectedChordsWidget(),
+              child: SelectedChordsArea(),
             ),
             hGap16(),
             Row(
@@ -269,7 +200,6 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                 Container(
                   width: 96.0,
                   height: 40.0,
-                  // alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     border: Border.all(
@@ -279,7 +209,9 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => ref
+                          .read(chordListProvider.notifier)
+                          .updateSelectionAll(false),
                       borderRadius: BorderRadius.circular(RadiusValue.full),
                       child: Center(
                         child: Text(

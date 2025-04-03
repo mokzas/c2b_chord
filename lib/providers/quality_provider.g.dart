@@ -8,7 +8,9 @@ part of 'quality_provider.dart';
 
 String _$qualityHash() => r'b46472ed81db4be4b38a7c4c87dbbb31e0456d13';
 
-/// See also [quality].
+/// JSON 파일로부터 chord quality 정보를 가져오는 Provider
+///
+/// Copied from [quality].
 @ProviderFor(quality)
 final qualityProvider = AutoDisposeFutureProvider<List<QualityModel>>.internal(
   quality,
