@@ -14,6 +14,10 @@ part 'play_state_model.g.dart';
 /// [timeSignature] 한 chord당 메트로놈 tick 수.
 ///
 /// [currentTick] 메트로놈 현재 tick. (0 ~ timeSignature-1)
+///
+/// [displayChordCount] 화면에 표시할 chord 수.
+///
+/// [currentChordIndex] 현재 연주할 chord 인덱스.
 @freezed
 abstract class PlayStateModel with _$PlayStateModel {
   const factory PlayStateModel({
@@ -22,6 +26,8 @@ abstract class PlayStateModel with _$PlayStateModel {
     @Default(50) int volume,
     @Default(6) int timeSignature,
     @Default(0) int currentTick,
+    @Default(8) int displayChordCount,
+    @Default(0) int currentChordIndex,
   }) = _PlayStateModel;
 
   factory PlayStateModel.fromJson(Map<String, dynamic> json) =>

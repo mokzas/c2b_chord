@@ -1,3 +1,4 @@
+import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/providers/play_state_provider.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
@@ -252,16 +253,14 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      for (int i = 0; i < 4; ++i)
-                        _playCard(chords[i], on == (i + 1))
+                      for (int i = 0; i < 4; ++i) _playCard(chords[i], on == i)
                     ],
                   ),
                   hGap16(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      for (int i = 4; i < 8; ++i)
-                        _playCard(chords[i], on == (i + 1))
+                      for (int i = 4; i < 8; ++i) _playCard(chords[i], on == i)
                     ],
                   ),
                 ],
@@ -317,6 +316,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
   Widget build(BuildContext context) {
     final currentTick = ref.watch(playStateProvider).currentTick;
     final timeSignature = ref.watch(playStateProvider).timeSignature;
+    final currentChordIndex = ref.watch(playStateProvider).currentChordIndex;
 
     return Scaffold(
       body: SafeArea(
@@ -338,7 +338,10 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           _beatIndicatorWidgets(
                               timeSignature, (currentTick % timeSignature) + 1),
                           hGap24(),
-                          _playerWidgets(sampleChords, 2),
+                          _playerWidgets(
+                            sampleChords,
+                            currentChordIndex,
+                          ),
                         ],
                       ),
                       IconButton(

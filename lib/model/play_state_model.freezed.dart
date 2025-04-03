@@ -20,6 +20,8 @@ mixin _$PlayStateModel {
   int get volume;
   int get timeSignature;
   int get currentTick;
+  int get displayChordCount;
+  int get currentChordIndex;
 
   /// Create a copy of PlayStateModel
   /// with the given fields replaced by the non-null parameter values.
@@ -44,17 +46,21 @@ mixin _$PlayStateModel {
             (identical(other.timeSignature, timeSignature) ||
                 other.timeSignature == timeSignature) &&
             (identical(other.currentTick, currentTick) ||
-                other.currentTick == currentTick));
+                other.currentTick == currentTick) &&
+            (identical(other.displayChordCount, displayChordCount) ||
+                other.displayChordCount == displayChordCount) &&
+            (identical(other.currentChordIndex, currentChordIndex) ||
+                other.currentChordIndex == currentChordIndex));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isPlaying, bpm, volume, timeSignature, currentTick);
+  int get hashCode => Object.hash(runtimeType, isPlaying, bpm, volume,
+      timeSignature, currentTick, displayChordCount, currentChordIndex);
 
   @override
   String toString() {
-    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick)';
+    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
   }
 }
 
@@ -69,7 +75,9 @@ abstract mixin class $PlayStateModelCopyWith<$Res> {
       int bpm,
       int volume,
       int timeSignature,
-      int currentTick});
+      int currentTick,
+      int displayChordCount,
+      int currentChordIndex});
 }
 
 /// @nodoc
@@ -90,6 +98,8 @@ class _$PlayStateModelCopyWithImpl<$Res>
     Object? volume = null,
     Object? timeSignature = null,
     Object? currentTick = null,
+    Object? displayChordCount = null,
+    Object? currentChordIndex = null,
   }) {
     return _then(_self.copyWith(
       isPlaying: null == isPlaying
@@ -112,6 +122,14 @@ class _$PlayStateModelCopyWithImpl<$Res>
           ? _self.currentTick
           : currentTick // ignore: cast_nullable_to_non_nullable
               as int,
+      displayChordCount: null == displayChordCount
+          ? _self.displayChordCount
+          : displayChordCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentChordIndex: null == currentChordIndex
+          ? _self.currentChordIndex
+          : currentChordIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -124,7 +142,9 @@ class _PlayStateModel implements PlayStateModel {
       this.bpm = 120,
       this.volume = 50,
       this.timeSignature = 6,
-      this.currentTick = 0});
+      this.currentTick = 0,
+      this.displayChordCount = 8,
+      this.currentChordIndex = 0});
   factory _PlayStateModel.fromJson(Map<String, dynamic> json) =>
       _$PlayStateModelFromJson(json);
 
@@ -143,6 +163,12 @@ class _PlayStateModel implements PlayStateModel {
   @override
   @JsonKey()
   final int currentTick;
+  @override
+  @JsonKey()
+  final int displayChordCount;
+  @override
+  @JsonKey()
+  final int currentChordIndex;
 
   /// Create a copy of PlayStateModel
   /// with the given fields replaced by the non-null parameter values.
@@ -171,17 +197,21 @@ class _PlayStateModel implements PlayStateModel {
             (identical(other.timeSignature, timeSignature) ||
                 other.timeSignature == timeSignature) &&
             (identical(other.currentTick, currentTick) ||
-                other.currentTick == currentTick));
+                other.currentTick == currentTick) &&
+            (identical(other.displayChordCount, displayChordCount) ||
+                other.displayChordCount == displayChordCount) &&
+            (identical(other.currentChordIndex, currentChordIndex) ||
+                other.currentChordIndex == currentChordIndex));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isPlaying, bpm, volume, timeSignature, currentTick);
+  int get hashCode => Object.hash(runtimeType, isPlaying, bpm, volume,
+      timeSignature, currentTick, displayChordCount, currentChordIndex);
 
   @override
   String toString() {
-    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick)';
+    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
   }
 }
 
@@ -198,7 +228,9 @@ abstract mixin class _$PlayStateModelCopyWith<$Res>
       int bpm,
       int volume,
       int timeSignature,
-      int currentTick});
+      int currentTick,
+      int displayChordCount,
+      int currentChordIndex});
 }
 
 /// @nodoc
@@ -219,6 +251,8 @@ class __$PlayStateModelCopyWithImpl<$Res>
     Object? volume = null,
     Object? timeSignature = null,
     Object? currentTick = null,
+    Object? displayChordCount = null,
+    Object? currentChordIndex = null,
   }) {
     return _then(_PlayStateModel(
       isPlaying: null == isPlaying
@@ -240,6 +274,14 @@ class __$PlayStateModelCopyWithImpl<$Res>
       currentTick: null == currentTick
           ? _self.currentTick
           : currentTick // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayChordCount: null == displayChordCount
+          ? _self.displayChordCount
+          : displayChordCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentChordIndex: null == currentChordIndex
+          ? _self.currentChordIndex
+          : currentChordIndex // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }

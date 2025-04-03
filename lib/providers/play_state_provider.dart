@@ -30,7 +30,12 @@ class PlayState extends _$PlayState {
     );
 
     _metronome.tickStream.listen((tick) {
-      state = state.copyWith(currentTick: tick);
+      state = state.copyWith(
+        currentTick: tick,
+        currentChordIndex: tick == 0
+            ? (state.currentChordIndex + 1) % state.displayChordCount
+            : state.currentChordIndex,
+      );
     });
   }
 
@@ -40,16 +45,22 @@ class PlayState extends _$PlayState {
     state = state.copyWith(isPlaying: true);
   }
 
-  /// 연습을 잠시 멈추는 함수
+  /// 연습을 진행중이던 위치에서 멈추는 함수
+  /// 현재 연주중인 chord 위치는 유지, tick만 0으로 초기화
   void pause() {
     _metronome.pause();
-    state = state.copyWith(isPlaying: false);
+    state = state.copyWith(isPlaying: false, currentTick: 0);
   }
 
   /// 연습을 완전히 중지하는 함수
+  /// 현재 연주중인 chord 위치와 tick 모두 0으로 초기화
   void stop() {
     _metronome.stop();
-    state = state.copyWith(isPlaying: false, currentTick: 0);
+    state = state.copyWith(
+      isPlaying: false,
+      currentTick: 0,
+      currentChordIndex: 0,
+    );
   }
 
   void setBPM(int bpm) {
@@ -65,6 +76,13 @@ class PlayState extends _$PlayState {
   void setTimeSignature(int timeSignature) {
     _metronome.setTimeSignature(timeSignature);
     state = state.copyWith(timeSignature: timeSignature);
+  }
+
+  void setDisplayChordCount(int count) {
+    state = state.copyWith(
+      displayChordCount: count,
+      currentChordIndex: 0,
+    );
   }
 
   void dispose() {
