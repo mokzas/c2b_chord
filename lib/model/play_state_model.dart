@@ -24,7 +24,7 @@ abstract class PlayStateModel with _$PlayStateModel {
     @Default(false) bool isPlaying,
     @Default(120) int bpm,
     @Default(50) int volume,
-    @Default(6) int timeSignature,
+    @Default(4) int timeSignature,
     @Default(0) int currentTick,
     @Default(8) int displayChordCount,
     @Default(0) int currentChordIndex,

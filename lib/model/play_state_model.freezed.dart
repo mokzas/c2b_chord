@@ -141,7 +141,7 @@ class _PlayStateModel implements PlayStateModel {
       {this.isPlaying = false,
       this.bpm = 120,
       this.volume = 50,
-      this.timeSignature = 6,
+      this.timeSignature = 4,
       this.currentTick = 0,
       this.displayChordCount = 8,
       this.currentChordIndex = 0});

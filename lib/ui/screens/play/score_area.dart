@@ -1,4 +1,5 @@
 import 'package:c2b/providers/play_state_provider.dart';
+import 'package:c2b/providers/random_chords_provider.dart';
 import 'package:c2b/ui/screens/play/bar_widget.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
@@ -13,59 +14,8 @@ class ScoreArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentChordIndex = ref.watch(playStateProvider).currentChordIndex;
-
-    final chords = [
-      'Bdim',
-      'C♯7sus4♭9♭13',
-      'Dm7',
-      'E♭7sus4♭9♯9',
-      'G7sus4',
-      'Am6',
-      'Cm7',
-      'C♯dim7',
-    ];
-
-    Widget bars =
-        // chords는 8, 4, 2, 1 의 길이만 가져야 한다
-        (chords.length == 8)
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (int i = 0; i < 4; ++i)
-                        BarWidget(
-                          chord: chords[i],
-                          isActive: currentChordIndex == i,
-                        )
-                    ],
-                  ),
-                  hGap16(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (int i = 4; i < 8; ++i)
-                        BarWidget(
-                          chord: chords[i],
-                          isActive: currentChordIndex == i,
-                        )
-                    ],
-                  ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: chords.length == 1
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.spaceBetween,
-                children: [
-                  for (int i = 0; i < chords.length; ++i)
-                    BarWidget(
-                      chord: chords[i],
-                      isActive: currentChordIndex == (i + 1),
-                    )
-                ],
-              );
+    final displayChordCount = ref.watch(playStateProvider).displayChordCount;
+    final randomChords = ref.watch(randomChordsProvider);
 
     return Expanded(
       child: Container(
@@ -76,7 +26,47 @@ class ScoreArea extends ConsumerWidget {
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: bars,
+          child: (randomChords.isEmpty)
+              ? Expanded(child: Center(child: Text('No chords selected.')))
+              : (displayChordCount == 8)
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (int i = 0; i < 4; ++i)
+                              BarWidget(
+                                chord: randomChords[i],
+                                isActive: currentChordIndex == i,
+                              )
+                          ],
+                        ),
+                        hGap16(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (int i = 4; i < 8; ++i)
+                              BarWidget(
+                                chord: randomChords[i],
+                                isActive: currentChordIndex == i,
+                              )
+                          ],
+                        ),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: displayChordCount == 1
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (int i = 0; i < displayChordCount; ++i)
+                          BarWidget(
+                            chord: randomChords[i],
+                            isActive: currentChordIndex == (i),
+                          )
+                      ],
+                    ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:c2b/model/play_state_model.dart';
+import 'package:c2b/providers/random_chords_provider.dart';
 import 'package:metronome/metronome.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,13 +30,20 @@ class PlayState extends _$PlayState {
       sampleRate: 44100,
     );
 
-    _metronome.tickStream.listen((tick) {
-      state = state.copyWith(
-        currentTick: tick,
-        currentChordIndex: tick == 0
-            ? (state.currentChordIndex + 1) % state.displayChordCount
-            : state.currentChordIndex,
-      );
+    _metronome.tickStream.listen((newTick) {
+      if (newTick == 0) {
+        final nextIndex =
+            (state.currentChordIndex + 1) % state.displayChordCount;
+        if (nextIndex == 0 && state.isPlaying) {
+          ref.read(randomChordsProvider.notifier).reGenerate();
+        }
+        state = state.copyWith(
+          currentChordIndex: nextIndex,
+          currentTick: newTick,
+        );
+      } else {
+        state = state.copyWith(currentTick: newTick);
+      }
     });
   }
 

@@ -11,7 +11,7 @@ _PlayStateModel _$PlayStateModelFromJson(Map<String, dynamic> json) =>
       isPlaying: json['isPlaying'] as bool? ?? false,
       bpm: (json['bpm'] as num?)?.toInt() ?? 120,
       volume: (json['volume'] as num?)?.toInt() ?? 50,
-      timeSignature: (json['timeSignature'] as num?)?.toInt() ?? 6,
+      timeSignature: (json['timeSignature'] as num?)?.toInt() ?? 4,
       currentTick: (json['currentTick'] as num?)?.toInt() ?? 0,
       displayChordCount: (json['displayChordCount'] as num?)?.toInt() ?? 8,
       currentChordIndex: (json['currentChordIndex'] as num?)?.toInt() ?? 0,
