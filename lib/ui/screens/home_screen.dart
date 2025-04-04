@@ -1,19 +1,21 @@
+import 'package:c2b/repository/analytics_repository.dart';
 import 'package:c2b/routing/routes.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   static const name = 'home';
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with RouteAware {
   @override
   void initState() {
     // 가로모드 고정
@@ -24,6 +26,29 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
     super.initState();
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    AnalyticsService.observer
+        .subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    AnalyticsService.observer.unsubscribe(this);
+    super.dispose();
+  }
+
+  // @override
+  // void didPush() {
+  //   super.didPush();
+  // }
+  //
+  // @override
+  // void didPop() {
+  //   super.didPop();
+  // }
 
   @override
   Widget build(BuildContext context) {

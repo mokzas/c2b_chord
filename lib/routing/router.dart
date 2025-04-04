@@ -1,3 +1,4 @@
+import 'package:c2b/repository/analytics_repository.dart';
 import 'package:c2b/routing/routes.dart';
 import 'package:c2b/ui/screens/chord_select/chord_select_screen.dart';
 import 'package:c2b/ui/screens/home_screen.dart';
@@ -5,6 +6,7 @@ import 'package:c2b/ui/screens/play/play_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router() => GoRouter(
+      observers: [AnalyticsService.observer],
       initialLocation: Routes.home, // 임시처리
       routes: [
         GoRoute(

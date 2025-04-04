@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501330807930",
+    "project_id": "chordra-c2b",
+    "storage_bucket": "chordra-c2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501330807930:android:aed45315ebcd572c873fc3",
+        "android_client_info": {
+          "package_name": "kr.mokzas.c2b"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUGRKGwsR6bTn5nFXk16T0cFyT2do9kD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
