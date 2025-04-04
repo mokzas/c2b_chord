@@ -480,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  metronome:
+    dependency: "direct main"
+    description:
+      name: metronome
+      sha256: "630cfaaaa4c8c87d80921f2c44efab0ebdeb8f3710e0c3a0a6f44cbd41ed4451"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   mime:
     dependency: transitive
     description:

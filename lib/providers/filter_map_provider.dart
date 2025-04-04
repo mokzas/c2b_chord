@@ -85,7 +85,7 @@ const Map<String, List<Map<String, String>>> _qualityFilters = {
     {'name': 'aug', 'group': 'Triad'},
     {'name': 'sus2', 'group': 'Triad'},
     {'name': 'sus4', 'group': 'Triad'},
-    {'name': 'Quartal', 'group': 'Triad'},
+    {'name': 'quartal', 'group': 'Triad'},
   ],
   '7th': [
     {'name': 'M7', 'group': '7th'},
