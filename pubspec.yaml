@@ -42,6 +42,11 @@ dependencies:
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
   metronome: ^2.0.2
+  firebase_core: ^3.13.0
+  firebase_analytics: ^11.4.5
+  device_info_plus: ^11.3.3
+  uuid: ^4.5.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
