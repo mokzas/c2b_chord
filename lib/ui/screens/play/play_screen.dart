@@ -238,8 +238,6 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           final playState =
                               ref.read(playStateProvider.notifier);
                           playState.stop();
-                          playState.dispose();
-
                           context.pop();
                         },
                       ),
