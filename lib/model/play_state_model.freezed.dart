@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PlayStateModel {
   bool get isPlaying;
+  bool get isFirstTickPlayed;
   int get bpm;
   int get volume;
   int get timeSignature;
@@ -41,6 +42,8 @@ mixin _$PlayStateModel {
             other is PlayStateModel &&
             (identical(other.isPlaying, isPlaying) ||
                 other.isPlaying == isPlaying) &&
+            (identical(other.isFirstTickPlayed, isFirstTickPlayed) ||
+                other.isFirstTickPlayed == isFirstTickPlayed) &&
             (identical(other.bpm, bpm) || other.bpm == bpm) &&
             (identical(other.volume, volume) || other.volume == volume) &&
             (identical(other.timeSignature, timeSignature) ||
@@ -55,12 +58,20 @@ mixin _$PlayStateModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isPlaying, bpm, volume,
-      timeSignature, currentTick, displayChordCount, currentChordIndex);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isPlaying,
+      isFirstTickPlayed,
+      bpm,
+      volume,
+      timeSignature,
+      currentTick,
+      displayChordCount,
+      currentChordIndex);
 
   @override
   String toString() {
-    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
+    return 'PlayStateModel(isPlaying: $isPlaying, isFirstTickPlayed: $isFirstTickPlayed, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
   }
 }
 
@@ -72,6 +83,7 @@ abstract mixin class $PlayStateModelCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isPlaying,
+      bool isFirstTickPlayed,
       int bpm,
       int volume,
       int timeSignature,
@@ -94,6 +106,7 @@ class _$PlayStateModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isPlaying = null,
+    Object? isFirstTickPlayed = null,
     Object? bpm = null,
     Object? volume = null,
     Object? timeSignature = null,
@@ -105,6 +118,10 @@ class _$PlayStateModelCopyWithImpl<$Res>
       isPlaying: null == isPlaying
           ? _self.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFirstTickPlayed: null == isFirstTickPlayed
+          ? _self.isFirstTickPlayed
+          : isFirstTickPlayed // ignore: cast_nullable_to_non_nullable
               as bool,
       bpm: null == bpm
           ? _self.bpm
@@ -139,6 +156,7 @@ class _$PlayStateModelCopyWithImpl<$Res>
 class _PlayStateModel implements PlayStateModel {
   const _PlayStateModel(
       {this.isPlaying = false,
+      this.isFirstTickPlayed = false,
       this.bpm = 120,
       this.volume = 50,
       this.timeSignature = 4,
@@ -151,6 +169,9 @@ class _PlayStateModel implements PlayStateModel {
   @override
   @JsonKey()
   final bool isPlaying;
+  @override
+  @JsonKey()
+  final bool isFirstTickPlayed;
   @override
   @JsonKey()
   final int bpm;
@@ -192,6 +213,8 @@ class _PlayStateModel implements PlayStateModel {
             other is _PlayStateModel &&
             (identical(other.isPlaying, isPlaying) ||
                 other.isPlaying == isPlaying) &&
+            (identical(other.isFirstTickPlayed, isFirstTickPlayed) ||
+                other.isFirstTickPlayed == isFirstTickPlayed) &&
             (identical(other.bpm, bpm) || other.bpm == bpm) &&
             (identical(other.volume, volume) || other.volume == volume) &&
             (identical(other.timeSignature, timeSignature) ||
@@ -206,12 +229,20 @@ class _PlayStateModel implements PlayStateModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isPlaying, bpm, volume,
-      timeSignature, currentTick, displayChordCount, currentChordIndex);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isPlaying,
+      isFirstTickPlayed,
+      bpm,
+      volume,
+      timeSignature,
+      currentTick,
+      displayChordCount,
+      currentChordIndex);
 
   @override
   String toString() {
-    return 'PlayStateModel(isPlaying: $isPlaying, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
+    return 'PlayStateModel(isPlaying: $isPlaying, isFirstTickPlayed: $isFirstTickPlayed, bpm: $bpm, volume: $volume, timeSignature: $timeSignature, currentTick: $currentTick, displayChordCount: $displayChordCount, currentChordIndex: $currentChordIndex)';
   }
 }
 
@@ -225,6 +256,7 @@ abstract mixin class _$PlayStateModelCopyWith<$Res>
   @useResult
   $Res call(
       {bool isPlaying,
+      bool isFirstTickPlayed,
       int bpm,
       int volume,
       int timeSignature,
@@ -247,6 +279,7 @@ class __$PlayStateModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? isPlaying = null,
+    Object? isFirstTickPlayed = null,
     Object? bpm = null,
     Object? volume = null,
     Object? timeSignature = null,
@@ -258,6 +291,10 @@ class __$PlayStateModelCopyWithImpl<$Res>
       isPlaying: null == isPlaying
           ? _self.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFirstTickPlayed: null == isFirstTickPlayed
+          ? _self.isFirstTickPlayed
+          : isFirstTickPlayed // ignore: cast_nullable_to_non_nullable
               as bool,
       bpm: null == bpm
           ? _self.bpm

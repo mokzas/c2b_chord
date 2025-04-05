@@ -30,17 +30,26 @@ class PlayState extends _$PlayState {
       sampleRate: 44100,
     );
 
+    // 메트로놈 매 Tick마다 호출되는 Callback
+    // tick: 0 ~ timeSignature-1
     _metronome.tickStream.listen((newTick) {
       if (newTick == 0) {
+        if (state.isFirstTickPlayed == false) {
+          // Play 시작 후 첫 Tick인 경우
+          state = state.copyWith(isFirstTickPlayed: true);
+        } else {
+          // Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
         final nextIndex =
             (state.currentChordIndex + 1) % state.displayChordCount;
-        if (nextIndex == 0 && state.isPlaying) {
-          ref.read(randomChordsProvider.notifier).reGenerate();
-        }
         state = state.copyWith(
           currentChordIndex: nextIndex,
           currentTick: newTick,
         );
+          // ScoreArea에서 표시할 Chord가 모두 연주된 경우 새로운 랜덤 Chord 생성
+          if (nextIndex == 0 && state.isPlaying) {
+            ref.read(randomChordsProvider.notifier).reGenerate();
+          }
+        }
       } else {
         state = state.copyWith(currentTick: newTick);
       }
@@ -56,8 +65,11 @@ class PlayState extends _$PlayState {
   /// 연습을 진행중이던 위치에서 멈추는 함수
   /// 현재 연주중인 chord 위치는 유지, tick만 0으로 초기화
   void pause() {
-    _metronome.pause();
-    state = state.copyWith(isPlaying: false, currentTick: 0);
+    state = state.copyWith(
+      isPlaying: false,
+      isFirstTickPlayed: false,
+      currentTick: 0,
+    );
   }
 
   /// 연습을 완전히 중지하는 함수
@@ -66,6 +78,7 @@ class PlayState extends _$PlayState {
     _metronome.stop();
     state = state.copyWith(
       isPlaying: false,
+      isFirstTickPlayed: false,
       currentTick: 0,
       currentChordIndex: 0,
     );
