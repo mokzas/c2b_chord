@@ -1,3 +1,4 @@
+import 'package:c2b/providers/selected_chords_provider.dart';
 import 'package:c2b/routing/routes.dart';
 import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
@@ -239,7 +240,25 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () => context.push(Routes.play),
+                      onTap: ref.watch(selectedChordsProvider).isEmpty
+                          ? () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('No Chords Selected'),
+                                  content: Text(
+                                      'Please select at least one chord to proceed to the Play screen.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          : () => context.push(Routes.play),
                       borderRadius: BorderRadius.circular(RadiusValue.full),
                       child: Center(
                         child: Text(

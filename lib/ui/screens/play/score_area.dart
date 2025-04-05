@@ -25,7 +25,7 @@ class ScoreArea extends ConsumerWidget {
         ),
         alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: GridMargin.longSide),
           child: (randomChords.isEmpty)
               ? Expanded(child: Center(child: Text('No chords selected.')))
               : (displayChordCount == 8)

@@ -32,10 +32,11 @@ class SelectedChordsArea extends ConsumerWidget {
                 ),
               ],
             ),
-            Icon(
-              Icons.bookmark_add,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            /* 프리셋 저장 버튼 */
+            // Icon(
+            //   Icons.bookmark_add,
+            //   color: Theme.of(context).colorScheme.primary,
+            // ),
           ],
         ),
         hGap16(),
