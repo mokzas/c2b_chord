@@ -34,22 +34,25 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
         children: [
           /* Beat 수 */
           GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => NumberSelectorDialog(
-                  title: 'Select Beats',
-                  initialValue: ref.watch(playStateProvider).timeSignature,
-                  minValue: 2,
-                  maxValue: 8,
-                  onValueChanged: (value) {
-                    ref
-                        .read(playStateProvider.notifier)
-                        .setTimeSignature(value);
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select Beats',
+                        initialValue:
+                            ref.watch(playStateProvider).timeSignature,
+                        minValue: 2,
+                        maxValue: 8,
+                        onValueChanged: (value) {
+                          ref
+                              .read(playStateProvider.notifier)
+                              .setTimeSignature(value);
+                        },
+                      ),
+                    );
                   },
-                ),
-              );
-            },
             child: Column(
               children: [
                 Text(
@@ -69,20 +72,22 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
           wGap8(),
           /* BPM */
           GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => NumberSelectorDialog(
-                  title: 'Select BPM',
-                  initialValue: ref.watch(playStateProvider).bpm,
-                  minValue: 40,
-                  maxValue: 240,
-                  onValueChanged: (value) {
-                    ref.read(playStateProvider.notifier).setBPM(value);
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select BPM',
+                        initialValue: ref.watch(playStateProvider).bpm,
+                        minValue: 40,
+                        maxValue: 600,
+                        onValueChanged: (value) {
+                          ref.read(playStateProvider.notifier).setBPM(value);
+                        },
+                      ),
+                    );
                   },
-                ),
-              );
-            },
             child: Column(
               children: [
                 Text(
@@ -102,23 +107,26 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
           wGap8(),
           /* 화면에 보여줄 chord 개수 */
           GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => NumberSelectorDialog(
-                  title: 'Select Chords',
-                  initialValue: ref.watch(playStateProvider).displayChordCount,
-                  minValue: 1,
-                  maxValue: 16,
-                  values: const [1, 2, 4, 8],
-                  onValueChanged: (value) {
-                    ref
-                        .read(playStateProvider.notifier)
-                        .setDisplayChordCount(value);
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select Chords',
+                        initialValue:
+                            ref.watch(playStateProvider).displayChordCount,
+                        minValue: 1,
+                        maxValue: 8,
+                        values: const [1, 2, 4, 8],
+                        onValueChanged: (value) {
+                          ref
+                              .read(playStateProvider.notifier)
+                              .setDisplayChordCount(value);
+                        },
+                      ),
+                    );
                   },
-                ),
-              );
-            },
             child: Column(
               children: [
                 Text(
