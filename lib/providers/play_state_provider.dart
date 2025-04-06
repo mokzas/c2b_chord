@@ -33,8 +33,10 @@ class PlayState extends _$PlayState {
             currentChordIndex: nextIndex,
             currentTick: newTick,
           );
-          // ScoreArea에서 표시할 Chord가 모두 연주된 경우 새로운 랜덤 Chord 생성
-          if (nextIndex == 0 && state.isPlaying) {
+
+          // ScoreArea의 Chord가 [reGenerateCount]번째 chord까지
+          // 연주된 경우 새로운 랜덤 Chord 생성.
+          if (nextIndex % state.reGenerateCount == 0 && state.isPlaying) {
             ref.read(randomChordsProvider.notifier).reGenerate();
           }
         } else {
@@ -91,9 +93,16 @@ class PlayState extends _$PlayState {
   }
 
   void setDisplayChordCount(int count) {
+    // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
+    final halfCount = count ~/ 2;
+    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
+
     state = state.copyWith(
       displayChordCount: count,
+      reGenerateCount: reGenerateCount,
       currentChordIndex: 0,
     );
+
+    ref.read(randomChordsProvider.notifier).reGenerate();
   }
 }

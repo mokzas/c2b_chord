@@ -17,6 +17,8 @@ part 'play_state_model.g.dart';
 ///
 /// [displayChordCount] 화면에 표시할 chord 수.
 ///
+/// [reGenerateCount] chord 몇개가 연주될 때마다 새로 랜덤 chord를 생성할 것인지
+///
 /// [currentChordIndex] 현재 연주할 chord 인덱스.
 ///
 /// [isFirstTickPlayed] FirstTick(Play 버튼 누른 후 첫번째 Tick)이 호출되었는지 여부.
@@ -30,6 +32,7 @@ abstract class PlayStateModel with _$PlayStateModel {
     @Default(4) int timeSignature,
     @Default(0) int currentTick,
     @Default(8) int displayChordCount,
+    @Default(4) int reGenerateCount,
     @Default(0) int currentChordIndex,
   }) = _PlayStateModel;
 

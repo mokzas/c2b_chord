@@ -15,6 +15,7 @@ _PlayStateModel _$PlayStateModelFromJson(Map<String, dynamic> json) =>
       timeSignature: (json['timeSignature'] as num?)?.toInt() ?? 4,
       currentTick: (json['currentTick'] as num?)?.toInt() ?? 0,
       displayChordCount: (json['displayChordCount'] as num?)?.toInt() ?? 8,
+      reGenerateCount: (json['reGenerateCount'] as num?)?.toInt() ?? 4,
       currentChordIndex: (json['currentChordIndex'] as num?)?.toInt() ?? 0,
     );
 
@@ -27,5 +28,6 @@ Map<String, dynamic> _$PlayStateModelToJson(_PlayStateModel instance) =>
       'timeSignature': instance.timeSignature,
       'currentTick': instance.currentTick,
       'displayChordCount': instance.displayChordCount,
+      'reGenerateCount': instance.reGenerateCount,
       'currentChordIndex': instance.currentChordIndex,
     };

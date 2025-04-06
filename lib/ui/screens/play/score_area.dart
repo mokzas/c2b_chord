@@ -15,6 +15,7 @@ class ScoreArea extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentChordIndex = ref.watch(playStateProvider).currentChordIndex;
     final displayChordCount = ref.watch(playStateProvider).displayChordCount;
+    final reGenerateCount = ref.watch(playStateProvider).reGenerateCount;
     final randomChords = ref.watch(randomChordsProvider);
 
     return Expanded(
@@ -38,7 +39,8 @@ class ScoreArea extends ConsumerWidget {
                             for (int i = 0; i < 4; ++i)
                               BarWidget(
                                 chord: randomChords[i],
-                                isActive: currentChordIndex == i,
+                                isActive:
+                                    currentChordIndex % reGenerateCount == i,
                               )
                           ],
                         ),
@@ -49,7 +51,8 @@ class ScoreArea extends ConsumerWidget {
                             for (int i = 4; i < 8; ++i)
                               BarWidget(
                                 chord: randomChords[i],
-                                isActive: currentChordIndex == i,
+                                isActive:
+                                    currentChordIndex % reGenerateCount == i,
                               )
                           ],
                         ),
@@ -63,7 +66,7 @@ class ScoreArea extends ConsumerWidget {
                         for (int i = 0; i < displayChordCount; ++i)
                           BarWidget(
                             chord: randomChords[i],
-                            isActive: currentChordIndex == (i),
+                            isActive: currentChordIndex % reGenerateCount == i,
                           )
                       ],
                     ),
