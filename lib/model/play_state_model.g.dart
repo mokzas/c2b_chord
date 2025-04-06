@@ -10,6 +10,7 @@ _PlayStateModel _$PlayStateModelFromJson(Map<String, dynamic> json) =>
     _PlayStateModel(
       isPlaying: json['isPlaying'] as bool? ?? false,
       isFirstTickPlayed: json['isFirstTickPlayed'] as bool? ?? false,
+      isRepeat: json['isRepeat'] as bool? ?? false,
       bpm: (json['bpm'] as num?)?.toInt() ?? 120,
       volume: (json['volume'] as num?)?.toInt() ?? 50,
       timeSignature: (json['timeSignature'] as num?)?.toInt() ?? 4,
@@ -23,6 +24,7 @@ Map<String, dynamic> _$PlayStateModelToJson(_PlayStateModel instance) =>
     <String, dynamic>{
       'isPlaying': instance.isPlaying,
       'isFirstTickPlayed': instance.isFirstTickPlayed,
+      'isRepeat': instance.isRepeat,
       'bpm': instance.bpm,
       'volume': instance.volume,
       'timeSignature': instance.timeSignature,

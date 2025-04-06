@@ -1,4 +1,5 @@
 import 'package:c2b/providers/play_state_provider.dart';
+import 'package:c2b/providers/random_chords_provider.dart';
 import 'package:c2b/ui/screens/play/score_area.dart';
 import 'package:c2b/ui/screens/play/number_selector_dialog.dart';
 import 'package:c2b/ui/theme/const.dart';
@@ -118,7 +119,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                             ref.watch(playStateProvider).displayChordCount,
                         minValue: 1,
                         maxValue: 8,
-                        values: const [1, 2, 4, 8],
+                        values: const [1, 2, 8],
                         onValueChanged: (value) {
                           ref
                               .read(playStateProvider.notifier)
@@ -196,15 +197,41 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
             width: 32.0,
             height: 40.0,
             decoration: BoxDecoration(
+              color: ref.watch(playStateProvider).isRepeat
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              icon: Icon(
+                Icons.repeat_rounded,
+                color: ref.watch(playStateProvider).isRepeat
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              onPressed: ref.watch(playStateProvider).isPlaying
+                  ? null
+                  : () {
+                      ref.read(playStateProvider.notifier).toggleRepeat();
+                    },
+            ),
+          ),
+          wGap8(),
+          Container(
+            width: 32.0,
+            height: 40.0,
+            decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
             ),
             child: IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
-              icon: Icon(Icons.repeat_rounded),
+              icon: Icon(Icons.shuffle),
               onPressed: () {
-                // TODO: Implement repeat functionality
+                ref.read(randomChordsProvider.notifier).reGenerate();
               },
             ),
           ),

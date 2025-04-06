@@ -22,11 +22,14 @@ part 'play_state_model.g.dart';
 /// [currentChordIndex] 현재 연주할 chord 인덱스.
 ///
 /// [isFirstTickPlayed] FirstTick(Play 버튼 누른 후 첫번째 Tick)이 호출되었는지 여부.
+///
+/// [isRepeat] 반복 여부.
 @freezed
 abstract class PlayStateModel with _$PlayStateModel {
   const factory PlayStateModel({
     @Default(false) bool isPlaying,
     @Default(false) bool isFirstTickPlayed,
+    @Default(false) bool isRepeat,
     @Default(120) int bpm,
     @Default(50) int volume,
     @Default(4) int timeSignature,

@@ -34,10 +34,12 @@ class PlayState extends _$PlayState {
             currentTick: newTick,
           );
 
-          // ScoreArea의 Chord가 [reGenerateCount]번째 chord까지
-          // 연주된 경우 새로운 랜덤 Chord 생성.
-          if (nextIndex % state.reGenerateCount == 0 && state.isPlaying) {
-            ref.read(randomChordsProvider.notifier).reGenerate();
+          // ScoreArea의 Chord가 [reGenerateCount]번째 chord까지 연주된 경우
+          // 새로운 랜덤 Chord 생성. 단, 반복 모드인 경우는 생성하지 않음.
+          if (nextIndex % state.reGenerateCount == 0 &&
+              state.isPlaying &&
+              !state.isRepeat) {
+            ref.read(randomChordsProvider.notifier).reGeneratePart();
           }
         } else {
           state = state.copyWith(currentTick: newTick);
@@ -104,5 +106,10 @@ class PlayState extends _$PlayState {
     );
 
     ref.read(randomChordsProvider.notifier).reGenerate();
+  }
+
+  /// 반복 모드를 토글하는 함수
+  void toggleRepeat() {
+    state = state.copyWith(isRepeat: !state.isRepeat);
   }
 }

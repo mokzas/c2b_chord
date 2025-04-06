@@ -16,6 +16,7 @@ class ScoreArea extends ConsumerWidget {
     final currentChordIndex = ref.watch(playStateProvider).currentChordIndex;
     final displayChordCount = ref.watch(playStateProvider).displayChordCount;
     final reGenerateCount = ref.watch(playStateProvider).reGenerateCount;
+    final isRepeat = ref.watch(playStateProvider).isRepeat;
     final randomChords = ref.watch(randomChordsProvider);
 
     return Expanded(
@@ -39,8 +40,9 @@ class ScoreArea extends ConsumerWidget {
                             for (int i = 0; i < 4; ++i)
                               BarWidget(
                                 chord: randomChords[i],
-                                isActive:
-                                    currentChordIndex % reGenerateCount == i,
+                                isActive: isRepeat
+                                    ? currentChordIndex == i
+                                    : currentChordIndex % reGenerateCount == i,
                               )
                           ],
                         ),
@@ -51,8 +53,9 @@ class ScoreArea extends ConsumerWidget {
                             for (int i = 4; i < 8; ++i)
                               BarWidget(
                                 chord: randomChords[i],
-                                isActive:
-                                    currentChordIndex % reGenerateCount == i,
+                                isActive: isRepeat
+                                    ? currentChordIndex == i
+                                    : currentChordIndex % reGenerateCount == i,
                               )
                           ],
                         ),
@@ -66,7 +69,9 @@ class ScoreArea extends ConsumerWidget {
                         for (int i = 0; i < displayChordCount; ++i)
                           BarWidget(
                             chord: randomChords[i],
-                            isActive: currentChordIndex % reGenerateCount == i,
+                            isActive: isRepeat
+                                ? currentChordIndex == i
+                                : currentChordIndex % reGenerateCount == i,
                           )
                       ],
                     ),
