@@ -6,7 +6,7 @@ part of 'random_chords_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$randomChordsHash() => r'b73165ab5b53c0d6c68eb117f4f6682af6521221';
+String _$randomChordsHash() => r'b6152b6d8dabf80ebee5f33d25b9185dee050f70';
 
 /// 선택된 코드 중 랜덤으로 chord를 뽑아 반환하는 Provider
 ///

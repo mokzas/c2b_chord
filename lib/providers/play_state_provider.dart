@@ -1,6 +1,6 @@
 import 'package:c2b/model/play_state_model.dart';
 import 'package:c2b/providers/random_chords_provider.dart';
-import 'package:metronome/metronome.dart';
+import 'package:c2b/repository/metronome_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'play_state_provider.g.dart';
@@ -8,92 +8,108 @@ part 'play_state_provider.g.dart';
 /// 연습 중 메트로놈 재생, 악보(chord) 넘기기 등에 필요한 상태 정보 provider.
 @riverpod
 class PlayState extends _$PlayState {
-  late final Metronome _metronome;
-
   @override
   PlayStateModel build() {
-    _metronome = Metronome();
-    _initMetronomeState();
-    return const PlayStateModel();
-  }
-
-  /// 메트로놈 초기화
-  void _initMetronomeState() {
     final initialState = const PlayStateModel();
-    _metronome.init(
-      'assets/audio/woodblock_high44_wav.wav',
-      accentedPath: 'assets/audio/claves44_wav.wav',
-      bpm: initialState.bpm,
-      volume: initialState.volume,
-      enableTickCallback: true,
-      timeSignature: initialState.timeSignature,
-      sampleRate: 44100,
+
+    MetronomeRepository.init(
+      initialState.bpm,
+      initialState.volume,
+      initialState.timeSignature,
+      // 메트로놈 매 Tick마다 호출되는 Callback
+      // tick: 0 ~ timeSignature-1
+      (newTick) {
+        // Android에서는 play() 호출 시 첫번째 tick 0에서 콜백이 호출되지 않는
+        // 문제 있음.
+        if (state.isFirstTickPlayed == false) {
+          // Play 시작 후 첫 Tick인 경우
+          state = state.copyWith(isFirstTickPlayed: true);
+        }
+        if (newTick == 0) {
+          // Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
+          final nextIndex =
+              (state.currentChordIndex + 1) % state.displayChordCount;
+          state = state.copyWith(
+            currentChordIndex: nextIndex,
+            currentTick: newTick,
+          );
+
+          // ScoreArea의 Chord가 [reGenerateCount]번째 chord까지 연주된 경우
+          // 새로운 랜덤 Chord 생성. 단, 반복 모드인 경우는 생성하지 않음.
+          if (nextIndex % state.reGenerateCount == 0 &&
+              state.isPlaying &&
+              !state.isRepeat) {
+            ref.read(randomChordsProvider.notifier).reGeneratePart();
+          }
+        } else {
+          state = state.copyWith(currentTick: newTick);
+        }
+      },
     );
 
-    _metronome.tickStream.listen((newTick) {
-      if (newTick == 0) {
-        final nextIndex =
-            (state.currentChordIndex + 1) % state.displayChordCount;
-        if (nextIndex == 0 && state.isPlaying) {
-          ref.read(randomChordsProvider.notifier).reGenerate();
-        }
-        state = state.copyWith(
-          currentChordIndex: nextIndex,
-          currentTick: newTick,
-        );
-      } else {
-        state = state.copyWith(currentTick: newTick);
-      }
-    });
+    return const PlayStateModel();
   }
 
   /// 연습을 시작하는 함수
   void play() {
-    _metronome.play();
+    MetronomeRepository.play();
     state = state.copyWith(isPlaying: true);
   }
 
   /// 연습을 진행중이던 위치에서 멈추는 함수
   /// 현재 연주중인 chord 위치는 유지, tick만 0으로 초기화
   void pause() {
-    _metronome.pause();
-    state = state.copyWith(isPlaying: false, currentTick: 0);
+    MetronomeRepository.pause();
+    state = state.copyWith(
+      isPlaying: false,
+      isFirstTickPlayed: false,
+      currentTick: 0,
+    );
   }
 
   /// 연습을 완전히 중지하는 함수
   /// 현재 연주중인 chord 위치와 tick 모두 0으로 초기화
   void stop() {
-    _metronome.stop();
+    MetronomeRepository.stop();
     state = state.copyWith(
       isPlaying: false,
+      isFirstTickPlayed: false,
       currentTick: 0,
       currentChordIndex: 0,
     );
   }
 
   void setBPM(int bpm) {
-    _metronome.setBPM(bpm);
+    MetronomeRepository.setBPM(bpm);
     state = state.copyWith(bpm: bpm);
   }
 
   void setVolume(int volume) {
-    _metronome.setVolume(volume);
+    MetronomeRepository.setVolume(volume);
     state = state.copyWith(volume: volume);
   }
 
   void setTimeSignature(int timeSignature) {
-    _metronome.setTimeSignature(timeSignature);
+    MetronomeRepository.setTimeSignature(timeSignature);
     state = state.copyWith(timeSignature: timeSignature);
   }
 
   void setDisplayChordCount(int count) {
+    // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
+    final halfCount = count ~/ 2;
+    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
+
     state = state.copyWith(
       displayChordCount: count,
+      reGenerateCount: reGenerateCount,
       currentChordIndex: 0,
     );
+
+    ref.read(randomChordsProvider.notifier).reGenerate();
   }
 
-  void dispose() {
-    _metronome.destroy();
+  /// 반복 모드를 토글하는 함수
+  void toggleRepeat() {
+    state = state.copyWith(isRepeat: !state.isRepeat);
   }
 }

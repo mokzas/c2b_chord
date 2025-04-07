@@ -28,7 +28,32 @@ class RandomChords extends _$RandomChords {
     return randomChords;
   }
 
+  /// 화면에 표시되는 chord 수만큼의 랜덤 chord를 반환하는 함수
   void reGenerate() {
     state = build();
+  }
+
+  /// [playStateProvider.reGenerateCount]만큼의 새로운 랜덤 chord를 생성하는 함수.
+  /// 현재 악보가 [playStateProvider.reGenerateCount]번째 chord까지 연주되었을 때,
+  /// 아직 연주되지 않은 chord들을 앞으로 당기고, 연주된 chord 수만큼 새로운 랜덤
+  /// Chord 생성
+  void reGeneratePart() {
+    final selectedChords = ref.watch(selectedChordsProvider);
+    if (selectedChords.isEmpty) return;
+
+    final displayChordCount = ref.read(playStateProvider).displayChordCount;
+    final reGenerateCount = ref.read(playStateProvider).reGenerateCount;
+    final random = math.Random();
+    final randomChords = <String>[];
+
+    for (int i = reGenerateCount; i < displayChordCount; i++) {
+      randomChords.add(state[i]);
+    }
+    for (int i = 0; i < reGenerateCount; i++) {
+      final index = random.nextInt(selectedChords.length);
+      randomChords.add(selectedChords[index].name);
+    }
+
+    state = randomChords;
   }
 }

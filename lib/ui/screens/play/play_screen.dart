@@ -1,5 +1,7 @@
 import 'package:c2b/providers/play_state_provider.dart';
+import 'package:c2b/providers/random_chords_provider.dart';
 import 'package:c2b/ui/screens/play/score_area.dart';
+import 'package:c2b/ui/screens/play/number_selector_dialog.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,54 +34,115 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
   Widget _optionSelector() => Row(
         children: [
           /* Beat 수 */
-          Column(
-            children: [
-              Text(
-                ref.watch(playStateProvider).timeSignature.toString(),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'Beat',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(color: CustomColorScheme.neutral50),
-              ),
-            ],
+          GestureDetector(
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select Beats',
+                        initialValue:
+                            ref.watch(playStateProvider).timeSignature,
+                        minValue: 2,
+                        maxValue: 8,
+                        onValueChanged: (value) {
+                          ref
+                              .read(playStateProvider.notifier)
+                              .setTimeSignature(value);
+                        },
+                      ),
+                    );
+                  },
+            child: Column(
+              children: [
+                Text(
+                  ref.watch(playStateProvider).timeSignature.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  'Beat',
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: CustomColorScheme.neutral50),
+                ),
+              ],
+            ),
           ),
           wGap8(),
           /* BPM */
-          Column(
-            children: [
-              Text(
-                ref.watch(playStateProvider).bpm.toString(),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'BPM',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(color: CustomColorScheme.neutral50),
-              ),
-            ],
+          GestureDetector(
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select BPM',
+                        initialValue: ref.watch(playStateProvider).bpm,
+                        minValue: 40,
+                        maxValue: 600,
+                        onValueChanged: (value) {
+                          ref.read(playStateProvider.notifier).setBPM(value);
+                        },
+                      ),
+                    );
+                  },
+            child: Column(
+              children: [
+                Text(
+                  ref.watch(playStateProvider).bpm.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  'BPM',
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: CustomColorScheme.neutral50),
+                ),
+              ],
+            ),
           ),
           wGap8(),
           /* 화면에 보여줄 chord 개수 */
-          Column(
-            children: [
-              Text(
-                '8',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'Chords',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(color: CustomColorScheme.neutral50),
-              ),
-            ],
+          GestureDetector(
+            onTap: ref.watch(playStateProvider).isPlaying
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => NumberSelectorDialog(
+                        title: 'Select Chords',
+                        initialValue:
+                            ref.watch(playStateProvider).displayChordCount,
+                        minValue: 1,
+                        maxValue: 8,
+                        values: const [1, 2, 8],
+                        onValueChanged: (value) {
+                          ref
+                              .read(playStateProvider.notifier)
+                              .setDisplayChordCount(value);
+                        },
+                      ),
+                    );
+                  },
+            child: Column(
+              children: [
+                Text(
+                  ref.watch(playStateProvider).displayChordCount.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  'Chords',
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: CustomColorScheme.neutral50),
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -134,15 +197,41 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
             width: 32.0,
             height: 40.0,
             decoration: BoxDecoration(
+              color: ref.watch(playStateProvider).isRepeat
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              icon: Icon(
+                Icons.repeat_rounded,
+                color: ref.watch(playStateProvider).isRepeat
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              onPressed: ref.watch(playStateProvider).isPlaying
+                  ? null
+                  : () {
+                      ref.read(playStateProvider.notifier).toggleRepeat();
+                    },
+            ),
+          ),
+          wGap8(),
+          Container(
+            width: 32.0,
+            height: 40.0,
+            decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
             ),
             child: IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
-              icon: Icon(Icons.repeat_rounded),
+              icon: Icon(Icons.shuffle),
               onPressed: () {
-                // TODO: Implement repeat functionality
+                ref.read(randomChordsProvider.notifier).reGenerate();
               },
             ),
           ),
@@ -238,8 +327,6 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           final playState =
                               ref.read(playStateProvider.notifier);
                           playState.stop();
-                          playState.dispose();
-
                           context.pop();
                         },
                       ),

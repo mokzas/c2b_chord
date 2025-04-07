@@ -9,21 +9,27 @@ part of 'play_state_model.dart';
 _PlayStateModel _$PlayStateModelFromJson(Map<String, dynamic> json) =>
     _PlayStateModel(
       isPlaying: json['isPlaying'] as bool? ?? false,
+      isFirstTickPlayed: json['isFirstTickPlayed'] as bool? ?? false,
+      isRepeat: json['isRepeat'] as bool? ?? false,
       bpm: (json['bpm'] as num?)?.toInt() ?? 120,
       volume: (json['volume'] as num?)?.toInt() ?? 50,
       timeSignature: (json['timeSignature'] as num?)?.toInt() ?? 4,
       currentTick: (json['currentTick'] as num?)?.toInt() ?? 0,
       displayChordCount: (json['displayChordCount'] as num?)?.toInt() ?? 8,
+      reGenerateCount: (json['reGenerateCount'] as num?)?.toInt() ?? 4,
       currentChordIndex: (json['currentChordIndex'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$PlayStateModelToJson(_PlayStateModel instance) =>
     <String, dynamic>{
       'isPlaying': instance.isPlaying,
+      'isFirstTickPlayed': instance.isFirstTickPlayed,
+      'isRepeat': instance.isRepeat,
       'bpm': instance.bpm,
       'volume': instance.volume,
       'timeSignature': instance.timeSignature,
       'currentTick': instance.currentTick,
       'displayChordCount': instance.displayChordCount,
+      'reGenerateCount': instance.reGenerateCount,
       'currentChordIndex': instance.currentChordIndex,
     };
