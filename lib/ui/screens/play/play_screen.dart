@@ -1,7 +1,7 @@
 import 'package:c2b/providers/play_state_provider.dart';
 import 'package:c2b/providers/random_chords_provider.dart';
-import 'package:c2b/ui/screens/play/score_area.dart';
 import 'package:c2b/ui/screens/play/number_selector_dialog.dart';
+import 'package:c2b/ui/screens/play/score_area.dart';
 import 'package:c2b/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -285,7 +285,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
   @override
   void initState() {
     // 가로모드 고정
-    SystemChrome.setPreferredOrientations([]);
+    // SystemChrome.setPreferredOrientations([]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,

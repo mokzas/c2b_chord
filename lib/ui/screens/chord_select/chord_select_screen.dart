@@ -1,6 +1,6 @@
+import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/providers/selected_chords_provider.dart';
 import 'package:c2b/routing/routes.dart';
-import 'package:c2b/providers/chord_list_provider.dart';
 import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
 import 'package:c2b/ui/screens/chord_select/selected_chords_area.dart';
 import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_area.dart';
@@ -304,39 +304,42 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: GridMargin.longSide,
-            // horizontal: GridMargin.shortSide,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: GridMargin.longSide,
+              horizontal: GridMargin.shortSide,
+            ),
+            child: OrientationBuilder(builder: (context, orientation) {
+              return orientation == Orientation.portrait
+                  ? Center(child: CircularProgressIndicator())
+                  : Stack(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            _chordSelectTypeRail(),
+                            Expanded(
+                              child: _selectType == SelectType.select
+                                  ? _spontaneousChordSelectWidget()
+                                  : _presetChordSelectedWidget(),
+                            ),
+                            _selectedChordWidget(),
+                          ],
+                        ),
+                        // IconButton(
+                        //   icon: Icon(Icons.arrow_back_ios),
+                        //   onPressed: () {
+                        //     context.push(Routes.home);
+                        //   },
+                        // ),
+                      ],
+                    );
+            }),
           ),
-          child: OrientationBuilder(builder: (context, orientation) {
-            return orientation == Orientation.portrait
-                ? Center(child: CircularProgressIndicator())
-                : Stack(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _chordSelectTypeRail(),
-                          Expanded(
-                            child: _selectType == SelectType.select
-                                ? _spontaneousChordSelectWidget()
-                                : _presetChordSelectedWidget(),
-                          ),
-                          _selectedChordWidget(),
-                        ],
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        onPressed: () {
-                          context.push(Routes.home);
-                        },
-                      ),
-                    ],
-                  );
-          }),
         ),
       ),
     );

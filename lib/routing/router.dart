@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 GoRouter router() => GoRouter(
       observers: [AnalyticsService.observer],
-      initialLocation: Routes.home, // 임시처리
+      initialLocation: Routes.chordSelect,
       routes: [
         GoRoute(
           path: Routes.home,
