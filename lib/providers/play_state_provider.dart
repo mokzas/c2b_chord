@@ -19,22 +19,22 @@ class PlayState extends _$PlayState {
       // 메트로놈 매 Tick마다 호출되는 Callback
       // tick: 0 ~ timeSignature-1
       (newTick) {
-        // Android에서는 play() 호출 시 첫번째 tick 0에서 콜백이 호출되지 않는
-        // 문제 있음.
         if (state.isFirstTickPlayed == false) {
-          // Play 시작 후 첫 Tick인 경우
-          state = state.copyWith(isFirstTickPlayed: true);
-        }
-        if (newTick == 0) {
-          // Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
+          // CASE 1: Play 시작 후 첫 Tick인 경우
+          // Android에서는 play() 호출 시 첫번째 tick 0에서 콜백이 호출되지 않는 문제 있음.
+          state = state.copyWith(
+            isFirstTickPlayed: true,
+            currentTick: newTick,
+          );
+        } else if (newTick == 0 && state.isFirstTickPlayed) {
+          // CASE 2: Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
           final nextIndex =
               (state.currentChordIndex + 1) % state.displayChordCount;
           state = state.copyWith(
             currentChordIndex: nextIndex,
             currentTick: newTick,
           );
-
-          // ScoreArea의 Chord가 [reGenerateCount]번째 chord까지 연주된 경우
+          // CASE 2+: ScoreArea의 Chord가 [reGenerateCount]번째 chord까지 연주된 경우
           // 새로운 랜덤 Chord 생성. 단, 반복 모드인 경우는 생성하지 않음.
           if (nextIndex % state.reGenerateCount == 0 &&
               state.isPlaying &&
@@ -42,6 +42,7 @@ class PlayState extends _$PlayState {
             ref.read(randomChordsProvider.notifier).reGeneratePart();
           }
         } else {
+          // CASE Default
           state = state.copyWith(currentTick: newTick);
         }
       },
