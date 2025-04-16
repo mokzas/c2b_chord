@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'chordra-c2b.firebasestorage.app',
     iosBundleId: 'kr.mokzas.c2b',
   );
+
 }
