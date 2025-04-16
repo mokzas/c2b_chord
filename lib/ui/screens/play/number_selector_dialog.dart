@@ -23,20 +23,14 @@ class NumberSelectorDialog extends StatefulWidget {
 }
 
 class _NumberSelectorDialogState extends State<NumberSelectorDialog> {
-  final List<int> _availableValues;
-  final FixedExtentScrollController _scrollController;
-  int _selectedValue;
-
-  _NumberSelectorDialogState()
-      : _availableValues = [],
-        _scrollController = FixedExtentScrollController(),
-        _selectedValue = 0;
+  final _availableValues = <int>[];
+  late final FixedExtentScrollController _scrollController;
+  int _selectedValue = 0;
 
   @override
   void initState() {
     super.initState();
     _selectedValue = widget.initialValue;
-    _availableValues.clear();
     _availableValues.addAll(
       widget.values ??
           List.generate(
@@ -45,12 +39,7 @@ class _NumberSelectorDialogState extends State<NumberSelectorDialog> {
           ),
     );
 
-    final initialIndex = _availableValues.indexOf(widget.initialValue);
-    if (initialIndex >= 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollController.jumpToItem(initialIndex);
-      });
-    }
+    _scrollController = FixedExtentScrollController(initialItem: _availableValues.indexOf(widget.initialValue));
   }
 
   @override

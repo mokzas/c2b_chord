@@ -13,10 +13,12 @@ class ScoreArea extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentChordIndex = ref.watch(playStateProvider).currentChordIndex;
-    final displayChordCount = ref.watch(playStateProvider).displayChordCount;
-    final reGenerateCount = ref.watch(playStateProvider).reGenerateCount;
-    final isRepeat = ref.watch(playStateProvider).isRepeat;
+    final playState = ref.watch(playStateProvider);
+    final currentChordIndex = playState.currentChordIndex;
+    final displayChordCount = playState.displayChordCount;
+    final reGenerateCount = playState.reGenerateCount;
+    final isRepeat = playState.isRepeat;
+
     final randomChords = ref.watch(randomChordsProvider);
 
     return Expanded(
