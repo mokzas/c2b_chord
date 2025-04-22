@@ -1,14 +1,16 @@
-# c2b
+# c2b_chord
 
 random chord application
 
 ## Getting Started
 
 # version info for build
-- Flutter 3.29.0 • channel stable • https://github.com/flutter/flutter.git
-- Framework • revision 35c388afb5
-- Engine • revision f73bfc4522
-- Tools • Dart 3.7.0 • DevTools 2.42.2
+    • Flutter version 3.29.3 on channel stable at /Users/cerik/development/flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision ea121f8859 (10 days ago), 2025-04-11 19:10:07 +0000
+    • Engine revision cf56914b32
+    • Dart version 3.7.2
+    • DevTools version 2.42.3
 
 This project is a starting point for a Flutter application.
 

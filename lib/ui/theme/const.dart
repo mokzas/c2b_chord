@@ -2,7 +2,7 @@
  Design System constant definitions
  */
 
-import 'package:c2b/ui/theme/util.dart';
+import 'package:c2b_chord/ui/theme/util.dart';
 import 'package:flutter/material.dart';
 
 class GridMargin {
@@ -33,8 +33,11 @@ Widget hGap24() => const SizedBox(height: 24.0);
 TextTheme? _musicTextTheme;
 
 TextTheme musicTextTheme(BuildContext context) {
-  return _musicTextTheme ??=
-      createTextTheme(context, "Noto Music", "Noto Music");
+  return _musicTextTheme ??= createTextTheme(
+    context,
+    "Noto Music",
+    "Noto Music",
+  );
 }
 
 class CustomColorScheme {

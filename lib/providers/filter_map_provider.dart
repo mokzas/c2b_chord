@@ -1,5 +1,5 @@
-import 'package:c2b/model/filter_list_item_model.dart';
-import 'package:c2b/util/music.dart';
+import 'package:c2b_chord/model/filter_list_item_model.dart';
+import 'package:c2b_chord/util/music.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'filter_map_provider.g.dart';
@@ -15,11 +15,7 @@ class FilterMap extends _$FilterMap {
     final List<FilterListItemModel> rootFilters = [];
     for (final note in rootNotes) {
       rootFilters.add(
-        FilterListItemModel(
-          name: note.str,
-          group: 'Root',
-          isSelected: false,
-        ),
+        FilterListItemModel(name: note.str, group: 'Root', isSelected: false),
       );
     }
     filterMap['Root'] = rootFilters;
@@ -57,13 +53,14 @@ class FilterMap extends _$FilterMap {
       final group = entry.key;
       final itemList = entry.value;
 
-      final updatedList = itemList.map((item) {
-        if (item.name == name) {
-          return item.copyWith(isSelected: isSelected);
-        } else {
-          return item;
-        }
-      }).toList();
+      final updatedList =
+          itemList.map((item) {
+            if (item.name == name) {
+              return item.copyWith(isSelected: isSelected);
+            } else {
+              return item;
+            }
+          }).toList();
 
       updatedMap[group] = updatedList;
     }

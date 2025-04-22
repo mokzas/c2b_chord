@@ -1,41 +1,41 @@
-import 'package:c2b/repository/analytics_repository.dart';
-import 'package:c2b/routing/routes.dart';
-import 'package:c2b/ui/screens/chord_select/chord_select_screen.dart';
-import 'package:c2b/ui/screens/home_screen.dart';
-import 'package:c2b/ui/screens/play/play_screen.dart';
+import 'package:c2b_chord/repository/analytics_repository.dart';
+import 'package:c2b_chord/routing/routes.dart';
+import 'package:c2b_chord/ui/screens/chord_select/chord_select_screen.dart';
+import 'package:c2b_chord/ui/screens/home_screen.dart';
+import 'package:c2b_chord/ui/screens/play/play_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router() => GoRouter(
-      observers: [AnalyticsService.observer],
-      initialLocation: Routes.chordSelect,
+  observers: [AnalyticsService.observer],
+  initialLocation: Routes.chordSelect,
+  routes: [
+    GoRoute(
+      path: Routes.home,
+      name: HomeScreen.name,
+      builder: (context, state) {
+        return HomeScreen();
+      },
       routes: [
         GoRoute(
-          path: Routes.home,
-          name: HomeScreen.name,
+          path: ChordSelectScreen.name,
+          name: ChordSelectScreen.name,
           builder: (context, state) {
-            return HomeScreen();
+            return ChordSelectScreen();
           },
           routes: [
             GoRoute(
-              path: ChordSelectScreen.name,
-              name: ChordSelectScreen.name,
+              path: PlayScreen.name,
+              name: PlayScreen.name,
               builder: (context, state) {
-                return ChordSelectScreen();
+                return PlayScreen();
               },
-              routes: [
-                GoRoute(
-                  path: PlayScreen.name,
-                  name: PlayScreen.name,
-                  builder: (context, state) {
-                    return PlayScreen();
-                  },
-                ),
-              ],
             ),
           ],
         ),
       ],
-    );
+    ),
+  ],
+);
 
 /**
  * Top-level routing redirection definition

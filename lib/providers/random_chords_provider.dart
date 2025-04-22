@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:c2b/providers/play_state_provider.dart';
-import 'package:c2b/providers/selected_chords_provider.dart';
+import 'package:c2b_chord/providers/play_state_provider.dart';
+import 'package:c2b_chord/providers/selected_chords_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'random_chords_provider.g.dart';

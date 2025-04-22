@@ -1,6 +1,6 @@
-import 'package:c2b/model/play_state_model.dart';
-import 'package:c2b/providers/random_chords_provider.dart';
-import 'package:c2b/repository/metronome_repository.dart';
+import 'package:c2b_chord/model/play_state_model.dart';
+import 'package:c2b_chord/providers/random_chords_provider.dart';
+import 'package:c2b_chord/repository/metronome_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'play_state_provider.g.dart';
@@ -22,10 +22,7 @@ class PlayState extends _$PlayState {
         if (state.isFirstTickPlayed == false) {
           // CASE 1: Play 시작 후 첫 Tick인 경우
           // Android에서는 play() 호출 시 첫번째 tick 0에서 콜백이 호출되지 않는 문제 있음.
-          state = state.copyWith(
-            isFirstTickPlayed: true,
-            currentTick: newTick,
-          );
+          state = state.copyWith(isFirstTickPlayed: true, currentTick: newTick);
         } else if (newTick == 0 && state.isFirstTickPlayed) {
           // CASE 2: Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
           final nextIndex =

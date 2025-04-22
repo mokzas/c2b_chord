@@ -1,4 +1,4 @@
-import 'package:c2b/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 
 /// Filter 리스트 아이템을 위한 위젯. Selectable Chip.
@@ -26,7 +26,8 @@ class FilterChipWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         constraints: BoxConstraints(maxHeight: 48.0, minWidth: 44.0),
         decoration: BoxDecoration(
-          color: isSelected ? colorScheme.secondaryContainer : Colors.transparent,
+          color:
+              isSelected ? colorScheme.secondaryContainer : Colors.transparent,
           border: isSelected ? null : Border.all(color: colorScheme.outline),
           borderRadius: BorderRadius.circular(RadiusValue.full),
         ),
@@ -34,14 +35,8 @@ class FilterChipWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (isSelected) ...[
-              const Icon(Icons.check),
-              wGap4(),
-            ],
-            Text(
-              label,
-              style: musicTextTheme(context).bodyMedium,
-            ),
+            if (isSelected) ...[const Icon(Icons.check), wGap4()],
+            Text(label, style: musicTextTheme(context).bodyMedium),
           ],
         ),
       ),

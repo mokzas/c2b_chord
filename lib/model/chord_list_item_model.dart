@@ -1,4 +1,4 @@
-import 'package:c2b/model/chord_model.dart';
+import 'package:c2b_chord/model/chord_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chord_list_item_model.freezed.dart';
@@ -17,6 +17,6 @@ abstract class ChordListItemModel with _$ChordListItemModel {
     required bool isSelected,
   }) = _ChordListItemModel;
 
-  factory ChordListItemModel.fromJson(Map<String, Object?> json) => _$ChordListItemModelFromJson(json);
+  factory ChordListItemModel.fromJson(Map<String, Object?> json) =>
+      _$ChordListItemModelFromJson(json);
 }
-
