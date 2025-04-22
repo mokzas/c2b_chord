@@ -1,9 +1,9 @@
-import 'package:c2b/main_development.dart' as development;
-import 'package:c2b/repository/analytics_repository.dart';
-import 'package:c2b/repository/device_info_repository.dart';
-import 'package:c2b/routing/router.dart';
-import 'package:c2b/ui/theme/theme.dart';
-import 'package:c2b/ui/theme/util.dart';
+import 'package:c2b_chord/main_development.dart' as development;
+import 'package:c2b_chord/repository/analytics_repository.dart';
+import 'package:c2b_chord/repository/device_info_repository.dart';
+import 'package:c2b_chord/routing/router.dart';
+import 'package:c2b_chord/ui/theme/theme.dart';
+import 'package:c2b_chord/ui/theme/util.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,14 +14,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 기본은 세로 화면 UI
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // Launch development config by default
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   AnalyticsRepository.setUser(await DeviceInfoRepository.deviceId());
 
   development.main();
@@ -38,8 +34,11 @@ class MainApp extends StatelessWidget {
     //TextTheme textTheme = Theme.of(context).textTheme;
 
     // Use with Google Fonts package to use downloadable fonts
-    TextTheme textTheme =
-        createTextTheme(context, "Noto Sans KR", "Noto Sans KR");
+    TextTheme textTheme = createTextTheme(
+      context,
+      "Noto Sans KR",
+      "Noto Sans KR",
+    );
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(

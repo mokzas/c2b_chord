@@ -1,10 +1,10 @@
-import 'package:c2b/providers/chord_list_provider.dart';
-import 'package:c2b/providers/selected_chords_provider.dart';
-import 'package:c2b/routing/routes.dart';
-import 'package:c2b/ui/screens/chord_select/chord_list_area.dart';
-import 'package:c2b/ui/screens/chord_select/selected_chords_area.dart';
-import 'package:c2b/ui/screens/chord_select/selected_filters_horizontal_area.dart';
-import 'package:c2b/ui/theme/const.dart';
+import 'package:c2b_chord/providers/chord_list_provider.dart';
+import 'package:c2b_chord/providers/selected_chords_provider.dart';
+import 'package:c2b_chord/routing/routes.dart';
+import 'package:c2b_chord/ui/screens/chord_select/chord_list_area.dart';
+import 'package:c2b_chord/ui/screens/chord_select/selected_chords_area.dart';
+import 'package:c2b_chord/ui/screens/chord_select/selected_filters_horizontal_area.dart';
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +20,7 @@ class ChordSelectScreen extends ConsumerStatefulWidget {
   ConsumerState<ChordSelectScreen> createState() => _ChordSelectScreenState();
 }
 
-enum SelectType {
-  select,
-  preset,
-}
+enum SelectType { select, preset }
 
 class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   bool _topCheckBoxState = false;
@@ -31,25 +28,22 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   String? _selectedPresetCategory;
 
   NavigationRail _chordSelectTypeRail() => NavigationRail(
-        destinations: [
-          NavigationRailDestination(
-            icon: Icon(Icons.check),
-            label: Text('Select'),
-          ),
-          // NavigationRailDestination(
-          //   icon: Icon(Icons.bookmark_outline),
-          //   label: Text('Preset'),
-          // ),
-        ],
-        selectedIndex: _selectType.index,
-        onDestinationSelected: (index) {
-          setState(() {
-            _selectType = SelectType.values[index];
-          });
-        },
-        labelType: NavigationRailLabelType.all,
-        groupAlignment: 0.0,
-      );
+    destinations: [
+      NavigationRailDestination(icon: Icon(Icons.check), label: Text('Select')),
+      // NavigationRailDestination(
+      //   icon: Icon(Icons.bookmark_outline),
+      //   label: Text('Preset'),
+      // ),
+    ],
+    selectedIndex: _selectType.index,
+    onDestinationSelected: (index) {
+      setState(() {
+        _selectType = SelectType.values[index];
+      });
+    },
+    labelType: NavigationRailLabelType.all,
+    groupAlignment: 0.0,
+  );
 
   final Map<String, List<String>> _samplePresetCategory = {
     'User': ['U1', 'U2', 'U3'],
@@ -69,216 +63,218 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   };
 
   Widget _spontaneousChordSelectWidget() => Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              /* 선택된 Filter 보여주는 section */
-              SelectedFiltersHorizontalArea(),
-              /* "Chords" (제목) */
-              ListTile(
-                contentPadding: EdgeInsets.only(right: 24.0),
-                title: Text(
-                  'Chords',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                trailing: Checkbox(
-                  value: _topCheckBoxState,
-                  onChanged: (value) {
-                    setState(() {
-                      _topCheckBoxState = value ?? false;
-                    });
+    decoration: BoxDecoration(color: Colors.white),
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          /* 선택된 Filter 보여주는 section */
+          SelectedFiltersHorizontalArea(),
+          /* "Chords" (제목) */
+          ListTile(
+            contentPadding: EdgeInsets.only(right: 24.0),
+            title: Text(
+              'Chords',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            trailing: Checkbox(
+              value: _topCheckBoxState,
+              onChanged: (value) {
+                setState(() {
+                  _topCheckBoxState = value ?? false;
+                });
 
-                    ref
-                        .read(chordListProvider.notifier)
-                        .updateFilteredSelectionAll(_topCheckBoxState);
-                  },
-                ),
-              ),
-              Divider(height: 1.0),
-              /* 선택 가능한 Chord 리스트 */
-              Expanded(
-                child: ChordListArea(),
-              ),
-            ],
+                ref
+                    .read(chordListProvider.notifier)
+                    .updateFilteredSelectionAll(_topCheckBoxState);
+              },
+            ),
           ),
-        ),
-      );
+          Divider(height: 1.0),
+          /* 선택 가능한 Chord 리스트 */
+          Expanded(child: ChordListArea()),
+        ],
+      ),
+    ),
+  );
 
   Widget _presetChordSelectedWidget() => Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 50.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _selectedPresetCategory == null
-                          ? 'Preset'
-                          : 'Preset  >  $_selectedPresetCategory',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Visibility(
-                      visible: _selectedPresetCategory != null,
-                      child: GestureDetector(
-                        onTap: _selectedPresetCategory == null
-                            ? null
-                            : () {
-                                setState(() {
-                                  _selectedPresetCategory = null;
-                                });
-                              },
-                        child: Icon(Icons.arrow_back),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              hGap4(),
-              Expanded(
-                child: _selectedPresetCategory == null
-                    ? ListView.separated(
-                        itemBuilder: (context, index) => ListTile(
-                          leading: Icon(Icons.folder_outlined),
-                          title:
-                              Text(_samplePresetCategory.keys.elementAt(index)),
-                          trailing: Icon(Icons.arrow_forward_ios),
-                          onTap: () {
-                            setState(() {
-                              _selectedPresetCategory =
-                                  _samplePresetCategory.keys.elementAt(index);
-                            });
-                          },
-                        ),
-                        separatorBuilder: (context, index) =>
-                            Divider(height: 1.0),
-                        itemCount: _samplePresetCategory.length,
-                      )
-                    : ListView.separated(
-                        itemBuilder: (context, index) => ListTile(
-                          leading: Icon(Icons.bookmark_outline),
-                          title: Text(
-                            _samplePresetCategory[_selectedPresetCategory]![
-                                index],
-                            style: musicTextTheme(context).titleMedium,
-                          ),
-                          trailing: Icon(Icons.circle_outlined),
-                          onTap: () {},
-                        ),
-                        separatorBuilder: (context, index) =>
-                            Divider(height: 1.0),
-                        itemCount:
-                            _samplePresetCategory[_selectedPresetCategory]!
-                                .length,
-                      ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  Widget _selectedChordWidget() => Container(
-        width: 260.0,
-        padding: EdgeInsets.only(left: 16.0),
-        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SelectedChordsArea(),
-            ),
-            hGap16(),
-            Row(
+    decoration: BoxDecoration(color: Colors.white),
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 50.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 96.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    border: Border.all(
-                        color: Theme.of(context).colorScheme.outline),
-                    borderRadius: BorderRadius.circular(RadiusValue.full),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => ref
-                          .read(chordListProvider.notifier)
-                          .updateSelectionAll(false),
-                      borderRadius: BorderRadius.circular(RadiusValue.full),
-                      child: Center(
-                        child: Text(
-                          'Clear',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium
-                              ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary),
-                        ),
-                      ),
-                    ),
-                  ),
+                Text(
+                  _selectedPresetCategory == null
+                      ? 'Preset'
+                      : 'Preset  >  $_selectedPresetCategory',
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Container(
-                  width: 96.0,
-                  height: 40.0,
-                  // alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    border: Border.all(
-                        color: Theme.of(context).colorScheme.outline),
-                    borderRadius: BorderRadius.circular(RadiusValue.full),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: ref.watch(selectedChordsProvider).isEmpty
-                          ? () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('No Chords Selected'),
-                                  content: Text(
-                                      'Please select at least one chord to proceed to the Play screen.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          : () => context.push(Routes.play),
-                      borderRadius: BorderRadius.circular(RadiusValue.full),
-                      child: Center(
-                        child: Text(
-                          'Start',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
-                        ),
-                      ),
-                    ),
+                Visibility(
+                  visible: _selectedPresetCategory != null,
+                  child: GestureDetector(
+                    onTap:
+                        _selectedPresetCategory == null
+                            ? null
+                            : () {
+                              setState(() {
+                                _selectedPresetCategory = null;
+                              });
+                            },
+                    child: Icon(Icons.arrow_back),
                   ),
                 ),
               ],
             ),
+          ),
+          hGap4(),
+          Expanded(
+            child:
+                _selectedPresetCategory == null
+                    ? ListView.separated(
+                      itemBuilder:
+                          (context, index) => ListTile(
+                            leading: Icon(Icons.folder_outlined),
+                            title: Text(
+                              _samplePresetCategory.keys.elementAt(index),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                            onTap: () {
+                              setState(() {
+                                _selectedPresetCategory = _samplePresetCategory
+                                    .keys
+                                    .elementAt(index);
+                              });
+                            },
+                          ),
+                      separatorBuilder:
+                          (context, index) => Divider(height: 1.0),
+                      itemCount: _samplePresetCategory.length,
+                    )
+                    : ListView.separated(
+                      itemBuilder:
+                          (context, index) => ListTile(
+                            leading: Icon(Icons.bookmark_outline),
+                            title: Text(
+                              _samplePresetCategory[_selectedPresetCategory]![index],
+                              style: musicTextTheme(context).titleMedium,
+                            ),
+                            trailing: Icon(Icons.circle_outlined),
+                            onTap: () {},
+                          ),
+                      separatorBuilder:
+                          (context, index) => Divider(height: 1.0),
+                      itemCount:
+                          _samplePresetCategory[_selectedPresetCategory]!
+                              .length,
+                    ),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  Widget _selectedChordWidget() => Container(
+    width: 260.0,
+    padding: EdgeInsets.only(left: 16.0),
+    decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: SelectedChordsArea()),
+        hGap16(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: 96.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                borderRadius: BorderRadius.circular(RadiusValue.full),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap:
+                      () => ref
+                          .read(chordListProvider.notifier)
+                          .updateSelectionAll(false),
+                  borderRadius: BorderRadius.circular(RadiusValue.full),
+                  child: Center(
+                    child: Text(
+                      'Clear',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: 96.0,
+              height: 40.0,
+              // alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                borderRadius: BorderRadius.circular(RadiusValue.full),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap:
+                      ref.watch(selectedChordsProvider).isEmpty
+                          ? () {
+                            showDialog(
+                              context: context,
+                              builder:
+                                  (context) => AlertDialog(
+                                    title: Text('No Chords Selected'),
+                                    content: Text(
+                                      'Please select at least one chord to proceed to the Play screen.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed:
+                                            () => Navigator.of(context).pop(),
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          }
+                          : () => context.push(Routes.play),
+                  borderRadius: BorderRadius.circular(RadiusValue.full),
+                  child: Center(
+                    child: Text(
+                      'Start',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 
   @override
   void initState() {
@@ -313,19 +309,21 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
               vertical: GridMargin.longSide,
               horizontal: GridMargin.shortSide,
             ),
-            child: OrientationBuilder(builder: (context, orientation) {
-              return orientation == Orientation.portrait
-                  ? Center(child: CircularProgressIndicator())
-                  : Stack(
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return orientation == Orientation.portrait
+                    ? Center(child: CircularProgressIndicator())
+                    : Stack(
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             _chordSelectTypeRail(),
                             Expanded(
-                              child: _selectType == SelectType.select
-                                  ? _spontaneousChordSelectWidget()
-                                  : _presetChordSelectedWidget(),
+                              child:
+                                  _selectType == SelectType.select
+                                      ? _spontaneousChordSelectWidget()
+                                      : _presetChordSelectedWidget(),
                             ),
                             _selectedChordWidget(),
                           ],
@@ -338,7 +336,8 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                         // ),
                       ],
                     );
-            }),
+              },
+            ),
           ),
         ),
       ),

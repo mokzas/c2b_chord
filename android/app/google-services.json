@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:501330807930:android:aed45315ebcd572c873fc3",
+        "mobilesdk_app_id": "1:501330807930:android:c1116f2fb57e8100873fc3",
         "android_client_info": {
-          "package_name": "kr.mokzas.c2b"
+          "package_name": "kr.mokzas.c2b_chord"
         }
       },
       "oauth_client": [],

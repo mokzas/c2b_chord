@@ -1,6 +1,6 @@
-import 'package:c2b/providers/chord_list_provider.dart';
-import 'package:c2b/providers/selected_chords_provider.dart';
-import 'package:c2b/ui/theme/const.dart';
+import 'package:c2b_chord/providers/chord_list_provider.dart';
+import 'package:c2b_chord/providers/selected_chords_provider.dart';
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,49 +41,61 @@ class SelectedChordsArea extends ConsumerWidget {
         ),
         hGap16(),
         Expanded(
-          child: selectedChords.isEmpty
-              ? Center(
-                  child: Text(
-                    'No chords.',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                )
-              : ListView.separated(
-                  itemCount: selectedChords.length,
-                  itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(RadiusValue.small),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 1.0,
-                          color: Colors.grey.shade400,
-                          offset: Offset(0.0, 1.0),
-                        ),
-                      ],
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerLowest,
+          child:
+              selectedChords.isEmpty
+                  ? Center(
+                    child: Text(
+                      'No chords.',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    child: ListTile(
-                      title: Text(
-                        selectedChords[index].name,
-                        style: musicTextTheme(context).titleMedium,
-                      ),
-                      trailing: IconButton(
-                        onPressed: () => ref
-                            .read(chordListProvider.notifier)
-                            .updateSelection(selectedChords[index], false),
-                        icon: Icon(
-                          Icons.remove_circle,
-                          color: Theme.of(context).colorScheme.error,
+                  )
+                  : ListView.separated(
+                    itemCount: selectedChords.length,
+                    itemBuilder:
+                        (context, index) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              RadiusValue.small,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 1.0,
+                                color: Colors.grey.shade400,
+                                offset: Offset(0.0, 1.0),
+                              ),
+                            ],
+                            color:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerLowest,
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              selectedChords[index].name,
+                              style: musicTextTheme(context).titleMedium,
+                            ),
+                            trailing: IconButton(
+                              onPressed:
+                                  () => ref
+                                      .read(chordListProvider.notifier)
+                                      .updateSelection(
+                                        selectedChords[index],
+                                        false,
+                                      ),
+                              icon: Icon(
+                                Icons.remove_circle,
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                RadiusValue.small,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(RadiusValue.small),
-                      ),
-                    ),
+                    separatorBuilder: (_, __) => hGap4(),
                   ),
-                  separatorBuilder: (_, __) => hGap4(),
-                ),
         ),
       ],
     );

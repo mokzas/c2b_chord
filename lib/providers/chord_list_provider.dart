@@ -1,10 +1,10 @@
-import 'package:c2b/model/chord_list_item_model.dart';
-import 'package:c2b/model/chord_model.dart';
-import 'package:c2b/model/filter_list_item_model.dart';
-import 'package:c2b/model/quality_model.dart';
-import 'package:c2b/providers/filter_map_provider.dart';
-import 'package:c2b/providers/quality_provider.dart';
-import 'package:c2b/util/music.dart';
+import 'package:c2b_chord/model/chord_list_item_model.dart';
+import 'package:c2b_chord/model/chord_model.dart';
+import 'package:c2b_chord/model/filter_list_item_model.dart';
+import 'package:c2b_chord/model/quality_model.dart';
+import 'package:c2b_chord/providers/filter_map_provider.dart';
+import 'package:c2b_chord/providers/quality_provider.dart';
+import 'package:c2b_chord/util/music.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chord_list_provider.g.dart';
@@ -32,15 +32,17 @@ class ChordList extends _$ChordList {
         final nameAlt = quality.aliases.map((alt) => root.str + alt).toList();
         final tones = _buildChordTones(root, quality);
 
-        chordList.add(ChordListItemModel(
-          chord: ChordModel(
-            name: name,
-            nameAlt: nameAlt,
-            root: root,
-            tones: tones,
+        chordList.add(
+          ChordListItemModel(
+            chord: ChordModel(
+              name: name,
+              nameAlt: nameAlt,
+              root: root,
+              tones: tones,
+            ),
+            isSelected: selectionMap[name] ?? false, // Preserve selection state
           ),
-          isSelected: selectionMap[name] ?? false, // Preserve selection state
-        ));
+        );
       }
     }
 
@@ -74,41 +76,64 @@ class ChordList extends _$ChordList {
     final candidates = Note.values.where((note) => note.pitch == pitch);
 
     if (notation == '#') {
-      return candidates.firstWhere((n) => n.notation == Notation.sharp,
-          orElse: () => candidates.firstWhere(
+      return candidates.firstWhere(
+        (n) => n.notation == Notation.sharp,
+        orElse:
+            () => candidates.firstWhere(
               (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+              orElse: () => candidates.first,
+            ),
+      );
     } else if (notation == 'b') {
-      return candidates.firstWhere((n) => n.notation == Notation.flat,
-          orElse: () => candidates.firstWhere(
+      return candidates.firstWhere(
+        (n) => n.notation == Notation.flat,
+        orElse:
+            () => candidates.firstWhere(
               (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+              orElse: () => candidates.first,
+            ),
+      );
     } else if (root.notation == Notation.sharp) {
-      return candidates.firstWhere((n) => n.notation == Notation.sharp,
-          orElse: () => candidates.firstWhere(
+      return candidates.firstWhere(
+        (n) => n.notation == Notation.sharp,
+        orElse:
+            () => candidates.firstWhere(
               (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+              orElse: () => candidates.first,
+            ),
+      );
     } else if (root.notation == Notation.flat) {
-      return candidates.firstWhere((n) => n.notation == Notation.flat,
-          orElse: () => candidates.firstWhere(
+      return candidates.firstWhere(
+        (n) => n.notation == Notation.flat,
+        orElse:
+            () => candidates.firstWhere(
               (n) => n.notation == Notation.natural,
-              orElse: () => candidates.first));
+              orElse: () => candidates.first,
+            ),
+      );
     } else {
-      return candidates.firstWhere((n) => n.notation == Notation.natural,
-          orElse: () => candidates.firstWhere(
+      return candidates.firstWhere(
+        (n) => n.notation == Notation.natural,
+        orElse:
+            () => candidates.firstWhere(
               (n) => n.notation == Notation.flat,
-              orElse: () => candidates.first));
+              orElse: () => candidates.first,
+            ),
+      );
     }
   }
 
   /// 유저가 선택한 필터 조건에 맞는 코드들의 리스트를 반환하는 함수
   List<ChordListItemModel> getFilteredChords(
-      List<ChordListItemModel> chordList) {
-    final Map<String, List<FilterListItemModel>> filterMap =
-        ref.watch(filterMapProvider);
+    List<ChordListItemModel> chordList,
+  ) {
+    final Map<String, List<FilterListItemModel>> filterMap = ref.watch(
+      filterMapProvider,
+    );
 
     // Group filters by category
-    final selectedRoots = filterMap['Root']
+    final selectedRoots =
+        filterMap['Root']
             ?.where((e) => e.isSelected == true)
             .map((e) => e.name)
             .toList() ??
@@ -127,15 +152,17 @@ class ChordList extends _$ChordList {
 
     final selectedExtensions =
         filterMap['Extension']?.where((e) => e.isSelected == true).toList() ??
-            [];
+        [];
 
     final selectedAlters =
-        (filterMap['Alter, add']?.where((e) => e.isSelected == true) ?? [])
-            .map((e) => e.name);
+        (filterMap['Alter, add']?.where((e) => e.isSelected == true) ?? []).map(
+          (e) => e.name,
+        );
     final allAlters = filterMap['Alter, add'] ?? [];
     assert(allAlters.isNotEmpty);
 
-    final isSelectedFilterEmpty = selectedTriads.isEmpty &&
+    final isSelectedFilterEmpty =
+        selectedTriads.isEmpty &&
         selectedSevenths.isEmpty &&
         selectedExtensions.isEmpty &&
         selectedAlters.isEmpty;
@@ -143,11 +170,12 @@ class ChordList extends _$ChordList {
     // Step 1: Match root
     // 선택된 Root를 갖는 모든 chord를 필터링
     // 선택된 Root filter가 없는 경우 모든 root의 chord를 보여주도록 함.
-    final step1 = selectedRoots.isEmpty
-        ? chordList
-        : chordList.where((e) {
-            return selectedRoots.contains(e.chord.root.str);
-          });
+    final step1 =
+        selectedRoots.isEmpty
+            ? chordList
+            : chordList.where((e) {
+              return selectedRoots.contains(e.chord.root.str);
+            });
 
     // 1. Root 포함 모든 그룹에서 선택된 필터가 없는 경우: 모든 코드를 보여줌
     // 2. Root 그룹에는 선택한 filter가 있는데, 나머지 그룹에서 선택한 filter가
@@ -159,8 +187,9 @@ class ChordList extends _$ChordList {
     final step2 = step1.where((e) {
       final chordName = e.chord.name;
       final root = e.chord.root.str;
-      return selectedTriads
-          .any((triadFilter) => chordName == '$root${triadFilter.name}');
+      return selectedTriads.any(
+        (triadFilter) => chordName == '$root${triadFilter.name}',
+      );
     });
 
     // Step 3: Match any 7th or extension
@@ -180,24 +209,30 @@ class ChordList extends _$ChordList {
 
       // extension matching
       // 7th 그룹에서 선택된 filter가 없을 경우, 모든 7th 필터에 대하여 다음을 수행
-      final matchExtension = extensionBase.expand((s7Filter) {
-        return selectedExtensions
-            .map((extFilter) => s7Filter.name.replaceAll('7', extFilter.name));
-      }).any((extS7Filter) {
-        // 7th와 동일.
-        if (extensionPattern.hasMatch(extS7Filter)) {
-          final quality = chordName.replaceFirst(e.chord.root.str, '');
-          return quality.startsWith(extS7Filter);
-        }
-        return chordName.contains(extS7Filter);
-      });
+      final matchExtension = extensionBase
+          .expand((s7Filter) {
+            return selectedExtensions.map(
+              (extFilter) => s7Filter.name.replaceAll('7', extFilter.name),
+            );
+          })
+          .any((extS7Filter) {
+            // 7th와 동일.
+            if (extensionPattern.hasMatch(extS7Filter)) {
+              final quality = chordName.replaceFirst(e.chord.root.str, '');
+              return quality.startsWith(extS7Filter);
+            }
+            return chordName.contains(extS7Filter);
+          });
 
       return match7th || matchExtension;
     });
 
     // step2, step3 양쪽 모두에 포함되는 chord는 없어야 한다
-    assert(!(step3.any(
-        (c) => step2.map((c) => c.chord.name).toSet().contains(c.chord.name))));
+    assert(
+      !(step3.any(
+        (c) => step2.map((c) => c.chord.name).toSet().contains(c.chord.name),
+      )),
+    );
 
     // Step 4
     final List<ChordListItemModel> step4 = [...step2, ...step3];
@@ -206,23 +241,24 @@ class ChordList extends _$ChordList {
     // step4 중 allAlters를 한개도 포함하지 않으면 살려줌. 포함하는 경우,
     // selectedAlters에 포함된 필터이면 살려줌. 7th, Extension 모두에서 선택된
     // 필터가 없는 경우, selectedAlters 중 하나라도 포함하는 놈은 살려줌.
-    final step5 = selectedSevenths.isEmpty && selectedExtensions.isEmpty
-        ? [
-            ...step2,
-            ...(step1.where((item) {
-              final name = item.chord.name;
-              return selectedAlters.any((alt) => name.contains(alt));
-            }).toList())
-          ]
-        : step4.where((item) {
-            final chordName = item.chord.name;
-            return allAlters.every((alter) {
-              if (chordName.contains(alter.name)) {
-                return selectedAlters.contains(alter.name);
-              }
-              return true;
-            });
-          }).toList();
+    final step5 =
+        selectedSevenths.isEmpty && selectedExtensions.isEmpty
+            ? [
+              ...step2,
+              ...(step1.where((item) {
+                final name = item.chord.name;
+                return selectedAlters.any((alt) => name.contains(alt));
+              }).toList()),
+            ]
+            : step4.where((item) {
+              final chordName = item.chord.name;
+              return allAlters.every((alter) {
+                if (chordName.contains(alter.name)) {
+                  return selectedAlters.contains(alter.name);
+                }
+                return true;
+              });
+            }).toList();
 
     // Root 이외 그룹에서 선택한 filter가 하나라도 있으면 step5를 보여줌.
     return step5;
@@ -233,13 +269,14 @@ class ChordList extends _$ChordList {
     final current = state.valueOrNull;
     if (current == null) return;
 
-    final updatedList = current.map((item) {
-      if (item.chord.name == chord.name) {
-        return item.copyWith(isSelected: isSelected);
-      } else {
-        return item;
-      }
-    }).toList();
+    final updatedList =
+        current.map((item) {
+          if (item.chord.name == chord.name) {
+            return item.copyWith(isSelected: isSelected);
+          } else {
+            return item;
+          }
+        }).toList();
 
     state = AsyncData(updatedList);
   }
@@ -251,9 +288,10 @@ class ChordList extends _$ChordList {
     final current = state.valueOrNull;
     if (current == null) return;
 
-    final updatedList = current.map((item) {
-      return item.copyWith(isSelected: isSelected);
-    }).toList();
+    final updatedList =
+        current.map((item) {
+          return item.copyWith(isSelected: isSelected);
+        }).toList();
 
     state = AsyncData(updatedList);
   }
@@ -273,9 +311,12 @@ class ChordList extends _$ChordList {
       selectionMap[chord.chord.name] = isSelected;
     }
 
-    final updatedList = current.map((item) {
-      return item.copyWith(isSelected: selectionMap[item.chord.name] ?? false);
-    }).toList();
+    final updatedList =
+        current.map((item) {
+          return item.copyWith(
+            isSelected: selectionMap[item.chord.name] ?? false,
+          );
+        }).toList();
 
     state = AsyncData(updatedList);
   }

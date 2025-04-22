@@ -1,4 +1,4 @@
-import 'package:c2b/util/music.dart';
+import 'package:c2b_chord/util/music.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chord_model.freezed.dart';

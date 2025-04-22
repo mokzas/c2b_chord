@@ -1,4 +1,4 @@
-import 'package:c2b/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 
 /// 연습 화면에서 chord 하나를 나타내는 위젯.
@@ -12,11 +12,7 @@ class BarWidget extends StatelessWidget {
   final String chord;
   final bool isActive;
 
-  const BarWidget({
-    super.key,
-    required this.chord,
-    required this.isActive,
-  });
+  const BarWidget({super.key, required this.chord, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +23,10 @@ class BarWidget extends StatelessWidget {
             height: 80.0,
             constraints: BoxConstraints(minWidth: 140.0),
             decoration: BoxDecoration(
-              color: isActive
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : Theme.of(context).colorScheme.surfaceContainerLowest,
+              color:
+                  isActive
+                      ? Theme.of(context).colorScheme.primaryContainer
+                      : Theme.of(context).colorScheme.surfaceContainerLowest,
               borderRadius: BorderRadius.circular(RadiusValue.small),
             ),
             alignment: Alignment.center,
@@ -38,11 +35,12 @@ class BarWidget extends StatelessWidget {
               child: Text(
                 chord,
                 style: musicTextTheme(context).titleLarge?.copyWith(
-                      color: isActive
+                  color:
+                      isActive
                           ? Theme.of(context).colorScheme.onPrimaryContainer
                           : CustomColorScheme.neutral50,
-                      fontWeight: isActive ? FontWeight.bold : null,
-                    ),
+                  fontWeight: isActive ? FontWeight.bold : null,
+                ),
               ),
             ),
           ),
@@ -51,18 +49,19 @@ class BarWidget extends StatelessWidget {
             height: 4.0,
             constraints: BoxConstraints(minWidth: 140.0),
             decoration: BoxDecoration(
-              color: isActive
-                  ? Theme.of(context).colorScheme.onPrimaryContainer
-                  : CustomColorScheme.neutral50,
+              color:
+                  isActive
+                      ? Theme.of(context).colorScheme.onPrimaryContainer
+                      : CustomColorScheme.neutral50,
               borderRadius: BorderRadius.circular(RadiusValue.full),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 chord,
-                style: musicTextTheme(context)
-                    .titleLarge
-                    ?.copyWith(color: Colors.transparent),
+                style: musicTextTheme(
+                  context,
+                ).titleLarge?.copyWith(color: Colors.transparent),
               ),
             ),
           ),

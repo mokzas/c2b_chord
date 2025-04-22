@@ -1,7 +1,7 @@
-import 'package:c2b/providers/play_state_provider.dart';
-import 'package:c2b/providers/random_chords_provider.dart';
-import 'package:c2b/ui/screens/play/bar_widget.dart';
-import 'package:c2b/ui/theme/const.dart';
+import 'package:c2b_chord/providers/play_state_provider.dart';
+import 'package:c2b_chord/providers/random_chords_provider.dart';
+import 'package:c2b_chord/ui/screens/play/bar_widget.dart';
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,53 +30,60 @@ class ScoreArea extends ConsumerWidget {
         alignment: Alignment.center,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: GridMargin.longSide),
-          child: (randomChords.isEmpty)
-              ? Expanded(child: Center(child: Text('No chords selected.')))
-              : (displayChordCount == 8)
+          child:
+              (randomChords.isEmpty)
+                  ? Expanded(child: Center(child: Text('No chords selected.')))
+                  : (displayChordCount == 8)
                   ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 0; i < 4; ++i)
-                              BarWidget(
-                                chord: randomChords[i],
-                                isActive: isRepeat
-                                    ? currentChordIndex == i
-                                    : currentChordIndex % reGenerateCount == i,
-                              )
-                          ],
-                        ),
-                        hGap16(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 4; i < 8; ++i)
-                              BarWidget(
-                                chord: randomChords[i],
-                                isActive: isRepeat
-                                    ? currentChordIndex == i
-                                    : currentChordIndex % reGenerateCount == i,
-                              )
-                          ],
-                        ),
-                      ],
-                    )
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (int i = 0; i < 4; ++i)
+                            BarWidget(
+                              chord: randomChords[i],
+                              isActive:
+                                  isRepeat
+                                      ? currentChordIndex == i
+                                      : currentChordIndex % reGenerateCount ==
+                                          i,
+                            ),
+                        ],
+                      ),
+                      hGap16(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (int i = 4; i < 8; ++i)
+                            BarWidget(
+                              chord: randomChords[i],
+                              isActive:
+                                  isRepeat
+                                      ? currentChordIndex == i
+                                      : currentChordIndex % reGenerateCount ==
+                                          i,
+                            ),
+                        ],
+                      ),
+                    ],
+                  )
                   : Row(
-                      mainAxisAlignment: displayChordCount == 1
-                          ? MainAxisAlignment.center
-                          : MainAxisAlignment.spaceBetween,
-                      children: [
-                        for (int i = 0; i < displayChordCount; ++i)
-                          BarWidget(
-                            chord: randomChords[i],
-                            isActive: isRepeat
-                                ? currentChordIndex == i
-                                : currentChordIndex % reGenerateCount == i,
-                          )
-                      ],
-                    ),
+                    mainAxisAlignment:
+                        displayChordCount == 1
+                            ? MainAxisAlignment.center
+                            : MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (int i = 0; i < displayChordCount; ++i)
+                        BarWidget(
+                          chord: randomChords[i],
+                          isActive:
+                              isRepeat
+                                  ? currentChordIndex == i
+                                  : currentChordIndex % reGenerateCount == i,
+                        ),
+                    ],
+                  ),
         ),
       ),
     );

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDUGRKGwsR6bTn5nFXk16T0cFyT2do9kD0',
-    appId: '1:501330807930:android:aed45315ebcd572c873fc3',
+    appId: '1:501330807930:android:c1116f2fb57e8100873fc3',
     messagingSenderId: '501330807930',
     projectId: 'chordra-c2b',
     storageBucket: 'chordra-c2b.firebasestorage.app',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDmUn2RBL7fuESI-SIyX6QUbSV-BMStUVE',
-    appId: '1:501330807930:ios:9448c131fea44d92873fc3',
+    appId: '1:501330807930:ios:4da2b7d7b7d51053873fc3',
     messagingSenderId: '501330807930',
     projectId: 'chordra-c2b',
     storageBucket: 'chordra-c2b.firebasestorage.app',
-    iosBundleId: 'kr.mokzas.c2b',
+    iosBundleId: 'kr.mokzas.c2bChord',
   );
 
 }
