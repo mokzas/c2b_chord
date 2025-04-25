@@ -4,7 +4,7 @@ name: "build & release"
 on:
   push:
     branches:
-      - 33-chore-debug-configuration
+      - main
 
 jobs:
   build:
@@ -66,7 +66,9 @@ jobs:
           
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      #7 build App Bundle (aab) for android
+      #7 build Apk, App Bundle (aab) for android
+      - name: build apk
+        run: flutter build apk --release
       - name: build appBundle
         run: flutter build appbundle --release
       #8 build IPA for iOS
@@ -82,6 +84,7 @@ jobs:
         with:
           name: releases
           path: |
+            build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
             build/ios_build.tar.gz
       #10 extract version
@@ -110,6 +113,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.TOKEN }}
