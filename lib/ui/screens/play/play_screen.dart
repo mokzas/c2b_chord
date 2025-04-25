@@ -30,7 +30,13 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     ),
   );
 
-  // Beat/BPM/ChordCount
+  /// Beat, BPM, ChordCount를 설정하는 섹션
+  ///
+  /// Beat: chord 하나당 메트로놈 tick수. metronome의 timeSignature값.
+  ///
+  /// BPM: 메트로놈 속도 (Beats Per Minute)
+  ///
+  /// ChordCount: 화면에 보여줄 chord 개수
   Widget _optionSelector() => Row(
     children: [
       /* Beat 수 */
@@ -264,13 +270,18 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     ],
   );
 
-  // beat indicator widget
   Widget _beatIndicator({required bool active}) => CircleAvatar(
     radius: 8.0,
     backgroundColor: active ? Color(0xff655a6f) : Color(0xffe9e0eb),
   );
 
-  /// 메트로놈 현재 tick 표시하는 위젯
+  /// 메트로놈 현재 tick을 표시하는 위젯
+  ///
+  /// [count] chord 하나당 메트로놈 tick 수 (메트로놈의 timeSignature)
+  /// count만큼의 beatIndicator가 표시됨.
+  ///
+  /// [active] 현재 tick 값. 표시된 beatIndicator 중
+  /// [active]번째 beatIndicator를 다른 색으로 나타냄
   Widget _beatIndicatorWidgets(int count, int active) {
     List<Widget> beatIndicatorWidgets = [];
     for (int i = 0; i < count; ++i) {
