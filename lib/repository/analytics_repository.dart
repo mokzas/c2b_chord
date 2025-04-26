@@ -2,8 +2,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 class AnalyticsService {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
+    analytics: analytics,
+  );
 }
 
 class AnalyticsRepository {
@@ -16,9 +17,10 @@ class AnalyticsRepository {
   }
 
   static Future<void> logEvent(String name, Map<String, Object>? event) async {
-    await AnalyticsService.analytics.logEvent(
-      name: name,
-      parameters: event,
-    );
+    await AnalyticsService.analytics.logEvent(name: name, parameters: event);
+  }
+
+  static Future<void> offAnalytics() async {
+    await AnalyticsService.analytics.setAnalyticsCollectionEnabled(false);
   }
 }

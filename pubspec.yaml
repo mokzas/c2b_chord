@@ -20,6 +20,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.7.2
+  flutter: 3.29.3
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -47,6 +48,7 @@ dependencies:
   device_info_plus: ^11.3.3
   uuid: ^4.5.1
   shared_preferences: ^2.5.3
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
