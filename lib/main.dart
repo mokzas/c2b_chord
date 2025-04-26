@@ -1,6 +1,5 @@
 import 'package:c2b_chord/main_development.dart' as development;
 import 'package:c2b_chord/repository/analytics_repository.dart';
-import 'package:c2b_chord/repository/device_info_repository.dart';
 import 'package:c2b_chord/routing/router.dart';
 import 'package:c2b_chord/ui/theme/theme.dart';
 import 'package:c2b_chord/ui/theme/util.dart';
@@ -18,7 +17,8 @@ Future<void> main() async {
   // Launch development config by default
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  AnalyticsRepository.setUser(await DeviceInfoRepository.deviceId());
+  AnalyticsRepository.offAnalytics();
+  // AnalyticsRepository.setUser(await DeviceInfoRepository.deviceId());
 
   development.main();
 }
