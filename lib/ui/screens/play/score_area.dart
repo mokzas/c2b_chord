@@ -56,13 +56,16 @@ class ScoreArea extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           for (int i = 4; i < 8; ++i)
-                            BarWidget(
-                              chord: randomChords[i],
-                              isActive:
-                                  isRepeat
-                                      ? currentChordIndex == i
-                                      : currentChordIndex % reGenerateCount ==
-                                          i,
+                            Opacity(
+                              opacity: 0.5,
+                              child: BarWidget(
+                                chord: randomChords[i],
+                                isActive:
+                                    isRepeat
+                                        ? currentChordIndex == i
+                                        : currentChordIndex % reGenerateCount ==
+                                            i,
+                              ),
                             ),
                         ],
                       ),
