@@ -6,7 +6,7 @@ part of 'play_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$playStateHash() => r'c5660ed93a3675c93597fe682306fc3812196262';
+String _$playStateHash() => r'c86e14e87ee62bce0249523aa985d575fd6f7b88';
 
 /// 연습 중 메트로놈 재생, 악보(chord) 넘기기 등에 필요한 상태 정보 provider.
 ///
@@ -14,13 +14,15 @@ String _$playStateHash() => r'c5660ed93a3675c93597fe682306fc3812196262';
 @ProviderFor(PlayState)
 final playStateProvider =
     AutoDisposeNotifierProvider<PlayState, PlayStateModel>.internal(
-  PlayState.new,
-  name: r'playStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$playStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      PlayState.new,
+      name: r'playStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$playStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$PlayState = AutoDisposeNotifier<PlayStateModel>;
 // ignore_for_file: type=lint

@@ -107,7 +107,8 @@ class PlayState extends _$PlayState {
   }
 
   /// 반복 모드를 토글하는 함수
+  /// 반복 모드 ON/OFF 시 chord index를 0으로 초기화
   void toggleRepeat() {
-    state = state.copyWith(isRepeat: !state.isRepeat);
+    state = state.copyWith(isRepeat: !state.isRepeat, currentChordIndex: 0);
   }
 }
