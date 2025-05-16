@@ -21,15 +21,21 @@ class FilterChipWidget extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(100),
+      borderRadius: BorderRadius.circular(C2bRadius.full),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        constraints: BoxConstraints(maxHeight: 48.0, minWidth: 44.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: C2bPadding.small,
+          vertical: C2bPadding.extraSmall,
+        ),
+        constraints: BoxConstraints(
+          minWidth: C2bWidth.filterChip,
+          minHeight: C2bHeight.filterChip,
+        ),
         decoration: BoxDecoration(
           color:
               isSelected ? colorScheme.secondaryContainer : Colors.transparent,
           border: isSelected ? null : Border.all(color: colorScheme.outline),
-          borderRadius: BorderRadius.circular(RadiusValue.full),
+          borderRadius: BorderRadius.circular(C2bRadius.full),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

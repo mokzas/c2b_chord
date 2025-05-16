@@ -5,12 +5,21 @@
 import 'package:c2b_chord/ui/theme/util.dart';
 import 'package:flutter/material.dart';
 
-class GridMargin {
+class C2bPadding {
   static final longSide = 16.0;
   static final shortSide = 24.0;
+  static final extraSmall = 4.0;
+  static final small = 8.0;
+  static final largeContainer = 16.0;
+  static final listTitleHorizontal = 8.0;
 }
 
-class RadiusValue {
+class C2bMargin {
+  static final small = 8.0;
+  static final large = 16.0;
+}
+
+class C2bRadius {
   static final none = 0;
   static final extraSmall = 4.0;
   static final small = 8.0;
@@ -18,6 +27,23 @@ class RadiusValue {
   static final large = 16.0;
   static final extraLarge = 28.0;
   static final full = 1000.0;
+}
+
+class C2bHeight {
+  static final divider = 1.0;
+  static final buttonSmall = 40.0;
+  static final buttonLarge = 48.0;
+  static final playControlButton = 40.0;
+  static final bar = 80.0;
+  static final barLine = 4.0;
+  static final filterChip = 32.0;
+}
+
+class C2bWidth {
+  static final filterChip = 44.0;
+  static final bar = 140.0;
+  static final beatIndicator = 8.0;
+  static final playControlButton = 32.0;
 }
 
 Widget wGap4() => const SizedBox(width: 4.0);
@@ -42,4 +68,7 @@ TextTheme musicTextTheme(BuildContext context) {
 
 class CustomColorScheme {
   static final neutral50 = Color(0xFF7A767A);
+  static final neutral70 = Color(0xFFAFAAAE);
+  static final neutral80 = Color(0xFFCAC5C9);
+  static final modalShadow = Color(0x89000000);
 }

@@ -1,3 +1,4 @@
+import 'package:c2b_chord/ui/theme/const.dart';
 import 'package:flutter/material.dart';
 
 /// 오른쪽에서 들어오는 Modal Side Sheet.
@@ -8,7 +9,9 @@ class ModalSideSheet {
     required Widget child,
     double width = 300,
     bool barrierDismissible = true,
-    Color barrierColor = Colors.black54,
+    Color barrierColor = const Color(
+      0x89000000,
+    ), // CustomColorScheme.modalShadow,
     Duration animationDuration = const Duration(milliseconds: 300),
     bool showCloseButton = true,
     String? title,
@@ -23,10 +26,7 @@ class ModalSideSheet {
         final offsetAnimation = Tween<Offset>(
           begin: const Offset(1, 0),
           end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOut,
-        ));
+        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
 
         return SlideTransition(
           position: offsetAnimation,
@@ -34,10 +34,10 @@ class ModalSideSheet {
             alignment: Alignment.centerRight,
             child: Material(
               elevation: 12,
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(C2bRadius.large),
+                bottomLeft: Radius.circular(C2bRadius.large),
               ),
               child: SizedBox(
                 width: width,
@@ -46,16 +46,18 @@ class ModalSideSheet {
                   children: [
                     if (title != null || showCloseButton)
                       AppBar(
-                        automaticallyImplyLeading: false,  // No back button
+                        automaticallyImplyLeading: false, // No back button
                         title: title != null ? Text(title) : null,
-                        actions: showCloseButton
-                            ? [
-                          IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () => Navigator.of(context).pop(),
-                          )
-                        ]
-                            : null,
+                        actions:
+                            showCloseButton
+                                ? [
+                                  IconButton(
+                                    icon: const Icon(Icons.close),
+                                    onPressed:
+                                        () => Navigator.of(context).pop(),
+                                  ),
+                                ]
+                                : null,
                       ),
                     Expanded(child: child),
                   ],

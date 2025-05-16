@@ -17,7 +17,11 @@ class FilterListArea extends ConsumerWidget {
     children: [
       Text(title, style: Theme.of(context).textTheme.titleSmall),
       hGap16(),
-      Wrap(spacing: 8, runSpacing: 8, children: children),
+      Wrap(
+        spacing: C2bMargin.small,
+        runSpacing: C2bMargin.small,
+        children: children,
+      ),
       hGap16(),
     ],
   );
@@ -55,7 +59,7 @@ class FilterListArea extends ConsumerWidget {
                     children: [
                       hGap8(),
                       Divider(
-                        height: 1.0,
+                        height: C2bHeight.divider,
                         color: Theme.of(context).colorScheme.outlineVariant,
                       ),
                       hGap16(),

@@ -41,7 +41,7 @@ class ChordListArea extends ConsumerWidget {
           ),
         );
       },
-      separatorBuilder: (context, index) => Divider(height: 1.0),
+      separatorBuilder: (context, index) => Divider(height: C2bHeight.divider),
       // shrinkWrap: true,
     );
   }

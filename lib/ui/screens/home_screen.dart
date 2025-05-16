@@ -58,8 +58,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with RouteAware {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: GridMargin.shortSide,
-            horizontal: GridMargin.longSide,
+            vertical: C2bPadding.shortSide,
+            horizontal: C2bPadding.longSide,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
