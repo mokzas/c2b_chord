@@ -56,6 +56,16 @@ Widget hGap8() => const SizedBox(height: 8.0);
 Widget hGap16() => const SizedBox(height: 16.0);
 Widget hGap24() => const SizedBox(height: 24.0);
 
+TextTheme? _mainTextTheme;
+
+TextTheme mainTextTheme(BuildContext context) {
+  return _mainTextTheme ??= createTextTheme(
+    context,
+    "Noto Sans KR",
+    "Noto Sans KR",
+  );
+}
+
 TextTheme? _musicTextTheme;
 
 TextTheme musicTextTheme(BuildContext context) {
