@@ -271,7 +271,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
   );
 
   Widget _beatIndicator({required bool active}) => CircleAvatar(
-    radius: C2bWidth.beatIndicator,
+    radius: C2bWidth.beatIndicator / 2,
     backgroundColor:
         active
             ? Theme.of(context).colorScheme.secondary

@@ -8,15 +8,20 @@ import 'package:flutter/material.dart';
 class C2bPadding {
   static final longSide = 16.0;
   static final shortSide = 24.0;
-  static final extraSmall = 4.0;
-  static final small = 8.0;
   static final largeContainer = 16.0;
   static final listTitleHorizontal = 8.0;
+  static final extraSmall = 4.0;
+  static final small = 8.0;
+  static final medium = 12.0;
+  static final large = 16.0;
+  static final extraLarge = 24.0;
 }
 
 class C2bMargin {
   static final small = 8.0;
+  static final medium = 12.0;
   static final large = 16.0;
+  static final extraLarge = 24.0;
 }
 
 class C2bRadius {
@@ -36,14 +41,16 @@ class C2bHeight {
   static final playControlButton = 40.0;
   static final bar = 80.0;
   static final barLine = 4.0;
-  static final filterChip = 32.0;
+  static final filterChipMin = 32.0;
 }
 
 class C2bWidth {
-  static final filterChip = 44.0;
-  static final bar = 140.0;
-  static final beatIndicator = 8.0;
+  static final buttonSmallMin = 72.0;
+  static final buttonLargeMin = 92.0;
   static final playControlButton = 32.0;
+  static final barMin = 140.0;
+  static final filterChipMin = 44.0;
+  static final beatIndicator = 16.0;
 }
 
 Widget wGap4() => const SizedBox(width: 4.0);

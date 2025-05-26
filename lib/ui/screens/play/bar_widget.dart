@@ -22,7 +22,7 @@ class BarWidget extends StatelessWidget {
           // Chord 컨테이너.
           Container(
             height: C2bHeight.bar,
-            constraints: BoxConstraints(minWidth: C2bWidth.bar),
+            constraints: BoxConstraints(minWidth: C2bWidth.barMin),
             decoration: BoxDecoration(
               color:
                   isActive
@@ -49,7 +49,7 @@ class BarWidget extends StatelessWidget {
           // Chord 컨테이너 아래 라인.
           Container(
             height: C2bHeight.barLine,
-            constraints: BoxConstraints(minWidth: C2bWidth.bar),
+            constraints: BoxConstraints(minWidth: C2bWidth.barMin),
             decoration: BoxDecoration(
               color:
                   isActive
