@@ -12,6 +12,9 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize design tokens
+  await initializeDesignTokens();
+
   // 기본은 세로 화면 UI
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // Launch development config by default
