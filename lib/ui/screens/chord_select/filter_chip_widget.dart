@@ -28,8 +28,8 @@ class FilterChipWidget extends StatelessWidget {
           vertical: C2bPadding.extraSmall,
         ),
         constraints: BoxConstraints(
-          minWidth: C2bWidth.filterChip,
-          minHeight: C2bHeight.filterChip,
+          minWidth: C2bWidth.filterChipMin,
+          minHeight: C2bHeight.filterChipMin,
         ),
         decoration: BoxDecoration(
           color:

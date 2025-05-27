@@ -23,8 +23,8 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
     return Row(
       children: [
         Container(
-          width: C2bWidth.filterChip,
-          height: C2bHeight.filterChip,
+          width: C2bWidth.filterChipMin,
+          height: C2bHeight.filterChipMin,
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).colorScheme.outline),
             borderRadius: BorderRadius.circular(C2bRadius.full),
@@ -52,7 +52,7 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
         wGap4(),
         Expanded(
           child: SizedBox(
-            height: C2bHeight.filterChip,
+            height: C2bHeight.filterChipMin,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
