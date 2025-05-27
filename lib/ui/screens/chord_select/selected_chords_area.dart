@@ -1,6 +1,6 @@
 import 'package:c2b_chord/providers/chord_list_provider.dart';
 import 'package:c2b_chord/providers/selected_chords_provider.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +27,7 @@ class SelectedChordsArea extends ConsumerWidget {
                 hGap4(),
                 Container(
                   width: 36.0,
-                  height: 1.0,
+                  height: C2bHeight.divider,
                   color: Theme.of(context).colorScheme.outline,
                 ),
               ],
@@ -55,12 +55,12 @@ class SelectedChordsArea extends ConsumerWidget {
                         (context, index) => Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
-                              RadiusValue.small,
+                              C2bRadius.small,
                             ),
                             boxShadow: [
                               BoxShadow(
                                 blurRadius: 1.0,
-                                color: Colors.grey.shade400,
+                                color: CustomColorScheme.neutral80,
                                 offset: Offset(0.0, 1.0),
                               ),
                             ],
@@ -89,7 +89,7 @@ class SelectedChordsArea extends ConsumerWidget {
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
-                                RadiusValue.small,
+                                C2bRadius.small,
                               ),
                             ),
                           ),

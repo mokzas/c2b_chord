@@ -2,7 +2,7 @@ import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/providers/random_chords_provider.dart';
 import 'package:c2b_chord/ui/screens/play/number_selector_dialog.dart';
 import 'package:c2b_chord/ui/screens/play/score_area.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -156,15 +156,15 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     ],
   );
 
-  // practice start/stop/repeat
+  // practice start/pause, stop, repeat toggle, shuffle
   Widget _playStopRepeatController() => Row(
     children: [
       Container(
-        width: 32.0,
-        height: 40.0,
+        width: C2bWidth.playControlButton,
+        height: C2bHeight.playControlButton,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+          borderRadius: BorderRadius.circular(C2bRadius.extraSmall),
         ),
         child: IconButton(
           padding: EdgeInsets.zero,
@@ -177,11 +177,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
       ),
       wGap8(),
       Container(
-        width: 32.0,
-        height: 40.0,
+        width: C2bWidth.playControlButton,
+        height: C2bHeight.playControlButton,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+          borderRadius: BorderRadius.circular(C2bRadius.extraSmall),
         ),
         child: IconButton(
           padding: EdgeInsets.zero,
@@ -203,14 +203,14 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
       ),
       wGap8(),
       Container(
-        width: 32.0,
-        height: 40.0,
+        width: C2bWidth.playControlButton,
+        height: C2bHeight.playControlButton,
         decoration: BoxDecoration(
           color:
               ref.watch(playStateProvider).isRepeat
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+          borderRadius: BorderRadius.circular(C2bRadius.extraSmall),
         ),
         child: IconButton(
           padding: EdgeInsets.zero,
@@ -232,11 +232,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
       ),
       wGap8(),
       Container(
-        width: 32.0,
-        height: 40.0,
+        width: C2bWidth.playControlButton,
+        height: C2bHeight.playControlButton,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(RadiusValue.extraSmall),
+          borderRadius: BorderRadius.circular(C2bRadius.extraSmall),
         ),
         child: IconButton(
           padding: EdgeInsets.zero,
@@ -271,8 +271,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
   );
 
   Widget _beatIndicator({required bool active}) => CircleAvatar(
-    radius: 8.0,
-    backgroundColor: active ? Color(0xff655a6f) : Color(0xffe9e0eb),
+    radius: C2bWidth.beatIndicator / 2,
+    backgroundColor:
+        active
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(context).colorScheme.surfaceContainerHighest,
   );
 
   /// 메트로놈 현재 tick을 표시하는 위젯
@@ -319,7 +322,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: GridMargin.longSide,
+            vertical: C2bPadding.longSide,
             // horizontal: GridMargin.shortSide,
           ),
           child: OrientationBuilder(

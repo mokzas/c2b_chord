@@ -4,7 +4,7 @@ import 'package:c2b_chord/routing/routes.dart';
 import 'package:c2b_chord/ui/screens/chord_select/chord_list_area.dart';
 import 'package:c2b_chord/ui/screens/chord_select/selected_chords_area.dart';
 import 'package:c2b_chord/ui/screens/chord_select/selected_filters_horizontal_area.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +65,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   Widget _spontaneousChordSelectWidget() => Container(
     decoration: BoxDecoration(color: Colors.white),
     child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: C2bPadding.largeContainer),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -73,7 +73,9 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
           SelectedFiltersHorizontalArea(),
           /* "Chords" (제목) */
           ListTile(
-            contentPadding: EdgeInsets.only(right: 24.0),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: C2bPadding.listTitleHorizontal,
+            ),
             title: Text(
               'Chords',
               style: Theme.of(context).textTheme.titleMedium,
@@ -91,7 +93,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
               },
             ),
           ),
-          Divider(height: 1.0),
+          Divider(height: C2bHeight.divider),
           /* 선택 가능한 Chord 리스트 */
           Expanded(child: ChordListArea()),
         ],
@@ -102,12 +104,13 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
   Widget _presetChordSelectedWidget() => Container(
     decoration: BoxDecoration(color: Colors.white),
     child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: C2bPadding.largeContainer),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          /* Preset 헤더. ex) Preset > User > II-V-I */
           ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 50.0),
+            constraints: BoxConstraints(minHeight: 48.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -135,6 +138,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
             ),
           ),
           hGap4(),
+          /* Preset 폴더 및 프리셋 리스트 영역 */
           Expanded(
             child:
                 _selectedPresetCategory == null
@@ -155,7 +159,8 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                             },
                           ),
                       separatorBuilder:
-                          (context, index) => Divider(height: 1.0),
+                          (context, index) =>
+                              Divider(height: C2bHeight.divider),
                       itemCount: _samplePresetCategory.length,
                     )
                     : ListView.separated(
@@ -170,7 +175,8 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                             onTap: () {},
                           ),
                       separatorBuilder:
-                          (context, index) => Divider(height: 1.0),
+                          (context, index) =>
+                              Divider(height: C2bHeight.divider),
                       itemCount:
                           _samplePresetCategory[_selectedPresetCategory]!
                               .length,
@@ -183,7 +189,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
 
   Widget _selectedChordWidget() => Container(
     width: 260.0,
-    padding: EdgeInsets.only(left: 16.0),
+    padding: EdgeInsets.only(left: C2bPadding.largeContainer),
     decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,15 +199,16 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Clear 버튼
             Container(
               width: 96.0,
-              height: 40.0,
+              height: C2bHeight.buttonSmall,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 border: Border.all(
                   color: Theme.of(context).colorScheme.outline,
                 ),
-                borderRadius: BorderRadius.circular(RadiusValue.full),
+                borderRadius: BorderRadius.circular(C2bRadius.full),
               ),
               child: Material(
                 color: Colors.transparent,
@@ -210,7 +217,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                       () => ref
                           .read(chordListProvider.notifier)
                           .updateSelectionAll(false),
-                  borderRadius: BorderRadius.circular(RadiusValue.full),
+                  borderRadius: BorderRadius.circular(C2bRadius.full),
                   child: Center(
                     child: Text(
                       'Clear',
@@ -222,16 +229,17 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                 ),
               ),
             ),
+            // Start 버튼
             Container(
               width: 96.0,
-              height: 40.0,
+              height: C2bHeight.buttonSmall,
               // alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
                 border: Border.all(
                   color: Theme.of(context).colorScheme.outline,
                 ),
-                borderRadius: BorderRadius.circular(RadiusValue.full),
+                borderRadius: BorderRadius.circular(C2bRadius.full),
               ),
               child: Material(
                 color: Colors.transparent,
@@ -258,7 +266,7 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
                             );
                           }
                           : () => context.push(Routes.play),
-                  borderRadius: BorderRadius.circular(RadiusValue.full),
+                  borderRadius: BorderRadius.circular(C2bRadius.full),
                   child: Center(
                     child: Text(
                       'Start',
@@ -306,8 +314,8 @@ class _ChordSelectScreenState extends ConsumerState<ChordSelectScreen> {
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: GridMargin.longSide,
-              horizontal: GridMargin.shortSide,
+              vertical: C2bPadding.longSide,
+              horizontal: C2bPadding.shortSide,
             ),
             child: OrientationBuilder(
               builder: (context, orientation) {
