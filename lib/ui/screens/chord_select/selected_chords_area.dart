@@ -1,6 +1,6 @@
 import 'package:c2b_chord/providers/chord_list_provider.dart';
 import 'package:c2b_chord/providers/selected_chords_provider.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

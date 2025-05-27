@@ -1,4 +1,4 @@
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 /// 오른쪽에서 들어오는 Modal Side Sheet.

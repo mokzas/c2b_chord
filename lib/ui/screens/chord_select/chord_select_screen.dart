@@ -4,7 +4,7 @@ import 'package:c2b_chord/routing/routes.dart';
 import 'package:c2b_chord/ui/screens/chord_select/chord_list_area.dart';
 import 'package:c2b_chord/ui/screens/chord_select/selected_chords_area.dart';
 import 'package:c2b_chord/ui/screens/chord_select/selected_filters_horizontal_area.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

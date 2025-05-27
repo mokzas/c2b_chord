@@ -1,4 +1,4 @@
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 /// Filter 리스트 아이템을 위한 위젯. Selectable Chip.

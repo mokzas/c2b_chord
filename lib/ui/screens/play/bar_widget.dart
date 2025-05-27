@@ -1,4 +1,4 @@
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 /// 연습 화면에서 chord 하나를 나타내는 위젯.

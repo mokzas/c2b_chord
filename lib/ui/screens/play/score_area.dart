@@ -1,7 +1,7 @@
 import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/providers/random_chords_provider.dart';
 import 'package:c2b_chord/ui/screens/play/bar_widget.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

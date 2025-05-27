@@ -1,7 +1,7 @@
 import 'package:c2b_chord/main_development.dart' as development;
 import 'package:c2b_chord/repository/analytics_repository.dart';
 import 'package:c2b_chord/routing/router.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:c2b_chord/ui/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
