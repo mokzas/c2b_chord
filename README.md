@@ -28,14 +28,14 @@ Set how many beats each chord lasts, adjust the BPM, and choose how many chords 
 
 # 📱 Screenshots
 
-![Screenshot_1](SCREENSHOTS\screenshot_01.png)
-![Screenshot_2](SCREENSHOTS\screenshot_02.png)
-![Screenshot_3](SCREENSHOTS\screenshot_03.png)
-![Screenshot_4](SCREENSHOTS\screenshot_04.png)
-![Screenshot_5](SCREENSHOTS\screenshot_05.png)
-![Screenshot_6](SCREENSHOTS\screenshot_06.png)
-![Screenshot_7](SCREENSHOTS\screenshot_07.png)
-![Screenshot_8](SCREENSHOTS\screenshot_08.png)
+![Screenshot_1](SCREENSHOTS/screenshot_01.png)
+![Screenshot_2](SCREENSHOTS/screenshot_02.png)
+![Screenshot_3](SCREENSHOTS/screenshot_03.png)
+![Screenshot_4](SCREENSHOTS/screenshot_04.png)
+![Screenshot_5](SCREENSHOTS/screenshot_05.png)
+![Screenshot_6](SCREENSHOTS/screenshot_06.png)
+![Screenshot_7](SCREENSHOTS/screenshot_07.png)
+![Screenshot_8](SCREENSHOTS/screenshot_08.png)
 
 ## 🔗 Download & Support
 
