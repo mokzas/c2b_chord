@@ -116,7 +116,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                             ref.read(playStateProvider.notifier).stop();
                           },
                           child: Container(
-                            color: const Color(0x89000000),
+                            color: CustomColorScheme.barrierColor,
                             child: Center(
                               child: Text(
                                 (timeSignature - currentTick).toString(),

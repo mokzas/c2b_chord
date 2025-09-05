@@ -43,6 +43,7 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
                       ),
                       child: FilterListArea(),
                     ),
+                    barrierColor: CustomColorScheme.barrierColor,
                   ),
               borderRadius: BorderRadius.circular(C2bRadius.full),
               child: Icon(Icons.filter_list),
