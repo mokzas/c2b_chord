@@ -30,9 +30,15 @@ class PlayControlButtonWidget extends StatelessWidget {
       height: C2bHeight.playControlButton,
       decoration: BoxDecoration(
         color:
-            isActive
-                ? theme.colorScheme.primary
-                : theme.colorScheme.secondaryContainer,
+            isEnabled
+                ? (isActive
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.secondaryContainer)
+                : (isActive
+                    ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                    : theme.colorScheme.secondaryContainer.withValues(
+                      alpha: 0.5,
+                    )),
         borderRadius: BorderRadius.circular(C2bRadius.extraSmall),
       ),
       child: IconButton(
@@ -41,9 +47,15 @@ class PlayControlButtonWidget extends StatelessWidget {
         icon: Icon(
           icon,
           color:
-              isActive
-                  ? theme.colorScheme.onPrimary
-                  : theme.colorScheme.onSecondaryContainer,
+              isEnabled
+                  ? (isActive
+                      ? theme.colorScheme.onPrimary
+                      : theme.colorScheme.onSecondaryContainer)
+                  : (isActive
+                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.5)
+                      : theme.colorScheme.onSecondaryContainer.withValues(
+                        alpha: 0.5,
+                      )),
         ),
         onPressed: isEnabled ? onPressed : null,
       ),

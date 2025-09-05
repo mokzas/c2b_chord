@@ -57,11 +57,24 @@ class PlaySettingWidget extends ConsumerWidget {
               },
       child: Column(
         children: [
-          Text(value.toString(), style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            value.toString(),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color:
+                  playState.isPlaying
+                      ? Theme.of(
+                        context,
+                      ).textTheme.titleLarge?.color?.withValues(alpha: 0.5)
+                      : null,
+            ),
+          ),
           Text(
             title,
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: CustomColorScheme.neutral50,
+              color:
+                  playState.isPlaying
+                      ? CustomColorScheme.neutral50.withValues(alpha: 0.5)
+                      : CustomColorScheme.neutral50,
             ),
           ),
         ],
