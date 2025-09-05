@@ -37,6 +37,7 @@ class ScoreArea extends ConsumerWidget {
                   ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      /* 윗줄 chord 4개 */
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -52,12 +53,13 @@ class ScoreArea extends ConsumerWidget {
                         ],
                       ),
                       hGap16(),
+                      /* 아랫줄 chord 4개 */
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           for (int i = 4; i < 8; ++i)
                             Opacity(
-                              opacity: 0.5,
+                              opacity: isRepeat ? 1.0 : 0.5,
                               child: BarWidget(
                                 chord: randomChords[i],
                                 isActive:
