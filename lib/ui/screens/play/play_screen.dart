@@ -32,8 +32,9 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentTick = ref.watch(playStateProvider).currentTick;
-    final timeSignature = ref.watch(playStateProvider).timeSignature;
+    final playState = ref.watch(playStateProvider);
+    final currentTick = playState.currentTick;
+    final timeSignature = playState.timeSignature;
 
     return Scaffold(
       body: SafeArea(
@@ -108,6 +109,27 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           context.pop();
                         },
                       ),
+                      // CountDown Overlay
+                      if (playState.isCountDown)
+                        GestureDetector(
+                          onTap: () {
+                            ref.read(playStateProvider.notifier).stop();
+                          },
+                          child: Container(
+                            color: const Color(0x89000000),
+                            child: Center(
+                              child: Text(
+                                (timeSignature - currentTick).toString(),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.displayLarge?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   );
             },

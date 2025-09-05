@@ -30,6 +30,7 @@ abstract class PlayStateModel with _$PlayStateModel {
     @Default(false) bool isPlaying,
     @Default(false) bool isFirstTickPlayed,
     @Default(false) bool isRepeat,
+    @Default(false) bool isCountDown,
     @Default(120) int bpm,
     @Default(50) int volume,
     @Default(4) int timeSignature,
