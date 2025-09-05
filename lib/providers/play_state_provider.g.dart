@@ -6,7 +6,7 @@ part of 'play_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$playStateHash() => r'c86e14e87ee62bce0249523aa985d575fd6f7b88';
+String _$playStateHash() => r'd3accc87101ec02748a029a0f0d5d526d012c7e9';
 
 /// 연습 중 메트로놈 재생, 악보(chord) 넘기기 등에 필요한 상태 정보 provider.
 ///

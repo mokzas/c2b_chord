@@ -9,9 +9,7 @@ class ModalSideSheet {
     required Widget child,
     double width = 300,
     bool barrierDismissible = true,
-    Color barrierColor = const Color(
-      0x89000000,
-    ), // CustomColorScheme.modalShadow,
+    required Color barrierColor,
     Duration animationDuration = const Duration(milliseconds: 300),
     bool showCloseButton = true,
     String? title,

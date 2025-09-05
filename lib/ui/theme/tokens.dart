@@ -350,8 +350,8 @@ TextTheme musicTextTheme(BuildContext context) {
 // Material Theme Builder에서 Color Palette는 생성해주지 않기 떄문에
 // Color Scale 중 UI 컬러로 쓰인 색상 직접 정의
 class CustomColorScheme {
-  static final neutral50 = Color(0xFF7A767A);
-  static final neutral70 = Color(0xFFAFAAAE);
-  static final neutral80 = Color(0xFFCAC5C9);
-  static final modalShadow = Color(0x89000000);
+  static final neutral50 = const Color(0xFF7A767A);
+  static final neutral70 = const Color(0xFFAFAAAE);
+  static final neutral80 = const Color(0xFFCAC5C9);
+  static final barrierColor = const Color(0x89000000);
 }
