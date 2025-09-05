@@ -126,6 +126,7 @@ class ChordList extends _$ChordList {
   }
 
   /// 유저가 선택한 필터 조건에 맞는 코드들의 리스트를 반환하는 함수
+  /// 변수명의 'selected'를 'slctd'로 줄여서 사용.
   List<ChordListItemModel> getFilteredChords(
     List<ChordListItemModel> chordList,
   ) {
@@ -134,138 +135,148 @@ class ChordList extends _$ChordList {
     );
 
     // Group filters by category
-    final selectedRoots =
+    final slctdRootFilters =
         filterMap['Root']
             ?.where((e) => e.isSelected == true)
             .map((e) => e.name)
             .toList() ??
         [];
 
-    final selectedTriads =
+    final slctdTriadFilters =
         filterMap['Triad']?.where((e) => e.isSelected == true).toList() ?? [];
 
-    final selectedSevenths =
+    final slctd7thFilters =
         filterMap['7th']?.where((e) => e.isSelected == true).toList() ?? [];
 
-    // extension filter 적용시 사용.
-    final extensionBase =
-        selectedSevenths.isEmpty ? (filterMap['7th'] ?? []) : selectedSevenths;
-    assert(extensionBase.isNotEmpty);
-
-    final selectedExtensions =
+    final slctdExtensions =
         filterMap['Extension']?.where((e) => e.isSelected == true).toList() ??
         [];
 
-    final selectedAlters =
+    final slctdAlterFilters =
         (filterMap['Alter, add']?.where((e) => e.isSelected == true) ?? []).map(
           (e) => e.name,
         );
-    final allAlters = filterMap['Alter, add'] ?? [];
-    assert(allAlters.isNotEmpty);
+    final allAlterFilters = filterMap['Alter, add'] ?? [];
+    assert(allAlterFilters.isNotEmpty);
 
-    final isSelectedFilterEmpty =
-        selectedTriads.isEmpty &&
-        selectedSevenths.isEmpty &&
-        selectedExtensions.isEmpty &&
-        selectedAlters.isEmpty;
+    final isSlctdFiltersEmpty =
+        slctdTriadFilters.isEmpty &&
+        slctd7thFilters.isEmpty &&
+        slctdExtensions.isEmpty &&
+        slctdAlterFilters.isEmpty;
 
     // Step 1: Match root
     // 선택된 Root를 갖는 모든 chord를 필터링
     // 선택된 Root filter가 없는 경우 모든 root의 chord를 보여주도록 함.
-    final step1 =
-        selectedRoots.isEmpty
+    final rootMatchChordItems =
+        slctdRootFilters.isEmpty
             ? chordList
             : chordList.where((e) {
-              return selectedRoots.contains(e.chord.root.str);
+              return slctdRootFilters.contains(e.chord.root.str);
             });
 
     // 1. Root 포함 모든 그룹에서 선택된 필터가 없는 경우: 모든 코드를 보여줌
     // 2. Root 그룹에는 선택한 filter가 있는데, 나머지 그룹에서 선택한 filter가
     //    없으면 선택한 root의 모든 chord를 보여주도록 함.
-    if (isSelectedFilterEmpty) return step1.toList();
+    if (isSlctdFiltersEmpty) return rootMatchChordItems.toList();
 
     // Step 2: Exact match of root + triad
     // <선택된 root> x <선택된 triad>와 정확히 일치하는 항목
-    final step2 = step1.where((e) {
+    final triadMatchChordItems = rootMatchChordItems.where((e) {
       final chordName = e.chord.name;
       final root = e.chord.root.str;
-      return selectedTriads.any(
+      return slctdTriadFilters.any(
         (triadFilter) => chordName == '$root${triadFilter.name}',
       );
     });
 
-    // Step 3: Match any 7th or extension
+    // Step 3-1: Match any 7th or extension
+    //
+    // 다른 필터에도 포함되는 문자열로 이루어진 필터에 대하여 별도로 'startWith' 검사를 수행하기 위한 정규식
+    // '7'의 경우 'M7', 'm7' 등에 모두 포함되기 때문에 '포함하는가'가 아닌 '시작하는가'로 검사해야함.
+    // 'M7' 또한 'augM7', 'mM7', 'm7'은 dim7 등에 대하여 동일함
     final extensionPattern = RegExp(r'^(m?|M?)?(6|7|9|11|13)');
-    final step3 = step1.where((e) {
-      final chordName = e.chord.name;
-      final match7th = selectedSevenths.any((seventhFilter) {
-        // '7'의 경우 'M7', 'm7' 등에 모두 포함되기 때문에 '포함하는가'가 아닌
-        // '시작하는가'로 검사해야함. 'M7'은 'augM7', 'mM7', 'm7'은 dim7 등에
-        // 대하여 동일함
+
+    final extensionMatchChordItems = rootMatchChordItems.where((e) {
+      final chordQualityName = e.chord.qualityName;
+      final match7th = slctd7thFilters.any((seventhFilter) {
         if (extensionPattern.hasMatch(seventhFilter.name)) {
-          final quality = chordName.replaceFirst(e.chord.root.str, '');
-          return quality.startsWith(seventhFilter.name);
+          return chordQualityName.startsWith(seventhFilter.name);
         }
-        return chordName.contains(seventhFilter.name);
+        return chordQualityName.contains(seventhFilter.name);
       });
 
-      // extension matching
-      // 7th 그룹에서 선택된 filter가 없을 경우, 모든 7th 필터에 대하여 다음을 수행
+      // Step 3-2: extension matching
+      //
+      // 선택된 7th 그룹 필터들 문자열의 '7'을 선택된 각 extension 필터 문자열로 교체 후, 교체된 문자열을 extension 필터링에 사용.
+      // ex) 7th 필터 'm7' 선택, extension 필터 '9' 선택시 -> 'm9'으로 extension 필터링 수행.
+      // 7th 그룹에서 선택된 필터가 없을 경우, 모든 7th 필터에 대하여 수행
+      //
+      final extensionBase =
+          slctd7thFilters.isEmpty ? (filterMap['7th'] ?? []) : slctd7thFilters;
+      assert(extensionBase.isNotEmpty);
+
       final matchExtension = extensionBase
-          .expand((s7Filter) {
-            return selectedExtensions.map(
-              (extFilter) => s7Filter.name.replaceAll('7', extFilter.name),
+          .expand((slctd7thFilter) {
+            return slctdExtensions.map(
+              (extFilter) =>
+                  slctd7thFilter.name.replaceAll('7', extFilter.name),
             );
           })
-          .any((extS7Filter) {
-            // 7th와 동일.
-            if (extensionPattern.hasMatch(extS7Filter)) {
-              final quality = chordName.replaceFirst(e.chord.root.str, '');
-              return quality.startsWith(extS7Filter);
+          .any((slctdExt7thFilter) {
+            if (extensionPattern.hasMatch(slctdExt7thFilter)) {
+              return chordQualityName.startsWith(slctdExt7thFilter);
             }
-            return chordName.contains(extS7Filter);
+            return chordQualityName.contains(slctdExt7thFilter);
           });
 
       return match7th || matchExtension;
     });
 
-    // step2, step3 양쪽 모두에 포함되는 chord는 없어야 한다
+    // triadMatchChordItems, extensionMatchChordItems 양쪽 모두에 포함되는 chord는 없어야 한다
     assert(
-      !(step3.any(
-        (c) => step2.map((c) => c.chord.name).toSet().contains(c.chord.name),
+      !(extensionMatchChordItems.any(
+        (c) => triadMatchChordItems
+            .map((c) => c.chord.name)
+            .toSet()
+            .contains(c.chord.name),
       )),
     );
 
     // Step 4
-    final List<ChordListItemModel> step4 = [...step2, ...step3];
+    final List<ChordListItemModel> triadExtMatchChordItems = [
+      ...triadMatchChordItems,
+      ...extensionMatchChordItems,
+    ];
 
     // Step 5: Whitelist filtering for Alter, add
-    // step4 중 allAlters를 한개도 포함하지 않으면 살려줌. 포함하는 경우,
-    // selectedAlters에 포함된 필터이면 살려줌. 7th, Extension 모두에서 선택된
-    // 필터가 없는 경우, selectedAlters 중 하나라도 포함하는 놈은 살려줌.
-    final step5 =
-        selectedSevenths.isEmpty && selectedExtensions.isEmpty
+    // triadExtMatchChordItems에서 모든 alter 필터 중 단 한 개도 matching되지 않는 chord만 살려줌.
+    // alter 필터 중 어떤 것과 matching되는 경우, 그 필터가 slctdAlterFilters에 포함된 필터이면 살려줌.
+    //
+    // 단, 7th, Extension 그룹 필터들 중 선택된 필터가 한 개도 없는 경우에는,
+    // slctdAlterFilters 중 하나라도 matching되는 경우 살려줌.
+    final slctdChordItems =
+        slctd7thFilters.isEmpty && slctdExtensions.isEmpty
             ? [
-              ...step2,
-              ...(step1.where((item) {
+              ...triadMatchChordItems,
+              ...(rootMatchChordItems.where((item) {
                 final chordQualityName = item.chord.qualityName;
-                return selectedAlters.any(
+                return slctdAlterFilters.any(
                   (alt) => chordQualityName.contains(alt),
                 );
               }).toList()),
             ]
-            : step4.where((item) {
+            : triadExtMatchChordItems.where((item) {
               final chordQualityName = item.chord.qualityName;
-              return allAlters.every((alt) {
+              return allAlterFilters.every((alt) {
                 if (chordQualityName.contains(alt.name)) {
-                  return selectedAlters.contains(alt.name);
+                  return slctdAlterFilters.contains(alt.name);
                 }
                 return true;
               });
             }).toList();
 
-    // Root 이외 그룹에서 선택한 filter가 하나라도 있으면 step5를 보여줌.
-    return step5;
+    return slctdChordItems;
   }
 
   /// chordListItem의 isSelected 값을 변경하는 함수
