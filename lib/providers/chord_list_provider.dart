@@ -28,7 +28,8 @@ class ChordList extends _$ChordList {
 
     for (final root in rootNotes) {
       for (final quality in qualities) {
-        final name = root.str + quality.name;
+        final qualityName = quality.name;
+        final name = root.str + qualityName;
         final nameAlt = quality.aliases.map((alt) => root.str + alt).toList();
         final tones = _buildChordTones(root, quality);
 
@@ -39,6 +40,7 @@ class ChordList extends _$ChordList {
               nameAlt: nameAlt,
               root: root,
               tones: tones,
+              qualityName: qualityName,
             ),
             isSelected: selectionMap[name] ?? false, // Preserve selection state
           ),
@@ -246,15 +248,17 @@ class ChordList extends _$ChordList {
             ? [
               ...step2,
               ...(step1.where((item) {
-                final name = item.chord.name;
-                return selectedAlters.any((alt) => name.contains(alt));
+                final chordQualityName = item.chord.qualityName;
+                return selectedAlters.any(
+                  (alt) => chordQualityName.contains(alt),
+                );
               }).toList()),
             ]
             : step4.where((item) {
-              final chordName = item.chord.name;
-              return allAlters.every((alter) {
-                if (chordName.contains(alter.name)) {
-                  return selectedAlters.contains(alter.name);
+              final chordQualityName = item.chord.qualityName;
+              return allAlters.every((alt) {
+                if (chordQualityName.contains(alt.name)) {
+                  return selectedAlters.contains(alt.name);
                 }
                 return true;
               });

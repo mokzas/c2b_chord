@@ -7,14 +7,15 @@ part of 'chord_model.dart';
 // **************************************************************************
 
 _ChordModel _$ChordModelFromJson(Map<String, dynamic> json) => _ChordModel(
-      name: json['name'] as String,
-      nameAlt:
-          (json['nameAlt'] as List<dynamic>).map((e) => e as String).toList(),
-      root: $enumDecode(_$NoteEnumMap, json['root']),
-      tones: (json['tones'] as List<dynamic>)
+  name: json['name'] as String,
+  nameAlt: (json['nameAlt'] as List<dynamic>).map((e) => e as String).toList(),
+  root: $enumDecode(_$NoteEnumMap, json['root']),
+  tones:
+      (json['tones'] as List<dynamic>)
           .map((e) => $enumDecode(_$NoteEnumMap, e))
           .toList(),
-    );
+  qualityName: json['qualityName'] as String,
+);
 
 Map<String, dynamic> _$ChordModelToJson(_ChordModel instance) =>
     <String, dynamic>{
@@ -22,6 +23,7 @@ Map<String, dynamic> _$ChordModelToJson(_ChordModel instance) =>
       'nameAlt': instance.nameAlt,
       'root': _$NoteEnumMap[instance.root]!,
       'tones': instance.tones.map((e) => _$NoteEnumMap[e]!).toList(),
+      'qualityName': instance.qualityName,
     };
 
 const _$NoteEnumMap = {
