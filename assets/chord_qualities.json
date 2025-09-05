@@ -236,6 +236,38 @@
         ]
     },
     {
+        "name": "M7sus2",
+        "aliases": [],
+        "intervals": [
+            0,
+            2,
+            7,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
+        "name": "M7sus4",
+        "aliases": [],
+        "intervals": [
+            0,
+            5,
+            7,
+            11
+        ],
+        "notation": [
+            "follow root",
+            "follow root",
+            "follow root",
+            "follow root"
+        ]
+    },
+    {
         "name": "mM7",
         "aliases": [
             "minMaj7"
