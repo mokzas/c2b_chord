@@ -15,6 +15,8 @@ part 'chord_model.g.dart';
 ///
 /// [tones] chord를 구성하는 음들. chord tones.
 ///
+/// [qualityName] quality의 이름. ex) 'M7', 'dim7', 'aug7'
+///
 @freezed
 abstract class ChordModel with _$ChordModel {
   const factory ChordModel({
@@ -22,6 +24,7 @@ abstract class ChordModel with _$ChordModel {
     required List<String> nameAlt,
     required Note root,
     required List<Note> tones,
+    required String qualityName,
   }) = _ChordModel;
 
   factory ChordModel.fromJson(Map<String, Object?> json) =>

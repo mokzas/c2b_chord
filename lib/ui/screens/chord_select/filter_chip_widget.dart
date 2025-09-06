@@ -1,4 +1,4 @@
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 /// Filter 리스트 아이템을 위한 위젯. Selectable Chip.
@@ -21,15 +21,21 @@ class FilterChipWidget extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(100),
+      borderRadius: BorderRadius.circular(C2bRadius.full),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        constraints: BoxConstraints(maxHeight: 48.0, minWidth: 44.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: C2bPadding.small,
+          vertical: C2bPadding.extraSmall,
+        ),
+        constraints: BoxConstraints(
+          minWidth: C2bWidth.filterChipMin,
+          minHeight: C2bHeight.filterChipMin,
+        ),
         decoration: BoxDecoration(
           color:
               isSelected ? colorScheme.secondaryContainer : Colors.transparent,
           border: isSelected ? null : Border.all(color: colorScheme.outline),
-          borderRadius: BorderRadius.circular(RadiusValue.full),
+          borderRadius: BorderRadius.circular(C2bRadius.full),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -2,7 +2,7 @@ import 'package:c2b_chord/providers/filter_map_provider.dart';
 import 'package:c2b_chord/ui/screens/chord_select/filter_chip_widget.dart';
 import 'package:c2b_chord/ui/screens/chord_select/filter_list_area.dart';
 import 'package:c2b_chord/ui/screens/chord_select/modal_side_sheet.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,11 +23,11 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
     return Row(
       children: [
         Container(
-          width: 44.0,
-          height: 28.0,
+          width: C2bWidth.filterChipMin,
+          height: C2bHeight.filterChipMin,
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).colorScheme.outline),
-            borderRadius: BorderRadius.circular(RadiusValue.full),
+            borderRadius: BorderRadius.circular(C2bRadius.full),
           ),
           child: Material(
             color: Colors.transparent,
@@ -38,13 +38,14 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
                     title: 'Filters',
                     child: Padding(
                       padding: EdgeInsets.only(
-                        left: GridMargin.shortSide,
-                        right: GridMargin.longSide,
+                        left: C2bPadding.shortSide,
+                        right: C2bPadding.longSide,
                       ),
                       child: FilterListArea(),
                     ),
+                    barrierColor: CustomColorScheme.barrierColor,
                   ),
-              borderRadius: BorderRadius.circular(RadiusValue.full),
+              borderRadius: BorderRadius.circular(C2bRadius.full),
               child: Icon(Icons.filter_list),
             ),
           ),
@@ -52,7 +53,7 @@ class SelectedFiltersHorizontalArea extends ConsumerWidget {
         wGap4(),
         Expanded(
           child: SizedBox(
-            height: 28.0,
+            height: C2bHeight.filterChipMin,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {

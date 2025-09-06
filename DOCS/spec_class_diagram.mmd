@@ -1,0 +1,72 @@
+classDiagram
+
+%% Models
+    class FilterListItemModel{
+        name: String
+        group: String
+        isSelected: bool
+    }
+    class QualityModel{
+        name: String
+        aliases: List~String~
+        intervals: List~int~
+        notation: List~String~
+    }
+    class ChordModel{
+        name: String
+        nameAlt: List~String~
+        root: Note
+        tones: List~Note~
+    }
+    class ChordListItemModel{
+        chord: ChordModel
+        isSelected: bool
+    }
+    class PlayStateModel{
+        isPlaying: bool = false
+        isFirstTickPlayed: bool = false
+        isRepeat: bool = false
+        isCountDown: bool = false
+        bpm: int = 120
+        volume: int = 50
+        timeSignature: int = 4
+        currentTick: int = 0
+        displayChordCount: int = 8
+        reGenerateCount: int = 4
+        currentChordIndex: int = 0
+    }
+
+%% Providers
+    class selectedChordsProvider{
+        exposes: List[ChordModel]
+    }
+    class RandomChordsProvider{
+        exposes: List~String~
+    }
+    class filteredChordsProvider{
+        exposes: List~ChordListItemModel~
+    }
+    class FilterMapProvider{
+        exposes: Map~String,List[FilterListItemModel]~
+    }
+    class PlayStateProvider{
+        exposes: PlayStateModel
+    }
+    class qualityProvider{
+        exposes: Future~List~QualityModel~~
+    }
+    class ChordListProvider{
+        exposes: Future~List~ChordListItemModel~~
+    }
+    class DeviceIdProvider{
+        exposes: FutureOr~String~
+    }
+
+%% Relationships
+    ChordListItemModel *-- ChordModel
+    selectedChordsProvider ..> ChordModel
+    filteredChordsProvider ..> ChordListItemModel
+    FilterMapProvider ..> FilterListItemModel
+    PlayStateProvider ..> PlayStateModel
+    qualityProvider ..> QualityModel
+    ChordListProvider ..> ChordListItemModel

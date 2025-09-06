@@ -20,11 +20,17 @@ class PlayState extends _$PlayState {
       // tick: 0 ~ timeSignature-1
       (newTick) {
         if (state.isFirstTickPlayed == false) {
-          // CASE 1: Play 시작 후 첫 Tick인 경우
-          // Android에서는 play() 호출 시 첫번째 tick 0에서 콜백이 호출되지 않는 문제 있음.
+          // CASE 1: Play 시작 후 첫 Tick callback 호출.
+          // 이 분기는 if(newTick==0) 분기문을 두번째 newTick==0 케이스부터 타도록 하기 위해 존재.
+          // AOS: newTick==1 (tick 0에서 호출되지 않는 이슈 있음)
+          // iOS: newTick==0
           state = state.copyWith(isFirstTickPlayed: true, currentTick: newTick);
-        } else if (newTick == 0 && state.isFirstTickPlayed) {
+        } else if (newTick == 0 && state.isCountDown) {
+          // 첫번째 사이클에서는 count down 진행
+          state = state.copyWith(currentTick: newTick, isCountDown: false);
+        } else if (newTick == 0) {
           // CASE 2: Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
+          // 연습 중인 chord를 다음 chord로 넘김.
           final nextIndex =
               (state.currentChordIndex + 1) % state.displayChordCount;
           state = state.copyWith(
@@ -51,7 +57,7 @@ class PlayState extends _$PlayState {
   /// 연습을 시작하는 함수
   void play() {
     MetronomeRepository.play();
-    state = state.copyWith(isPlaying: true);
+    state = state.copyWith(isPlaying: true, isCountDown: true);
   }
 
   /// 연습을 진행중이던 위치에서 멈추는 함수
@@ -62,6 +68,7 @@ class PlayState extends _$PlayState {
       isPlaying: false,
       isFirstTickPlayed: false,
       currentTick: 0,
+      isCountDown: false,
     );
   }
 
@@ -73,6 +80,7 @@ class PlayState extends _$PlayState {
       isPlaying: false,
       isFirstTickPlayed: false,
       currentTick: 0,
+      isCountDown: false,
       currentChordIndex: 0,
     );
   }

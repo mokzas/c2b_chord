@@ -1,6 +1,6 @@
 import 'package:c2b_chord/providers/filter_map_provider.dart';
 import 'package:c2b_chord/ui/screens/chord_select/filter_chip_widget.dart';
-import 'package:c2b_chord/ui/theme/const.dart';
+import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +17,11 @@ class FilterListArea extends ConsumerWidget {
     children: [
       Text(title, style: Theme.of(context).textTheme.titleSmall),
       hGap16(),
-      Wrap(spacing: 8, runSpacing: 8, children: children),
+      Wrap(
+        spacing: C2bMargin.small,
+        runSpacing: C2bMargin.small,
+        children: children,
+      ),
       hGap16(),
     ],
   );
@@ -55,7 +59,7 @@ class FilterListArea extends ConsumerWidget {
                     children: [
                       hGap8(),
                       Divider(
-                        height: 1.0,
+                        height: C2bHeight.divider,
                         color: Theme.of(context).colorScheme.outlineVariant,
                       ),
                       hGap16(),
