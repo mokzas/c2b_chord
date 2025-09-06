@@ -16,9 +16,9 @@ The reason why a chord that felt natural in one song suddenly feels awkward in
 
 Chordra mixes your selected chords randomly, so you can build **real chord skills** instead of just pattern memorization.
 
-#### 🎯 **Choose the chords you want to master** 
+#### 🎯 **Chord Selection** 
 
-Pick the chords you find tricky or want to practice more often.
+Choose the chords you struggle with most. 
 
 ![Screenshot_1](SCREENSHOTS/screenshot_01.png)
 
@@ -28,34 +28,32 @@ Use filters like root, triad, 7th, extension, or alteration to find exactly what
 ![Screenshot_3](SCREENSHOTS/screenshot_03.png)
 ![Screenshot_4](SCREENSHOTS/screenshot_04.png)
 
+#### 🎲 **Practice Screen**  
 
-#### 🎲 **Practice with surprise and variety**  
-
-Chordra shows random chords from your selection, so you never get too comfortable — perfect for real improvement.
+Randomly displays chords from your selection on screen. Test your real skills with unpredictable progressions.
 
 ![Screenshot_5](SCREENSHOTS/screenshot_05.png)
 
-#### ⏯ **Play, Pause, or Stop**  
+#### ⏯ **Metronome**  
 
-Start your session with a metronome, pause to take a breath, or stop to restart from the beginning. Simple and smooth.
+Practice with real-time rhythm like you're performing live. Pause to stop mid-progression, or stop to restart from the beginning.
 
 ![Screenshot_6](SCREENSHOTS/screenshot_06.png)
 
-#### 🔁 **Loop your favorite progression**  
+#### 🔁 **Loop Mode for Tough Progressions**  
 
-Activate loop mode to repeat the current chord progression and build muscle memory faster.
+Repeat the current chord progression on screen. Master difficult chord combinations through focused repetition.
 
 ![Screenshot_7](SCREENSHOTS/screenshot_07.png)
 
-#### 🛠 **Customize your practice**  
+#### 🛠 **Practice Settings**  
 
-Set how many beats each chord lasts, adjust the BPM, and choose how many chords you want to see per session.
+Customize beats per chord, BPM, and number of chords displayed on screen.
 
 ![Screenshot_10](SCREENSHOTS/screenshot_10.png)
 ![Screenshot_8](SCREENSHOTS/screenshot_08.png)
 ![Screenshot_9](SCREENSHOTS/screenshot_09.png)
 
-<br>
 <br>
 
 ---
