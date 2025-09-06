@@ -14,10 +14,10 @@ class ChordSelectTabArea extends ConsumerStatefulWidget {
 }
 
 class _ChordSelectTabAreaState extends ConsumerState<ChordSelectTabArea> {
-  bool _topCheckBoxState = false;
-
   @override
   Widget build(BuildContext context) {
+    final chordListAsync = ref.watch(chordListProvider);
+
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Padding(
@@ -35,17 +35,51 @@ class _ChordSelectTabAreaState extends ConsumerState<ChordSelectTabArea> {
                 'Chords',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              trailing: Checkbox(
-                value: _topCheckBoxState,
-                onChanged: (value) {
-                  setState(() {
-                    _topCheckBoxState = value ?? false;
-                  });
-
-                  ref
+              /* chord 전체 선택 체크박스 */
+              trailing: chordListAsync.when(
+                data: (chordList) {
+                  final filteredChords = ref
                       .read(chordListProvider.notifier)
-                      .updateFilteredSelectionAll(_topCheckBoxState);
+                      .getFilteredChords(chordList);
+
+                  // 현재 filtered 되어 보여지고 있는 chordlistitem들의 체크박스 상태 계산
+                  final selectedCount =
+                      filteredChords.where((item) => item.isSelected).length;
+                  final totalCount = filteredChords.length;
+
+                  bool? checkBoxValue;
+                  if (selectedCount == 0) {
+                    checkBoxValue = false; // 모두 미선택
+                  } else if (selectedCount == totalCount) {
+                    checkBoxValue = true; // 모두 선택
+                  } else {
+                    checkBoxValue = null; // 일부 선택 (tri-state)
+                  }
+
+                  return Checkbox(
+                    value: checkBoxValue,
+                    tristate: true,
+                    onChanged: (value) {
+                      if (value == true) {
+                        // unchecked 상태에서 클릭 → 전체 체크
+                        ref
+                            .read(chordListProvider.notifier)
+                            .updateFilteredSelectionAll(true);
+                      } else {
+                        // checked 또는 tri-state에서 클릭 → 전체 uncheck
+                        ref
+                            .read(chordListProvider.notifier)
+                            .updateFilteredSelectionAll(false);
+                      }
+                    },
+                  );
                 },
+                loading:
+                    () =>
+                        Checkbox(value: false, tristate: true, onChanged: null),
+                error:
+                    (_, __) =>
+                        Checkbox(value: false, tristate: true, onChanged: null),
               ),
             ),
             Divider(height: C2bHeight.divider),
