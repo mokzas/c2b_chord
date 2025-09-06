@@ -38,6 +38,10 @@ class MainApp extends StatelessWidget {
     final textTheme = mainTextTheme(context);
     final theme = MaterialTheme(textTheme);
 
-    return MaterialApp.router(routerConfig: router(), theme: theme.light());
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router(),
+      theme: theme.light(),
+    );
   }
 }
