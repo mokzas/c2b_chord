@@ -14,19 +14,15 @@ class _PresetTabAreaState extends State<PresetTabArea> {
 
   final Map<String, List<String>> _samplePresetFolder = {
     'User': ['U1', 'U2', 'U3'],
-    '* Diatonic': [
-      'C Major Scale',
-      'C Minor Scale',
-      'D Major Scale',
-      'D Minor Scale',
-      'E♭ Major Scale',
-      'E♭ Minor Scale',
-    ],
-    '* Song': [],
-    '* Jazz Standards': [],
-    '* Rock': [],
-    '* Swing': [],
-    '* Latin': [],
+    'Major Diatonic': ['C Major Scale', 'D Major Scale', 'E♭ Major Scale'],
+    'minor Diatonic': ['C minor Scale', 'D minor Scale', 'E♭ minor Scale'],
+    'Ionian': ['C Ionian', 'D Ionian', 'E♭ Ionian'],
+    'Dorian': ['C Dorian', 'D Dorian', 'E♭ Dorian'],
+    'Phrygian': ['C Phrygian', 'D Phrygian', 'E♭ Phrygian'],
+    'Lydian': ['C Lydian', 'D Lydian', 'E♭ Lydian'],
+    'Mixolydian': ['C Mixolydian', 'D Mixolydian', 'E♭ Mixolydian'],
+    'Aeolian': ['C Aeolian', 'D Aeolian', 'E♭ Aeolian'],
+    'Locrian': ['C Locrian', 'D Locrian', 'E♭ Locrian'],
   };
 
   @override
