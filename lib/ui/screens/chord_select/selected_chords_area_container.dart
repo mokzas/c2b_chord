@@ -1,20 +1,31 @@
+import 'package:c2b_chord/model/chord_model.dart';
 import 'package:c2b_chord/providers/chord_list_provider.dart';
+import 'package:c2b_chord/providers/preset_state_provider.dart';
 import 'package:c2b_chord/providers/selected_chords_provider.dart';
 import 'package:c2b_chord/routing/routes.dart';
+import 'package:c2b_chord/ui/screens/chord_select/modal_bottom_sheet.dart';
 import 'package:c2b_chord/ui/screens/chord_select/selected_chords_area.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:c2b_chord/ui/widgets/outlined_button_small.dart';
 import 'package:c2b_chord/ui/widgets/primary_button_small.dart';
+import 'package:c2b_chord/util/show_result_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// 선택된 Chord들을 보여주는 영역
-class SelectedChordsAreaContainer extends ConsumerWidget {
+class SelectedChordsAreaContainer extends ConsumerStatefulWidget {
   const SelectedChordsAreaContainer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SelectedChordsAreaContainer> createState() =>
+      _SelectedChordsAreaContainerState();
+}
+
+class _SelectedChordsAreaContainerState
+    extends ConsumerState<SelectedChordsAreaContainer> {
+  @override
+  Widget build(BuildContext context) {
     final selectedChords = ref.watch(selectedChordsProvider);
 
     return Container(
@@ -44,10 +55,67 @@ class SelectedChordsAreaContainer extends ConsumerWidget {
                 ],
               ),
               /* 프리셋 저장 버튼 */
-              // Icon(
-              //   Icons.bookmark_add,
-              //   color: Theme.of(context).colorScheme.primary,
-              // ),
+              IconButton(
+                onPressed:
+                    selectedChords.isEmpty
+                        ? null
+                        : () {
+                          ModalBottomSheet.show(
+                            context: context,
+                            child: StatefulBuilder(
+                              builder: (context, setState) {
+                                final controller = TextEditingController();
+                                return Row(
+                                  children: [
+                                    /* 프리셋 이름 입력 필드 */
+                                    Expanded(
+                                      child: TextField(
+                                        controller: controller,
+                                        decoration: InputDecoration(
+                                          labelText: 'Preset Name',
+                                          hintText: 'e.g., My Jazz Chords',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        autofocus: true,
+                                        onSubmitted: (value) {
+                                          if (value.trim().isNotEmpty) {
+                                            _savePreset(
+                                              context,
+                                              value.trim(),
+                                              selectedChords,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    wGap8(),
+                                    /* Save 버튼 */
+                                    TextButton(
+                                      onPressed: () {
+                                        if (controller.text.trim().isNotEmpty) {
+                                          _savePreset(
+                                            context,
+                                            controller.text.trim(),
+                                            selectedChords,
+                                          );
+                                        }
+                                      },
+                                      child: Text('Save'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                icon: Icon(
+                  Icons.bookmark_add,
+                  color:
+                      selectedChords.isEmpty
+                          ? Theme.of(context).colorScheme.outline
+                          : Theme.of(context).colorScheme.primary,
+                ),
+              ),
             ],
           ),
           hGap16(),
@@ -95,6 +163,23 @@ class SelectedChordsAreaContainer extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// 프리셋 저장
+  Future<void> _savePreset(
+    BuildContext context,
+    String name,
+    List<ChordModel> selectedChords,
+  ) async {
+    await ShowResultSnackBar.showResult(
+      context,
+      () => ref
+          .read(presetStateProvider.notifier)
+          .saveUserPreset(name: name, chordList: selectedChords),
+      successMessage: 'Preset "$name" saved successfully!',
+      failureMessage: 'Failed to save preset',
+      onSuccess: () => Navigator.pop(context),
     );
   }
 }
