@@ -14,7 +14,7 @@ class PresetTabArea extends ConsumerStatefulWidget {
 }
 
 class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
-  String? _selectedPresetFolder;
+  List<String> _folderPath = []; // 폴더 경로를 리스트로 추적
 
   // final Map<String, List<String>> _samplePresetFolder = {
   //   'User': ['U1', 'U2', 'U3'],
@@ -41,26 +41,7 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
           /* Preset folder breadcrumb. ex) Preset > User > II-V-I */
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 48.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _buildBreadcrumb(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Visibility(
-                  visible: _selectedPresetFolder != null,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedPresetFolder = null;
-                      });
-                    },
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-              ],
-            ),
+            child: _buildBreadcrumb(),
           ),
           hGap4(),
           /* Preset 폴더 및 프리셋 리스트 영역 */
@@ -81,12 +62,51 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
     );
   }
 
-  String _buildBreadcrumb() {
-    if (_selectedPresetFolder == null) {
-      return 'Preset';
-    } else {
-      return 'Preset  >  $_selectedPresetFolder';
-    }
+  Widget _buildBreadcrumb() {
+    return Row(
+      children: [
+        // 루트 "Preset" 항목
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _folderPath.clear();
+            });
+          },
+          child: Text(
+            'Preset',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight:
+                  _folderPath.isEmpty ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+        // 폴더 경로의 각 항목들
+        ..._folderPath.asMap().entries.map((entry) {
+          final index = entry.key;
+          final folderName = entry.value;
+          final isLast = index == _folderPath.length - 1;
+
+          return Row(
+            children: [
+              Text('  >  ', style: Theme.of(context).textTheme.titleMedium),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _folderPath = _folderPath.take(index + 1).toList();
+                  });
+                },
+                child: Text(
+                  folderName,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: isLast ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ],
+    );
   }
 
   Widget _buildPresetContent(List<PresetModel> presets) {
@@ -98,7 +118,7 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
       groupedPresets.putIfAbsent(folderName, () => []).add(preset);
     }
 
-    if (_selectedPresetFolder == null) {
+    if (_folderPath.isEmpty) {
       // 최상위 폴더 목록 표시
       return ListView.separated(
         itemBuilder: (context, index) {
@@ -112,7 +132,7 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               setState(() {
-                _selectedPresetFolder = folderName;
+                _folderPath.add(folderName);
               });
             },
           );
@@ -123,7 +143,8 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
       );
     } else {
       // 선택된 폴더의 프리셋 목록 표시
-      final folderPresets = groupedPresets[_selectedPresetFolder] ?? [];
+      final currentFolder = _folderPath.last;
+      final folderPresets = groupedPresets[currentFolder] ?? [];
 
       return ListView.separated(
         itemBuilder: (context, index) {
