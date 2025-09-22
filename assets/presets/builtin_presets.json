@@ -1,0 +1,349 @@
+{
+    "presets": [
+        {
+            "id": "builtin-c-major-diatonic",
+            "name": "C Major Diatonic 7th Chords",
+            "type": "builtin",
+            "path": "builtin/major_diatonic",
+            "chordList": [
+                {
+                    "name": "Cmaj7",
+                    "nameAlt": [
+                        "CΔ7",
+                        "CM7"
+                    ],
+                    "root": "c",
+                    "tones": [
+                        "c",
+                        "e",
+                        "g",
+                        "b"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "Dm7",
+                    "nameAlt": [
+                        "D-7",
+                        "Dmin7"
+                    ],
+                    "root": "d",
+                    "tones": [
+                        "d",
+                        "f",
+                        "a",
+                        "c"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Em7",
+                    "nameAlt": [
+                        "E-7",
+                        "Emin7"
+                    ],
+                    "root": "e",
+                    "tones": [
+                        "e",
+                        "g",
+                        "b",
+                        "d"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Fmaj7",
+                    "nameAlt": [
+                        "FΔ7",
+                        "FM7"
+                    ],
+                    "root": "f",
+                    "tones": [
+                        "f",
+                        "a",
+                        "c",
+                        "e"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "G7",
+                    "nameAlt": [
+                        "Gdom7"
+                    ],
+                    "root": "g",
+                    "tones": [
+                        "g",
+                        "b",
+                        "d",
+                        "f"
+                    ],
+                    "qualityName": "7"
+                },
+                {
+                    "name": "Am7",
+                    "nameAlt": [
+                        "A-7",
+                        "Amin7"
+                    ],
+                    "root": "a",
+                    "tones": [
+                        "a",
+                        "c",
+                        "e",
+                        "g"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Bm7♭5",
+                    "nameAlt": [
+                        "Bø7",
+                        "Bm7b5"
+                    ],
+                    "root": "b",
+                    "tones": [
+                        "b",
+                        "d",
+                        "f",
+                        "a"
+                    ],
+                    "qualityName": "m7♭5"
+                }
+            ],
+            "createdAt": "2024-01-01T00:00:00.000Z",
+            "updatedAt": "2024-01-01T00:00:00.000Z",
+            "description": "C Major key diatonic seventh chords: Imaj7, ii7, iii7, IVmaj7, V7, vi7, viiø7"
+        },
+        {
+            "id": "builtin-g-major-diatonic",
+            "name": "G Major Diatonic 7th Chords",
+            "type": "builtin",
+            "path": "builtin/major_diatonic",
+            "chordList": [
+                {
+                    "name": "Gmaj7",
+                    "nameAlt": [
+                        "GΔ7",
+                        "GM7"
+                    ],
+                    "root": "g",
+                    "tones": [
+                        "g",
+                        "b",
+                        "d",
+                        "fS"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "Am7",
+                    "nameAlt": [
+                        "A-7",
+                        "Amin7"
+                    ],
+                    "root": "a",
+                    "tones": [
+                        "a",
+                        "c",
+                        "e",
+                        "g"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Bm7",
+                    "nameAlt": [
+                        "B-7",
+                        "Bmin7"
+                    ],
+                    "root": "b",
+                    "tones": [
+                        "b",
+                        "d",
+                        "fS",
+                        "a"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Cmaj7",
+                    "nameAlt": [
+                        "CΔ7",
+                        "CM7"
+                    ],
+                    "root": "c",
+                    "tones": [
+                        "c",
+                        "e",
+                        "g",
+                        "b"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "D7",
+                    "nameAlt": [
+                        "Ddom7"
+                    ],
+                    "root": "d",
+                    "tones": [
+                        "d",
+                        "fS",
+                        "a",
+                        "c"
+                    ],
+                    "qualityName": "7"
+                },
+                {
+                    "name": "Em7",
+                    "nameAlt": [
+                        "E-7",
+                        "Emin7"
+                    ],
+                    "root": "e",
+                    "tones": [
+                        "e",
+                        "g",
+                        "b",
+                        "d"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "F♯m7♭5",
+                    "nameAlt": [
+                        "F♯ø7",
+                        "F♯m7b5"
+                    ],
+                    "root": "fS",
+                    "tones": [
+                        "fS",
+                        "a",
+                        "c",
+                        "e"
+                    ],
+                    "qualityName": "m7♭5"
+                }
+            ],
+            "createdAt": "2024-01-01T00:00:00.000Z",
+            "updatedAt": "2024-01-01T00:00:00.000Z",
+            "description": "G Major key diatonic seventh chords: Imaj7, ii7, iii7, IVmaj7, V7, vi7, viiø7"
+        },
+        {
+            "id": "builtin-a-minor-diatonic",
+            "name": "A Minor Diatonic 7th Chords",
+            "type": "builtin",
+            "path": "builtin/minor_diatonic",
+            "chordList": [
+                {
+                    "name": "Am7",
+                    "nameAlt": [
+                        "A-7",
+                        "Amin7"
+                    ],
+                    "root": "a",
+                    "tones": [
+                        "a",
+                        "c",
+                        "e",
+                        "g"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Bm7♭5",
+                    "nameAlt": [
+                        "Bø7",
+                        "Bm7b5"
+                    ],
+                    "root": "b",
+                    "tones": [
+                        "b",
+                        "d",
+                        "f",
+                        "a"
+                    ],
+                    "qualityName": "m7♭5"
+                },
+                {
+                    "name": "Cmaj7",
+                    "nameAlt": [
+                        "CΔ7",
+                        "CM7"
+                    ],
+                    "root": "c",
+                    "tones": [
+                        "c",
+                        "e",
+                        "g",
+                        "b"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "Dm7",
+                    "nameAlt": [
+                        "D-7",
+                        "Dmin7"
+                    ],
+                    "root": "d",
+                    "tones": [
+                        "d",
+                        "f",
+                        "a",
+                        "c"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Em7",
+                    "nameAlt": [
+                        "E-7",
+                        "Emin7"
+                    ],
+                    "root": "e",
+                    "tones": [
+                        "e",
+                        "g",
+                        "b",
+                        "d"
+                    ],
+                    "qualityName": "m7"
+                },
+                {
+                    "name": "Fmaj7",
+                    "nameAlt": [
+                        "FΔ7",
+                        "FM7"
+                    ],
+                    "root": "f",
+                    "tones": [
+                        "f",
+                        "a",
+                        "c",
+                        "e"
+                    ],
+                    "qualityName": "maj7"
+                },
+                {
+                    "name": "G7",
+                    "nameAlt": [
+                        "Gdom7"
+                    ],
+                    "root": "g",
+                    "tones": [
+                        "g",
+                        "b",
+                        "d",
+                        "f"
+                    ],
+                    "qualityName": "7"
+                }
+            ],
+            "createdAt": "2024-01-01T00:00:00.000Z",
+            "updatedAt": "2024-01-01T00:00:00.000Z",
+            "description": "A Minor key diatonic seventh chords: i7, iiø7, IIImaj7, iv7, v7, VImaj7, VII7"
+        }
+    ]
+}
