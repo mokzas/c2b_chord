@@ -11,12 +11,15 @@ part 'preset_state_model.g.dart';
 /// [isLoading] 프리셋 로딩 상태
 ///
 /// [error] 에러 메시지
+///
+/// [folderPath] 현재 폴더 경로 (빈 리스트면 최상위)
 @freezed
 abstract class PresetStateModel with _$PresetStateModel {
   const factory PresetStateModel({
     @Default([]) List<PresetModel> presets,
     @Default(false) bool isLoading,
     String? error,
+    @Default([]) List<String> folderPath,
   }) = _PresetStateModel;
 
   factory PresetStateModel.fromJson(Map<String, dynamic> json) =>

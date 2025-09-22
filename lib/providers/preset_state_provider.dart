@@ -37,13 +37,9 @@ class PresetState extends _$PresetState {
 
   /// 사용자 커스텀 프리셋 저장
   ///
-  /// [preset] 저장할 프리셋 모델. 기존 프리셋을 업데이트 하는 경우 필요
+  /// [name] 프리셋 이름
   ///
-  /// [name] 프리셋 이름. 새 프리셋을 생성하는 경우 필요
-  ///
-  /// [chordList] 프리셋에 포함된 코드 리스트. 새 프리셋을 생성하는 경우 필요
-  ///
-  /// [description] 프리셋 설명.
+  /// [chordList] 프리셋에 포함된 코드 리스트
   ///
   Future<bool> saveUserPreset({
     required String name,
@@ -72,5 +68,60 @@ class PresetState extends _$PresetState {
   /// 에러 상태 설정
   void _setError(String error) {
     state = state.copyWith(isLoading: false, error: error);
+  }
+
+  /// 폴더 경로에 폴더 추가
+  void enterFolder(String folderName) {
+    state = state.copyWith(folderPath: [...state.folderPath, folderName]);
+  }
+
+  /// 폴더 경로에서 특정 인덱스까지로 이동
+  void navigateToFolder(int index) {
+    state = state.copyWith(
+      folderPath: state.folderPath.take(index + 1).toList(),
+    );
+  }
+
+  /// 최상위 폴더로 이동
+  void goToRoot() {
+    state = state.copyWith(folderPath: []);
+  }
+
+  /// 현재 폴더 경로에서 폴더명 추출
+  String _getFolderName(String path) {
+    if (path.isEmpty) return 'Root';
+    return path.split('/').last;
+  }
+
+  /// 현재 폴더에 해당하는 프리셋들만 필터링하여 반환
+  List<PresetModel> getCurrentFolderPresets() {
+    if (state.folderPath.isEmpty) {
+      // 최상위 폴더: 폴더별로 그룹화된 프리셋들
+      final Map<String, List<PresetModel>> groupedPresets = {};
+
+      for (final preset in state.presets) {
+        final folderName = _getFolderName(preset.path);
+        groupedPresets.putIfAbsent(folderName, () => []).add(preset);
+      }
+
+      return groupedPresets.keys.map((folderName) {
+        final folderPresets = groupedPresets[folderName]!;
+        return PresetModel(
+          id: folderName,
+          name: folderName,
+          type: PresetType.builtin, // 폴더는 builtin으로 처리
+          path: folderName,
+          chordList: folderPresets.expand((p) => p.chordList).toList(),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+      }).toList();
+    } else {
+      // 하위 폴더: 현재 경로에 해당하는 프리셋들
+      final currentPath = state.folderPath.join('/');
+      return state.presets
+          .where((preset) => preset.path == currentPath)
+          .toList();
+    }
   }
 }
