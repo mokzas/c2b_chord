@@ -116,8 +116,12 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
       return ListView.separated(
         itemBuilder: (context, index) {
           final preset = presets[index];
-          final folderName = preset.name;
-          final presetCount = preset.chordList.length;
+          final folderName = preset.path; // 원래 path 사용
+
+          // 폴더인 경우 실제 프리셋 개수를 계산
+          final presetCount = ref
+              .read(presetStateProvider.notifier)
+              .getPresetCountForFolder(folderName);
 
           return ListTile(
             leading: Icon(Icons.folder_outlined),
@@ -146,9 +150,18 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
               style: musicTextTheme(context).titleMedium,
             ),
             subtitle: Text('${preset.chordList.length} chords'),
-            trailing: Icon(Icons.circle_outlined),
+            trailing: Icon(
+              Icons.check,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             onTap: () {
-              // TODO: 프리셋 적용 기능
+              // chordList가 비어있지 않은 경우에만 프리셋 적용
+              if (preset.chordList.isNotEmpty) {
+                ref.read(presetStateProvider.notifier).applyPreset(preset);
+              } else {
+                // 폴더인 경우 폴더로 이동
+                ref.read(presetStateProvider.notifier).enterFolder(preset.name);
+              }
             },
           );
         },

@@ -1,6 +1,7 @@
 import 'package:c2b_chord/model/chord_model.dart';
 import 'package:c2b_chord/model/preset_model.dart';
 import 'package:c2b_chord/model/preset_state_model.dart';
+import 'package:c2b_chord/providers/chord_list_provider.dart';
 import 'package:c2b_chord/repository/preset_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -98,20 +99,23 @@ class PresetState extends _$PresetState {
     if (state.folderPath.isEmpty) {
       // 최상위 폴더: 폴더별로 그룹화된 프리셋들
       final Map<String, List<PresetModel>> groupedPresets = {};
+      final Map<String, String> folderNameToPath = {}; // 폴더명 -> 실제 path 매핑
 
       for (final preset in state.presets) {
         final folderName = _getFolderName(preset.path);
         groupedPresets.putIfAbsent(folderName, () => []).add(preset);
+        // 첫 번째 프리셋의 path를 해당 폴더의 실제 path로 저장
+        folderNameToPath[folderName] = preset.path;
       }
 
       return groupedPresets.keys.map((folderName) {
-        final folderPresets = groupedPresets[folderName]!;
+        final folderPath = folderNameToPath[folderName] ?? folderName;
         return PresetModel(
           id: folderName,
           name: folderName,
           type: PresetType.builtin, // 폴더는 builtin으로 처리
-          path: folderName,
-          chordList: folderPresets.expand((p) => p.chordList).toList(),
+          path: folderPath, // 실제 path 사용
+          chordList: [], // 폴더는 빈 chordList를 가짐
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -122,6 +126,25 @@ class PresetState extends _$PresetState {
       return state.presets
           .where((preset) => preset.path == currentPath)
           .toList();
+    }
+  }
+
+  /// 특정 폴더의 프리셋 개수를 반환
+  int getPresetCountForFolder(String folderPath) {
+    // folderPath는 실제 path (예: "builtin/major_diatonic")
+    // 해당 path와 정확히 일치하는 프리셋들을 찾기
+    final count =
+        state.presets.where((preset) => preset.path == folderPath).length;
+    print('getPresetCountForFolder: $folderPath -> $count presets');
+    return count;
+  }
+
+  /// 프리셋을 적용하여 해당 프리셋의 코드들을 선택 상태로 변경
+  ///
+  /// [preset] 적용할 프리셋 모델
+  void applyPreset(PresetModel preset) {
+    for (final chord in preset.chordList) {
+      ref.read(chordListProvider.notifier).updateSelection(chord, true);
     }
   }
 }
