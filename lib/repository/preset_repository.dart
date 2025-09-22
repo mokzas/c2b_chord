@@ -136,4 +136,37 @@ class PresetRepository {
       return [];
     }
   }
+
+  /// 사용자 프리셋을 삭제하는 함수
+  ///
+  /// [presetId] 삭제할 프리셋의 ID
+  ///
+  static Future<bool> deleteUserPreset(String presetId) async {
+    try {
+      final presetsDir = await _getPresetsDirectory();
+      final userPresetDir = Directory(
+        path.join(presetsDir.path, userPresetPath),
+      );
+
+      // User 폴더가 없으면 삭제할 프리셋이 없음
+      if (!await userPresetDir.exists()) {
+        return false;
+      }
+
+      // 프리셋 파일명 생성 (id.json)
+      final fileName = '$presetId.json';
+      final filePath = path.join(userPresetDir.path, fileName);
+      final file = File(filePath);
+
+      // 파일이 존재하면 삭제
+      if (await file.exists()) {
+        await file.delete();
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }

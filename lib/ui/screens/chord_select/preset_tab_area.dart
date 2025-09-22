@@ -143,35 +143,122 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
         itemBuilder: (context, index) {
           final preset = presets[index];
 
-          return ListTile(
-            leading: Icon(Icons.bookmark_outline),
-            title: Text(
-              preset.name,
-              style: musicTextTheme(context).titleMedium,
-            ),
-            subtitle: Text('${preset.chordList.length} chords'),
-            trailing: GestureDetector(
-              onTap: () {
-                // chordList가 비어있지 않은 경우에만 프리셋 적용
-                if (preset.chordList.isNotEmpty) {
-                  ref.read(presetStateProvider.notifier).applyPreset(preset);
+          // 사용자 프리셋인 경우에만 Dismissible로 감싸기
+          if (preset.type == PresetType.user) {
+            return Dismissible(
+              key: Key(preset.id),
+              direction: DismissDirection.endToStart, // 오른쪽에서 왼쪽으로 스와이프
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20),
+                color: Colors.red,
+                child: Icon(Icons.delete, color: Colors.white, size: 24),
+              ),
+              confirmDismiss: (direction) async {
+                // 삭제 확인 다이얼로그 표시
+                return await showDialog<bool>(
+                  context: context,
+                  builder:
+                      (context) => AlertDialog(
+                        title: Text('프리셋 삭제'),
+                        content: Text('${preset.name} 프리셋을 삭제하시겠습니까?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text('취소'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text('삭제'),
+                          ),
+                        ],
+                      ),
+                );
+              },
+              onDismissed: (direction) async {
+                // 실제 삭제 수행
+                final success = await ref
+                    .read(presetStateProvider.notifier)
+                    .deleteUserPreset(preset.id);
+
+                if (!success) {
+                  // 삭제 실패 시 스낵바 표시
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('프리셋 삭제에 실패했습니다.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
                 }
               },
-              child: Icon(
-                Icons.check,
-                color:
-                    preset.chordList.isNotEmpty
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outline,
+              child: ListTile(
+                leading: Icon(Icons.bookmark_outline),
+                title: Text(
+                  preset.name,
+                  style: musicTextTheme(context).titleMedium,
+                ),
+                subtitle: Text('${preset.chordList.length} chords'),
+                trailing: GestureDetector(
+                  onTap: () {
+                    // chordList가 비어있지 않은 경우에만 프리셋 적용
+                    if (preset.chordList.isNotEmpty) {
+                      ref
+                          .read(presetStateProvider.notifier)
+                          .applyPreset(preset);
+                    }
+                  },
+                  child: Icon(
+                    Icons.check,
+                    color:
+                        preset.chordList.isNotEmpty
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outline,
+                  ),
+                ),
+                onTap: () {
+                  // 폴더인 경우에만 폴더로 이동
+                  if (preset.chordList.isEmpty) {
+                    ref
+                        .read(presetStateProvider.notifier)
+                        .enterFolder(preset.name);
+                  }
+                },
               ),
-            ),
-            onTap: () {
-              // 폴더인 경우에만 폴더로 이동
-              if (preset.chordList.isEmpty) {
-                ref.read(presetStateProvider.notifier).enterFolder(preset.name);
-              }
-            },
-          );
+            );
+          } else {
+            // builtin 프리셋은 Dismissible 없이 일반 ListTile
+            return ListTile(
+              leading: Icon(Icons.bookmark_outline),
+              title: Text(
+                preset.name,
+                style: musicTextTheme(context).titleMedium,
+              ),
+              subtitle: Text('${preset.chordList.length} chords'),
+              trailing: GestureDetector(
+                onTap: () {
+                  // chordList가 비어있지 않은 경우에만 프리셋 적용
+                  if (preset.chordList.isNotEmpty) {
+                    ref.read(presetStateProvider.notifier).applyPreset(preset);
+                  }
+                },
+                child: Icon(
+                  Icons.check,
+                  color:
+                      preset.chordList.isNotEmpty
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.outline,
+                ),
+              ),
+              onTap: () {
+                // 폴더인 경우에만 폴더로 이동
+                if (preset.chordList.isEmpty) {
+                  ref
+                      .read(presetStateProvider.notifier)
+                      .enterFolder(preset.name);
+                }
+              },
+            );
+          }
         },
         separatorBuilder:
             (context, index) => Divider(height: C2bHeight.divider),

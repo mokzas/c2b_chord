@@ -147,4 +147,21 @@ class PresetState extends _$PresetState {
       ref.read(chordListProvider.notifier).updateSelection(chord, true);
     }
   }
+
+  /// 사용자 프리셋을 삭제
+  ///
+  /// [presetId] 삭제할 프리셋의 ID
+  ///
+  Future<bool> deleteUserPreset(String presetId) async {
+    try {
+      final success = await PresetRepository.deleteUserPreset(presetId);
+      if (success) {
+        await _loadPresets();
+      }
+      return success;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    }
+  }
 }
