@@ -2,15 +2,15 @@
     "presets": [
         {
             "id": "builtin-c-major-diatonic",
-            "name": "C Major Diatonic 7th Chords",
+            "name": "C Major Diatonic 7th",
             "type": "builtin",
             "path": "builtin/major_diatonic",
             "chordList": [
                 {
-                    "name": "Cmaj7",
+                    "name": "CM7",
                     "nameAlt": [
                         "CΔ7",
-                        "CM7"
+                        "Cmaj7"
                     ],
                     "root": "c",
                     "tones": [
@@ -19,7 +19,7 @@
                         "g",
                         "b"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "Dm7",
@@ -52,10 +52,10 @@
                     "qualityName": "m7"
                 },
                 {
-                    "name": "Fmaj7",
+                    "name": "FM7",
                     "nameAlt": [
                         "FΔ7",
-                        "FM7"
+                        "Fmaj7"
                     ],
                     "root": "f",
                     "tones": [
@@ -64,7 +64,7 @@
                         "c",
                         "e"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "G7",
@@ -117,15 +117,15 @@
         },
         {
             "id": "builtin-g-major-diatonic",
-            "name": "G Major Diatonic 7th Chords",
+            "name": "G Major Diatonic 7th",
             "type": "builtin",
             "path": "builtin/major_diatonic",
             "chordList": [
                 {
-                    "name": "Gmaj7",
+                    "name": "GM7",
                     "nameAlt": [
                         "GΔ7",
-                        "GM7"
+                        "Gmaj7"
                     ],
                     "root": "g",
                     "tones": [
@@ -134,7 +134,7 @@
                         "d",
                         "fS"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "Am7",
@@ -167,10 +167,10 @@
                     "qualityName": "m7"
                 },
                 {
-                    "name": "Cmaj7",
+                    "name": "CM7",
                     "nameAlt": [
                         "CΔ7",
-                        "CM7"
+                        "Cmaj7"
                     ],
                     "root": "c",
                     "tones": [
@@ -179,7 +179,7 @@
                         "g",
                         "b"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "D7",
@@ -232,7 +232,7 @@
         },
         {
             "id": "builtin-a-minor-diatonic",
-            "name": "A Minor Diatonic 7th Chords",
+            "name": "A Minor Diatonic 7th",
             "type": "builtin",
             "path": "builtin/minor_diatonic",
             "chordList": [
@@ -267,10 +267,10 @@
                     "qualityName": "m7♭5"
                 },
                 {
-                    "name": "Cmaj7",
+                    "name": "CM7",
                     "nameAlt": [
                         "CΔ7",
-                        "CM7"
+                        "Cmaj7"
                     ],
                     "root": "c",
                     "tones": [
@@ -279,7 +279,7 @@
                         "g",
                         "b"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "Dm7",
@@ -312,10 +312,10 @@
                     "qualityName": "m7"
                 },
                 {
-                    "name": "Fmaj7",
+                    "name": "FM7",
                     "nameAlt": [
                         "FΔ7",
-                        "FM7"
+                        "Fmaj7"
                     ],
                     "root": "f",
                     "tones": [
@@ -324,7 +324,7 @@
                         "c",
                         "e"
                     ],
-                    "qualityName": "maj7"
+                    "qualityName": "M7"
                 },
                 {
                     "name": "G7",
