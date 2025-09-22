@@ -150,16 +150,24 @@ class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
               style: musicTextTheme(context).titleMedium,
             ),
             subtitle: Text('${preset.chordList.length} chords'),
-            trailing: Icon(
-              Icons.check,
-              color: Theme.of(context).colorScheme.primary,
+            trailing: GestureDetector(
+              onTap: () {
+                // chordList가 비어있지 않은 경우에만 프리셋 적용
+                if (preset.chordList.isNotEmpty) {
+                  ref.read(presetStateProvider.notifier).applyPreset(preset);
+                }
+              },
+              child: Icon(
+                Icons.check,
+                color:
+                    preset.chordList.isNotEmpty
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.outline,
+              ),
             ),
             onTap: () {
-              // chordList가 비어있지 않은 경우에만 프리셋 적용
-              if (preset.chordList.isNotEmpty) {
-                ref.read(presetStateProvider.notifier).applyPreset(preset);
-              } else {
-                // 폴더인 경우 폴더로 이동
+              // 폴더인 경우에만 폴더로 이동
+              if (preset.chordList.isEmpty) {
                 ref.read(presetStateProvider.notifier).enterFolder(preset.name);
               }
             },
