@@ -18,6 +18,7 @@ class ScoreArea extends ConsumerWidget {
     final displayChordCount = playState.displayChordCount;
     final reGenerateCount = playState.reGenerateCount;
     final isRepeat = playState.isRepeat;
+    final isShowNoteOn = playState.isShowNoteOn;
 
     final randomChords = ref.watch(randomChordsProvider);
 
@@ -43,12 +44,13 @@ class ScoreArea extends ConsumerWidget {
                         children: [
                           for (int i = 0; i < 4; ++i)
                             BarWidget(
-                              chord: randomChords[i],
                               isActive:
                                   isRepeat
                                       ? currentChordIndex == i
                                       : currentChordIndex % reGenerateCount ==
                                           i,
+                              isShowNoteOn: isShowNoteOn,
+                              chord: randomChords[i],
                             ),
                         ],
                       ),
@@ -61,12 +63,13 @@ class ScoreArea extends ConsumerWidget {
                             Opacity(
                               opacity: isRepeat ? 1.0 : 0.5,
                               child: BarWidget(
-                                chord: randomChords[i],
                                 isActive:
                                     isRepeat
                                         ? currentChordIndex == i
                                         : currentChordIndex % reGenerateCount ==
                                             i,
+                                isShowNoteOn: isShowNoteOn,
+                                chord: randomChords[i],
                               ),
                             ),
                         ],
@@ -81,11 +84,12 @@ class ScoreArea extends ConsumerWidget {
                     children: [
                       for (int i = 0; i < displayChordCount; ++i)
                         BarWidget(
-                          chord: randomChords[i],
                           isActive:
                               isRepeat
                                   ? currentChordIndex == i
                                   : currentChordIndex % reGenerateCount == i,
+                          isShowNoteOn: isShowNoteOn,
+                          chord: randomChords[i],
                         ),
                     ],
                   ),
