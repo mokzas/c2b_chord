@@ -1,8 +1,11 @@
+import 'package:c2b_chord/providers/piano_state_provider.dart';
 import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/ui/screens/play/beat_indicator_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_setting_area.dart';
+import 'package:c2b_chord/ui/screens/play/quiz_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/score_area.dart';
+import 'package:c2b_chord/ui/screens/play/volume_slider_widget.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +39,13 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     final currentTick = playState.currentTick;
     final timeSignature = playState.timeSignature;
 
+    // 코드가 변경될 때 피아노 키 리셋
+    ref.listen(playStateProvider, (previous, next) {
+      if (previous?.currentChordIndex != next.currentChordIndex) {
+        ref.read(pianoStateProvider.notifier).clearAllKeys();
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -55,39 +65,28 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(width: 72.0),
+                              SizedBox(width: C2bMargin.extraLarge),
                               Expanded(
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    /* Volume Slider */
-                                    SizedBox(
-                                      width: 134.0,
-                                      child: Slider(
-                                        value:
-                                            ref
-                                                .watch(playStateProvider)
-                                                .volume /
-                                            100.0,
-                                        onChanged: (newValue) {
-                                          ref
-                                              .read(playStateProvider.notifier)
-                                              .setVolume(
-                                                (newValue * 100).round(),
-                                              );
-                                        },
-                                      ),
+                                    /* 왼쪽 그룹: Volume Slider, QuizControlArea */
+                                    Row(
+                                      children: [
+                                        const VolumeSliderWidget(),
+                                        const QuizControlArea(),
+                                      ],
                                     ),
-                                    /* Beat, BPM, ChordCount 설정 */
+                                    /* 중앙: PlaySettingArea */
                                     const PlaySettingArea(),
-                                    /* stop, play/pause, repeat, shuffle */
+                                    /* 오른쪽: PlayControlArea */
                                     const PlayControlArea(),
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 72.0),
+                              SizedBox(width: C2bMargin.extraLarge),
                             ],
                           ),
                           hGap8(),
@@ -105,7 +104,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           final playState = ref.read(
                             playStateProvider.notifier,
                           );
+                          final pianoState = ref.read(
+                            pianoStateProvider.notifier,
+                          );
                           playState.stop();
+                          pianoState.clearAllKeys(); // 피아노 키 리셋
                           context.pop();
                         },
                       ),
