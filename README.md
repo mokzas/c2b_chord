@@ -16,43 +16,46 @@ The reason why a chord that felt natural in one song suddenly feels awkward in
 
 Chordra mixes your selected chords randomly, so you can build **real chord skills** instead of just pattern memorization.
 
-#### 🎯 **Chord Selection** 
+![Screenshot_6](SCREENSHOTS/screenshot_06.png)
+![Screenshot_7](SCREENSHOTS/screenshot_07.png)
+![Screenshot_9](SCREENSHOTS/screenshot_09.png)
+
+#### 🎯 **Find the chords you need** 
 
 Choose the chords you struggle with most. 
 
 ![Screenshot_1](SCREENSHOTS/screenshot_01.png)
 
-Use filters like root, triad, 7th, extension, or alteration to find exactly what you need.
+Quickly select the chords you want to work on with smart filters for root, triad, 7th, extensions, and alt/add.
 
 ![Screenshot_2](SCREENSHOTS/screenshot_02.png)
-![Screenshot_3](SCREENSHOTS/screenshot_03.png)
-![Screenshot_4](SCREENSHOTS/screenshot_04.png)
 
-#### 🎲 **Practice Screen**  
+#### 🎲 **Save your favorites**  
 
-Randomly displays chords from your selection on screen. Test your real skills with unpredictable progressions.
+Create your own chord presets for tomorrow’s practice.
 
 ![Screenshot_5](SCREENSHOTS/screenshot_05.png)
 
-#### ⏯ **Metronome**  
+Or start with built-in major and minor diatonic sets.
 
-Practice with real-time rhythm like you're performing live. Pause to stop mid-progression, or stop to restart from the beginning.
+![Screenshot_3](SCREENSHOTS/screenshot_03.png)
+![Screenshot_4](SCREENSHOTS/screenshot_04.png)
 
-![Screenshot_6](SCREENSHOTS/screenshot_06.png)
+#### ⏯ **Learn on the go**  
+
+No piano around? Use the virtual piano quiz mode to test your chord tone knowledge—perfect for the bus, subway, or anywhere.
+
+![Screenshot_10](SCREENSHOTS/screenshot_10.png)
 
 #### 🔁 **Loop Mode for Tough Progressions**  
 
-Repeat the current chord progression on screen. Master difficult chord combinations through focused repetition.
-
-![Screenshot_7](SCREENSHOTS/screenshot_07.png)
+Loop and repeat any chord progression until it feels natural and effortless.
 
 #### 🛠 **Practice Settings**  
 
 Customize beats per chord, BPM, and number of chords displayed on screen.
 
-![Screenshot_10](SCREENSHOTS/screenshot_10.png)
 ![Screenshot_8](SCREENSHOTS/screenshot_08.png)
-![Screenshot_9](SCREENSHOTS/screenshot_09.png)
 
 <br>
 
@@ -61,6 +64,13 @@ Customize beats per chord, BPM, and number of chords displayed on screen.
 <br>
 
 ## 📦 Changelog
+
+### [v1.1.0] - 2025-09-23
+
+- Preset feature added: Save and load selected chords as presets
+- Built-in presets: Collections of major and minor diatonic chords
+- Quiz mode added: A chord-tone guessing game with a virtual piano
+- Chord tones display: Now shows chord tones beneath each chord
 
 ### [v1.0.1] - 2025-09-06
 

@@ -27,6 +27,8 @@ classDiagram
         isFirstTickPlayed: bool = false
         isRepeat: bool = false
         isCountDown: bool = false
+        isShowNoteOn: bool = false
+        isPianoQuizOn: bool = false
         bpm: int = 120
         volume: int = 50
         timeSignature: int = 4
@@ -35,15 +37,34 @@ classDiagram
         reGenerateCount: int = 4
         currentChordIndex: int = 0
     }
+    class PianoStateModel{
+        pressedKeys: Set[int]
+    }
+    class PresetModel{
+        id: String
+        name: String
+        type: PresetType
+        path: String
+        chordList: List[ChordModel]
+        createdAt: DateTime
+        updatedAt: DateTime
+    }
+    class PresetStateModel{
+        presets,: List[PresetModel] = []
+        isLoading,: bool = false
+        folderPath,: List[String] = []
+        error: String?
+    }
+    
 
 %% Providers
-    class selectedChordsProvider{
+    class SelectedChordsProvider{
         exposes: List[ChordModel]
     }
     class RandomChordsProvider{
         exposes: List~String~
     }
-    class filteredChordsProvider{
+    class FilteredChordsProvider{
         exposes: List~ChordListItemModel~
     }
     class FilterMapProvider{
@@ -52,7 +73,7 @@ classDiagram
     class PlayStateProvider{
         exposes: PlayStateModel
     }
-    class qualityProvider{
+    class QualityProvider{
         exposes: Future~List~QualityModel~~
     }
     class ChordListProvider{
@@ -61,12 +82,23 @@ classDiagram
     class DeviceIdProvider{
         exposes: FutureOr~String~
     }
+    class PianoStateProvider{
+        exposes: PianoStateModel
+    }
+    class PresetStateProvider{
+        exposes: Future~PresetStateModel~
+    }
+    
 
 %% Relationships
     ChordListItemModel *-- ChordModel
-    selectedChordsProvider ..> ChordModel
-    filteredChordsProvider ..> ChordListItemModel
+    SelectedChordsProvider ..> ChordModel
+    FilteredChordsProvider ..> ChordListItemModel
     FilterMapProvider ..> FilterListItemModel
     PlayStateProvider ..> PlayStateModel
-    qualityProvider ..> QualityModel
+    QualityProvider ..> QualityModel
     ChordListProvider ..> ChordListItemModel
+    PianoStateProvider ..> PianoStateModel
+    PresetStateProvider ..> PresetStateModel
+    PresetModel *-- ChordModel
+    PresetStateModel *-- PresetModel
