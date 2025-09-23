@@ -126,7 +126,13 @@ class ChordList extends _$ChordList {
   }
 
   /// 유저가 선택한 필터 조건에 맞는 코드들의 리스트를 반환하는 함수
+  /// 전체 코드 리스트에서 유저가 선택한 필터 조건에 맞는 코드들을 필터링하여 반환
   /// 변수명의 'selected'를 'slctd'로 줄여서 사용.
+  ///
+  /// [chordList] 전체 코드 리스트
+  ///
+  /// 반환값: 필터링된 코드 리스트
+  ///
   List<ChordListItemModel> getFilteredChords(
     List<ChordListItemModel> chordList,
   ) {

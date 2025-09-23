@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 /// [onPressed] 버튼 클릭 시 실행될 콜백 함수
 /// [isActive] 버튼이 활성 상태인지 여부 (색상 변경용)
 /// [isEnabled] 버튼이 비활성화되어야 하는지 여부
-class PlayControlButtonWidget extends StatelessWidget {
-  const PlayControlButtonWidget({
+class QuizControlButtonWidget extends StatelessWidget {
+  const QuizControlButtonWidget({
     super.key,
     required this.icon,
     required this.onPressed,
@@ -26,7 +26,7 @@ class PlayControlButtonWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      width: 48.0,
+      width: 40.0,
       height: 40.0,
       decoration: BoxDecoration(
         color:

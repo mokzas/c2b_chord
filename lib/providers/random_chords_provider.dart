@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:c2b_chord/model/chord_model.dart';
 import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/providers/selected_chords_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,17 +13,17 @@ part 'random_chords_provider.g.dart';
 @riverpod
 class RandomChords extends _$RandomChords {
   @override
-  List<String> build() {
+  List<ChordModel> build() {
     final selectedChords = ref.watch(selectedChordsProvider);
     if (selectedChords.isEmpty) return [];
 
     final displayChordCount = ref.read(playStateProvider).displayChordCount;
     final random = math.Random();
-    final randomChords = <String>[];
+    final randomChords = <ChordModel>[];
 
     for (int i = 0; i < displayChordCount; i++) {
       final index = random.nextInt(selectedChords.length);
-      randomChords.add(selectedChords[index].name);
+      randomChords.add(selectedChords[index]);
     }
 
     return randomChords;
@@ -38,20 +39,20 @@ class RandomChords extends _$RandomChords {
   /// 아직 연주되지 않은 chord들을 앞으로 당기고, 연주된 chord 수만큼 새로운 랜덤
   /// Chord 생성
   void reGeneratePart() {
-    final selectedChords = ref.watch(selectedChordsProvider);
+    final selectedChords = ref.read(selectedChordsProvider);
     if (selectedChords.isEmpty) return;
 
     final displayChordCount = ref.read(playStateProvider).displayChordCount;
     final reGenerateCount = ref.read(playStateProvider).reGenerateCount;
     final random = math.Random();
-    final randomChords = <String>[];
+    final randomChords = <ChordModel>[];
 
     for (int i = reGenerateCount; i < displayChordCount; i++) {
       randomChords.add(state[i]);
     }
     for (int i = 0; i < reGenerateCount; i++) {
       final index = random.nextInt(selectedChords.length);
-      randomChords.add(selectedChords[index].name);
+      randomChords.add(selectedChords[index]);
     }
 
     state = randomChords;

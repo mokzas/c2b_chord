@@ -1,119 +1,269 @@
+import 'package:c2b_chord/model/preset_model.dart';
+import 'package:c2b_chord/providers/preset_state_provider.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 프리셋 탭 영역
-class PresetTabArea extends StatefulWidget {
+class PresetTabArea extends ConsumerStatefulWidget {
   const PresetTabArea({super.key});
 
   @override
-  State<PresetTabArea> createState() => _PresetTabAreaState();
+  ConsumerState<PresetTabArea> createState() => _PresetTabAreaState();
 }
 
-class _PresetTabAreaState extends State<PresetTabArea> {
-  String? _selectedPresetFolder;
-
-  final Map<String, List<String>> _samplePresetFolder = {
-    'User': ['U1', 'U2', 'U3'],
-    '* Diatonic': [
-      'C Major Scale',
-      'C Minor Scale',
-      'D Major Scale',
-      'D Minor Scale',
-      'E♭ Major Scale',
-      'E♭ Minor Scale',
-    ],
-    '* Song': [],
-    '* Jazz Standards': [],
-    '* Rock': [],
-    '* Swing': [],
-    '* Latin': [],
-  };
+class _PresetTabAreaState extends ConsumerState<PresetTabArea> {
+  // final Map<String, List<String>> _samplePresetFolder = {
+  //   'User': ['U1', 'U2', 'U3'],
+  //   'Major Diatonic': ['C Major Scale', 'D Major Scale', 'E♭ Major Scale'],
+  //   'minor Diatonic': ['C minor Scale', 'D minor Scale', 'E♭ minor Scale'],
+  //   'Ionian': ['C Ionian', 'D Ionian', 'E♭ Ionian'],
+  //   'Dorian': ['C Dorian', 'D Dorian', 'E♭ Dorian'],
+  //   'Phrygian': ['C Phrygian', 'D Phrygian', 'E♭ Phrygian'],
+  //   'Lydian': ['C Lydian', 'D Lydian', 'E♭ Lydian'],
+  //   'Mixolydian': ['C Mixolydian', 'D Mixolydian', 'E♭ Mixolydian'],
+  //   'Aeolian': ['C Aeolian', 'D Aeolian', 'E♭ Aeolian'],
+  //   'Locrian': ['C Locrian', 'D Locrian', 'E♭ Locrian'],
+  // };
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: C2bPadding.largeContainer),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            /* Preset folder breadcrumb. ex) Preset > User > II-V-I */
-            ConstrainedBox(
-              constraints: BoxConstraints(minHeight: 48.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _selectedPresetFolder == null
-                        ? 'Preset'
-                        : 'Preset  >  $_selectedPresetFolder',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Visibility(
-                    visible: _selectedPresetFolder != null,
-                    child: GestureDetector(
-                      onTap:
-                          _selectedPresetFolder == null
-                              ? null
-                              : () {
-                                setState(() {
-                                  _selectedPresetFolder = null;
-                                });
-                              },
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            hGap4(),
-            /* Preset 폴더 및 프리셋 리스트 영역 */
-            Expanded(
-              child:
-                  _selectedPresetFolder == null
-                      ? ListView.separated(
-                        itemBuilder:
-                            (context, index) => ListTile(
-                              leading: Icon(Icons.folder_outlined),
-                              title: Text(
-                                _samplePresetFolder.keys.elementAt(index),
-                              ),
-                              trailing: Icon(Icons.arrow_forward_ios),
-                              onTap: () {
-                                setState(() {
-                                  _selectedPresetFolder = _samplePresetFolder
-                                      .keys
-                                      .elementAt(index);
-                                });
-                              },
-                            ),
-                        separatorBuilder:
-                            (context, index) =>
-                                Divider(height: C2bHeight.divider),
-                        itemCount: _samplePresetFolder.length,
-                      )
-                      : ListView.separated(
-                        itemBuilder:
-                            (context, index) => ListTile(
-                              leading: Icon(Icons.bookmark_outline),
-                              title: Text(
-                                _samplePresetFolder[_selectedPresetFolder]![index],
-                                style: musicTextTheme(context).titleMedium,
-                              ),
-                              trailing: Icon(Icons.circle_outlined),
-                              onTap: () {},
-                            ),
-                        separatorBuilder:
-                            (context, index) =>
-                                Divider(height: C2bHeight.divider),
-                        itemCount:
-                            _samplePresetFolder[_selectedPresetFolder]!.length,
+    final presetState = ref.watch(presetStateProvider);
+    final folderPath = presetState.folderPath;
+    final presets =
+        ref.read(presetStateProvider.notifier).getCurrentFolderPresets();
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: C2bPadding.largeContainer),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          /* Preset folder breadcrumb. ex) Preset > User > II-V-I */
+          ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 48.0),
+            child: _buildBreadcrumb(folderPath),
+          ),
+          hGap4(),
+          /* Preset 폴더 및 프리셋 리스트 영역 */
+          Expanded(
+            child:
+                presetState.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : presetState.error != null
+                    ? Center(
+                      child: Text(
+                        'Error loading presets: ${presetState.error}',
                       ),
-            ),
-          ],
-        ),
+                    )
+                    : _buildPresetContent(presets, folderPath),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildBreadcrumb(List<String> folderPath) {
+    return Row(
+      children: [
+        // 루트 "Preset" 항목
+        GestureDetector(
+          onTap: () {
+            ref.read(presetStateProvider.notifier).goToRoot();
+          },
+          child: Text(
+            'Preset',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight:
+                  folderPath.isEmpty ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+        // 폴더 경로의 각 항목들
+        ...folderPath.asMap().entries.map((entry) {
+          final index = entry.key;
+          final folderName = entry.value;
+          final isLast = index == folderPath.length - 1;
+
+          return Row(
+            children: [
+              Text('  >  ', style: Theme.of(context).textTheme.titleMedium),
+              GestureDetector(
+                onTap: () {
+                  ref
+                      .read(presetStateProvider.notifier)
+                      .navigateToFolder(index);
+                },
+                child: Text(
+                  folderName,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: isLast ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget _buildPresetContent(
+    List<PresetModel> presets,
+    List<String> folderPath,
+  ) {
+    if (folderPath.isEmpty) {
+      // 최상위 폴더 목록 표시
+      return ListView.separated(
+        itemBuilder: (context, index) {
+          final preset = presets[index];
+          final folderName = preset.path; // 원래 path 사용
+
+          // 폴더인 경우 실제 프리셋 개수를 계산
+          final presetCount = ref
+              .read(presetStateProvider.notifier)
+              .getPresetCountForFolder(folderName);
+
+          return ListTile(
+            leading: Icon(Icons.folder_outlined),
+            title: Text(folderName),
+            subtitle: Text('$presetCount presets'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              ref.read(presetStateProvider.notifier).enterFolder(folderName);
+            },
+          );
+        },
+        separatorBuilder:
+            (context, index) => Divider(height: C2bHeight.divider),
+        itemCount: presets.length,
+      );
+    } else {
+      // 선택된 폴더의 프리셋 목록 표시
+      return ListView.separated(
+        itemBuilder: (context, index) {
+          final preset = presets[index];
+
+          // 사용자 프리셋인 경우에만 Dismissible로 감싸기
+          if (preset.type == PresetType.user) {
+            return Dismissible(
+              key: Key(preset.id),
+              direction: DismissDirection.endToStart, // 오른쪽에서 왼쪽으로 스와이프
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20),
+                color: Colors.red,
+                child: Icon(Icons.delete, color: Colors.white, size: 24),
+              ),
+              confirmDismiss: (direction) async {
+                // 삭제 확인 다이얼로그 표시
+                return await showDialog<bool>(
+                  context: context,
+                  builder:
+                      (context) => AlertDialog(
+                        title: Text('프리셋 삭제'),
+                        content: Text('${preset.name} 프리셋을 삭제하시겠습니까?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text('취소'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text('삭제'),
+                          ),
+                        ],
+                      ),
+                );
+              },
+              onDismissed: (direction) async {
+                // 실제 삭제 수행
+                final success = await ref
+                    .read(presetStateProvider.notifier)
+                    .deleteUserPreset(preset.id);
+
+                if (!success) {
+                  // 삭제 실패 시 스낵바 표시
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('프리셋 삭제에 실패했습니다.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              child: ListTile(
+                leading: Icon(Icons.bookmark_outline),
+                title: Text(
+                  preset.name,
+                  style: musicTextTheme(context).titleMedium,
+                ),
+                subtitle: Text('${preset.chordList.length} chords'),
+                trailing: GestureDetector(
+                  onTap: () {
+                    // chordList가 비어있지 않은 경우에만 프리셋 적용
+                    if (preset.chordList.isNotEmpty) {
+                      ref
+                          .read(presetStateProvider.notifier)
+                          .applyPreset(preset);
+                    }
+                  },
+                  child: Icon(
+                    Icons.check,
+                    color:
+                        preset.chordList.isNotEmpty
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outline,
+                  ),
+                ),
+                onTap: () {
+                  // 폴더인 경우에만 폴더로 이동
+                  if (preset.chordList.isEmpty) {
+                    ref
+                        .read(presetStateProvider.notifier)
+                        .enterFolder(preset.name);
+                  }
+                },
+              ),
+            );
+          } else {
+            // builtin 프리셋은 Dismissible 없이 일반 ListTile
+            return ListTile(
+              leading: Icon(Icons.bookmark_outline),
+              title: Text(
+                preset.name,
+                style: musicTextTheme(context).titleMedium,
+              ),
+              subtitle: Text('${preset.chordList.length} chords'),
+              trailing: GestureDetector(
+                onTap: () {
+                  // chordList가 비어있지 않은 경우에만 프리셋 적용
+                  if (preset.chordList.isNotEmpty) {
+                    ref.read(presetStateProvider.notifier).applyPreset(preset);
+                  }
+                },
+                child: Icon(
+                  Icons.check,
+                  color:
+                      preset.chordList.isNotEmpty
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.outline,
+                ),
+              ),
+              onTap: () {
+                // 폴더인 경우에만 폴더로 이동
+                if (preset.chordList.isEmpty) {
+                  ref
+                      .read(presetStateProvider.notifier)
+                      .enterFolder(preset.name);
+                }
+              },
+            );
+          }
+        },
+        separatorBuilder:
+            (context, index) => Divider(height: C2bHeight.divider),
+        itemCount: presets.length,
+      );
+    }
   }
 }
