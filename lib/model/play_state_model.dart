@@ -7,6 +7,16 @@ part 'play_state_model.g.dart';
 ///
 /// [isPlaying] 메트로놈 재생 여부.
 ///
+/// [isFirstTickPlayed] FirstTick(Play 버튼 누른 후 첫번째 Tick)이 호출되었는지 여부.
+///
+/// [isRepeat] 반복 여부.
+///
+/// [isCountDown] 카운트 다운 여부.
+///
+/// [isShowNoteOn] 코드 구성음 보여주기 여부.
+///
+/// [isPianoQuizOn] 가상피아노 퀴즈모드 여부.
+///
 /// [bpm] 메트로놈 속도.
 ///
 /// [volume] 메트로놈 볼륨. (0 ~ 100)
@@ -31,6 +41,8 @@ abstract class PlayStateModel with _$PlayStateModel {
     @Default(false) bool isFirstTickPlayed,
     @Default(false) bool isRepeat,
     @Default(false) bool isCountDown,
+    @Default(false) bool isShowNoteOn,
+    @Default(false) bool isPianoQuizOn,
     @Default(120) int bpm,
     @Default(50) int volume,
     @Default(4) int timeSignature,

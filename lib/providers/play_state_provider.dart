@@ -119,4 +119,16 @@ class PlayState extends _$PlayState {
   void toggleRepeat() {
     state = state.copyWith(isRepeat: !state.isRepeat, currentChordIndex: 0);
   }
+
+  /// 코드 구성음 보여주기를 토글하는 함수
+  void toggleShowNote() {
+    state = state.copyWith(isShowNoteOn: !state.isShowNoteOn);
+  }
+
+  /// 가상피아노 퀴즈모드를 토글하는 함수
+  /// 반복 모드 ON 시 displayChordCount를 2로 변경
+  /// 반복 모드 OFF 시 displayChordCount를 8로 값으로 변경
+  void togglePianoQuiz() {
+    state = state.copyWith(isPianoQuizOn: !state.isPianoQuizOn);
+  }
 }

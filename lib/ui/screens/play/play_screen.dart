@@ -2,6 +2,7 @@ import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/ui/screens/play/beat_indicator_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_setting_area.dart';
+import 'package:c2b_chord/ui/screens/play/quiz_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/score_area.dart';
 import 'package:c2b_chord/ui/screens/play/volume_slider_widget.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
@@ -56,23 +57,28 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(width: 72.0),
+                              SizedBox(width: C2bMargin.extraLarge),
                               Expanded(
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    /* Volume Slider */
-                                    const VolumeSliderWidget(),
-                                    /* Beat, BPM, ChordCount 설정 */
+                                    /* 왼쪽 그룹: Volume Slider, QuizControlArea */
+                                    Row(
+                                      children: [
+                                        const VolumeSliderWidget(),
+                                        const QuizControlArea(),
+                                      ],
+                                    ),
+                                    /* 중앙: PlaySettingArea */
                                     const PlaySettingArea(),
-                                    /* stop, play/pause, repeat, shuffle */
+                                    /* 오른쪽: PlayControlArea */
                                     const PlayControlArea(),
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 72.0),
+                              SizedBox(width: C2bMargin.extraLarge),
                             ],
                           ),
                           hGap8(),
