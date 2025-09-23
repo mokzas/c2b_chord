@@ -129,6 +129,10 @@ class PlayState extends _$PlayState {
   /// 반복 모드 ON 시 displayChordCount를 2로 변경
   /// 반복 모드 OFF 시 displayChordCount를 8로 값으로 변경
   void togglePianoQuiz() {
-    state = state.copyWith(isPianoQuizOn: !state.isPianoQuizOn);
+    if (state.isPianoQuizOn) {
+      state = state.copyWith(isPianoQuizOn: false, displayChordCount: 8);
+    } else {
+      state = state.copyWith(isPianoQuizOn: true, displayChordCount: 2);
+    }
   }
 }
