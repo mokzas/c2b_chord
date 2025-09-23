@@ -35,6 +35,9 @@ jobs:
       # install dependencies
       - name: install dependencies
         run: flutter pub get
+      # generate code
+      - name: generate code
+        run: dart run build_runner build --delete-conflicting-outputs
       # setup keystore for android build
       - name: Decode Keystore
         run: |
