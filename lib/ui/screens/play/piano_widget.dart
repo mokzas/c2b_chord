@@ -1,6 +1,7 @@
 // Reference
 // https://rodydavis.com/posts/making-a-piano/
 
+import 'package:c2b_chord/providers/piano_state_provider.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:tonic/tonic.dart';
@@ -21,7 +22,6 @@ class PianoWidget extends ConsumerStatefulWidget {
 
 class _PianoWidgetState extends ConsumerState<PianoWidget> {
   final bool _showLabels = true;
-  final Map<int, bool> _pianoStates = {};
   final int _octaveCount = 3; // 3옥타브로 설정
 
   /// 건반 한개를 그리는 함수.
@@ -34,6 +34,8 @@ class _PianoWidgetState extends ConsumerState<PianoWidget> {
   /// [keyWidth]는 건반의 너비.
   Widget _buildKey(int midi, bool accidental, double keyWidth) {
     final pitchName = Pitch.fromMidiNumber(midi).toString();
+    final pianoState = ref.watch(pianoStateProvider);
+    final isPressed = pianoState.isKeyPressed(midi);
 
     final pianoKey = InkWell(
       borderRadius: borderRadius as BorderRadius,
@@ -43,7 +45,7 @@ class _PianoWidgetState extends ConsumerState<PianoWidget> {
             decoration: BoxDecoration(
               borderRadius: borderRadius,
               color:
-                  (_pianoStates[midi] ?? false)
+                  isPressed
                       ? Theme.of(context).colorScheme.primary
                       : accidental
                       ? Colors.black
@@ -69,7 +71,7 @@ class _PianoWidgetState extends ConsumerState<PianoWidget> {
           ),
         ],
       ),
-      onTap: () => _togglePianoState(midi),
+      onTap: () => ref.read(pianoStateProvider.notifier).toggleKey(midi),
     );
 
     if (accidental) {
@@ -91,12 +93,6 @@ class _PianoWidgetState extends ConsumerState<PianoWidget> {
         child: pianoKey,
       );
     }
-  }
-
-  void _togglePianoState(int midi) {
-    setState(() {
-      _pianoStates[midi] = !(_pianoStates[midi] ?? false);
-    });
   }
 
   @override
