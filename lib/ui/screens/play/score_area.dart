@@ -2,6 +2,7 @@ import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/providers/random_chords_provider.dart';
 import 'package:c2b_chord/ui/screens/play/bar_widget.dart';
 import 'package:c2b_chord/ui/screens/play/piano_widget.dart';
+import 'package:c2b_chord/ui/screens/play/selected_notes_widget.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,11 +87,11 @@ class ScoreArea extends ConsumerWidget {
                       ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // 윗줄: chord 두개를 오른쪽 반에 spaceAround로 정렬
+                          // 윗줄: 왼쪽에 선택된 노트들, 오른쪽에 chord 두개
                           Row(
                             children: [
-                              // 왼쪽 반 부분 (빈 공간)
-                              Expanded(child: SizedBox()),
+                              // 왼쪽 반 부분: 선택된 노트들 표시
+                              Expanded(child: SelectedNotesWidget()),
                               // 오른쪽 반 부분의 윗줄에 spaceAround로 정렬
                               Expanded(
                                 child: Row(

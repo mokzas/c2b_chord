@@ -23,11 +23,6 @@ class PianoStateNotifier extends StateNotifier<PianoStateModel> {
     state = state.copyWith(pressedKeys: newPressedKeys);
   }
 
-  /// 특정 건반이 눌려있는지 확인
-  bool isKeyPressed(int midiNumber) {
-    return state.pressedKeys.contains(midiNumber);
-  }
-
   /// 모든 건반을 해제
   void clearAllKeys() {
     state = state.copyWith(pressedKeys: {});

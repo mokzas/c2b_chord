@@ -14,3 +14,11 @@ abstract class PianoStateModel with _$PianoStateModel {
   factory PianoStateModel.fromJson(Map<String, dynamic> json) =>
       _$PianoStateModelFromJson(json);
 }
+
+/// PianoStateModel의 확장 메서드들
+extension PianoStateModelExtension on PianoStateModel {
+  /// 특정 건반이 눌려있는지 확인
+  bool isKeyPressed(int midiNumber) {
+    return pressedKeys.contains(midiNumber);
+  }
+}

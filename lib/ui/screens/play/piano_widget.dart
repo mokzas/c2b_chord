@@ -1,8 +1,8 @@
 // Reference
 // https://rodydavis.com/posts/making-a-piano/
 
+import 'package:c2b_chord/model/piano_state_model.dart';
 import 'package:c2b_chord/providers/piano_state_provider.dart';
-import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:tonic/tonic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
