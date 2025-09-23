@@ -3,6 +3,7 @@ import 'package:c2b_chord/ui/screens/play/beat_indicator_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_setting_area.dart';
 import 'package:c2b_chord/ui/screens/play/score_area.dart';
+import 'package:c2b_chord/ui/screens/play/volume_slider_widget.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,23 +64,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     /* Volume Slider */
-                                    SizedBox(
-                                      width: 134.0,
-                                      child: Slider(
-                                        value:
-                                            ref
-                                                .watch(playStateProvider)
-                                                .volume /
-                                            100.0,
-                                        onChanged: (newValue) {
-                                          ref
-                                              .read(playStateProvider.notifier)
-                                              .setVolume(
-                                                (newValue * 100).round(),
-                                              );
-                                        },
-                                      ),
-                                    ),
+                                    const VolumeSliderWidget(),
                                     /* Beat, BPM, ChordCount 설정 */
                                     const PlaySettingArea(),
                                     /* stop, play/pause, repeat, shuffle */
