@@ -1,14 +1,15 @@
 import 'package:c2b_chord/model/piano_state_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'piano_state_provider.g.dart';
 
 /// 피아노 상태를 관리하는 Provider
-final pianoStateProvider =
-    StateNotifierProvider<PianoStateNotifier, PianoStateModel>(
-      (ref) => PianoStateNotifier(),
-    );
-
-class PianoStateNotifier extends StateNotifier<PianoStateModel> {
-  PianoStateNotifier() : super(const PianoStateModel());
+@riverpod
+class PianoState extends _$PianoState {
+  @override
+  PianoStateModel build() {
+    return const PianoStateModel();
+  }
 
   /// 특정 건반을 눌렀다/떼었다 토글
   void toggleKey(int midiNumber) {

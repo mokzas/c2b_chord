@@ -98,7 +98,12 @@ class ScoreArea extends ConsumerWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    for (int i = 0; i < displayChordCount; ++i)
+                                    for (
+                                      int i = 0;
+                                      i < displayChordCount &&
+                                          i < randomChords.length;
+                                      ++i
+                                    )
                                       BarWidget(
                                         isActive:
                                             isRepeat
@@ -123,7 +128,11 @@ class ScoreArea extends ConsumerWidget {
                         // 피아노 퀴즈가 아닐 때는 전체 영역에 spaceBetween으로 정렬
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          for (int i = 0; i < displayChordCount; ++i)
+                          for (
+                            int i = 0;
+                            i < displayChordCount && i < randomChords.length;
+                            ++i
+                          )
                             BarWidget(
                               isActive:
                                   isRepeat
@@ -141,7 +150,11 @@ class ScoreArea extends ConsumerWidget {
                             ? MainAxisAlignment.center
                             : MainAxisAlignment.spaceBetween,
                     children: [
-                      for (int i = 0; i < displayChordCount; ++i)
+                      for (
+                        int i = 0;
+                        i < displayChordCount && i < randomChords.length;
+                        ++i
+                      )
                         BarWidget(
                           isActive:
                               isRepeat

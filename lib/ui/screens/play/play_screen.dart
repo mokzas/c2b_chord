@@ -1,3 +1,4 @@
+import 'package:c2b_chord/providers/piano_state_provider.dart';
 import 'package:c2b_chord/providers/play_state_provider.dart';
 import 'package:c2b_chord/ui/screens/play/beat_indicator_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_control_area.dart';
@@ -37,6 +38,13 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     final playState = ref.watch(playStateProvider);
     final currentTick = playState.currentTick;
     final timeSignature = playState.timeSignature;
+
+    // 코드가 변경될 때 피아노 키 리셋
+    ref.listen(playStateProvider, (previous, next) {
+      if (previous?.currentChordIndex != next.currentChordIndex) {
+        ref.read(pianoStateProvider.notifier).clearAllKeys();
+      }
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -96,7 +104,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           final playState = ref.read(
                             playStateProvider.notifier,
                           );
+                          final pianoState = ref.read(
+                            pianoStateProvider.notifier,
+                          );
                           playState.stop();
+                          pianoState.clearAllKeys(); // 피아노 키 리셋
                           context.pop();
                         },
                       ),
