@@ -131,10 +131,9 @@ class PlayState extends _$PlayState {
   void togglePianoQuiz() {
     if (state.isPianoQuizOn) {
       state = state.copyWith(isPianoQuizOn: false);
-      setDisplayChordCount(8);
     } else {
       state = state.copyWith(isPianoQuizOn: true);
-      setDisplayChordCount(2);
     }
+    setDisplayChordCount(2);
   }
 }
