@@ -30,20 +30,12 @@ class PlayState extends _$PlayState {
           state = state.copyWith(currentTick: newTick, isCountDown: false);
         } else if (newTick == 0) {
           // CASE 2: Tick이 한 사이클(timeSignature 값)을 지나 0으로 돌아온 경우
-          // 연습 중인 chord를 다음 chord로 넘김.
-          final nextIndex =
-              (state.currentChordIndex + 1) % state.displayChordCount;
-          state = state.copyWith(
-            currentChordIndex: nextIndex,
-            currentTick: newTick,
+          // 공용 로직으로 다음 chord로 이동 (자동 진행이므로 재생성 고려)
+          _advanceToNextChord(
+            triggerRegeneration: state.isPlaying && !state.isRepeat,
           );
-          // CASE 2+: ScoreArea의 Chord가 [reGenerateCount]번째 chord까지 연주된 경우
-          // 새로운 랜덤 Chord 생성. 단, 반복 모드인 경우는 생성하지 않음.
-          if (nextIndex % state.reGenerateCount == 0 &&
-              state.isPlaying &&
-              !state.isRepeat) {
-            ref.read(randomChordsProvider.notifier).reGeneratePart();
-          }
+          // tick은 콜백 tick으로 동기화
+          state = state.copyWith(currentTick: newTick);
         } else {
           // CASE Default
           state = state.copyWith(currentTick: newTick);
@@ -101,13 +93,10 @@ class PlayState extends _$PlayState {
   }
 
   void setDisplayChordCount(int count) {
-    // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
-    final halfCount = count ~/ 2;
-    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
-
     state = state.copyWith(
       displayChordCount: count,
-      reGenerateCount: reGenerateCount,
+      reGenerateCount: getReGenerateCount(count),
+      isPianoQuizOn: false,
       currentChordIndex: 0,
     );
 
@@ -125,15 +114,53 @@ class PlayState extends _$PlayState {
     state = state.copyWith(isShowNoteOn: !state.isShowNoteOn);
   }
 
+  // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
+  int getReGenerateCount(int count) {
+    final halfCount = count ~/ 2;
+    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
+    return reGenerateCount;
+  }
+
   /// 가상피아노 퀴즈모드를 토글하는 함수
   /// 반복 모드 ON 시 displayChordCount를 2로 변경
-  /// 반복 모드 OFF 시 displayChordCount를 8로 값으로 변경
   void togglePianoQuiz() {
     if (state.isPianoQuizOn) {
-      state = state.copyWith(isPianoQuizOn: false);
+      state = state.copyWith(
+        isPianoQuizOn: false,
+        displayChordCount: 2,
+        reGenerateCount: getReGenerateCount(2),
+        currentChordIndex: 0,
+      );
     } else {
-      state = state.copyWith(isPianoQuizOn: true);
+      state = state.copyWith(
+        isPianoQuizOn: true,
+        displayChordCount: 2,
+        reGenerateCount: getReGenerateCount(2),
+        currentChordIndex: 0,
+      );
     }
-    setDisplayChordCount(2);
+  }
+
+  /// 재생 없이 다음 코드로 강제 이동 (Quiz 모드용)
+  /// tick은 0으로 초기화하고, 다음 index로 이동
+  /// Repeat OFF일 때만 재생성, Repeat ON일 때는 index만 이동
+  void goToNextChord() {
+    _advanceToNextChord(triggerRegeneration: !state.isRepeat);
+    state = state.copyWith(currentTick: 0, isCountDown: false);
+  }
+
+  /// 다음 chord로 이동하는 공용 로직.
+  /// triggerRegeneration이 true이고 nextIndex가 reGenerateCount의 배수일 때만 재생성.
+  void _advanceToNextChord({required bool triggerRegeneration}) {
+    final nextIndex = (state.currentChordIndex + 1) % state.displayChordCount;
+    state = state.copyWith(currentChordIndex: nextIndex);
+
+    // 재생성 조건: nextIndex가 reGenerateCount의 배수일 때
+    // 8개 모드: index 0→1→2→3→4(4%4==0, 재생성)→5→6→7→8(8%4==0, 재생성)...
+    // 퀴즈 모드: index 0→1(1%1==0, 재생성)→2(2%1==0, 재생성)...
+    // 원래 로직은 index를 리셋하지 않고 계속 증가시킴
+    if (triggerRegeneration && nextIndex % state.reGenerateCount == 0) {
+      ref.read(randomChordsProvider.notifier).reGeneratePart();
+    }
   }
 }

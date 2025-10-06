@@ -52,14 +52,6 @@ class SelectedNotesWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Chord Quiz',
-            style: musicTextTheme(context).titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          hGap8(),
           if (selectedNotes.isEmpty)
             Text(
               'No notes selected',
