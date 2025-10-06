@@ -52,12 +52,24 @@ class SelectedNotesWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Chord Quiz',
-            style: musicTextTheme(context).titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Chord Quiz',
+                style: musicTextTheme(context).titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Clear',
+                icon: Icon(Icons.clear_all),
+                onPressed: () {
+                  ref.read(pianoStateProvider.notifier).clearAllKeys();
+                },
+              ),
+            ],
           ),
           hGap8(),
           if (selectedNotes.isEmpty)

@@ -98,6 +98,52 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           ScoreArea(),
                         ],
                       ),
+                      // Quiz Next overlay at right edge when quiz on & not playing
+                      if (playState.isPianoQuizOn && !playState.isPlaying)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              right: C2bPadding.longSide,
+                            ),
+                            child: SizedBox(
+                              width: 72,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // dim strip behind the button, non-interactive
+                                  IgnorePointer(
+                                    ignoring: true,
+                                    child: Container(
+                                      height: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface
+                                            .withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(
+                                          C2bRadius.medium,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Opacity(
+                                    opacity: 0.9,
+                                    child: FloatingActionButton(
+                                      heroTag: 'quizNextFAB',
+                                      onPressed: () {
+                                        ref
+                                            .read(playStateProvider.notifier)
+                                            .goToNextChord();
+                                      },
+                                      child: Icon(Icons.skip_next),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       IconButton(
                         icon: Icon(Icons.arrow_back_ios),
                         onPressed: () {
