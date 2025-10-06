@@ -93,13 +93,10 @@ class PlayState extends _$PlayState {
   }
 
   void setDisplayChordCount(int count) {
-    // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
-    final halfCount = count ~/ 2;
-    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
-
     state = state.copyWith(
       displayChordCount: count,
-      reGenerateCount: reGenerateCount,
+      reGenerateCount: getReGenerateCount(count),
+      isPianoQuizOn: false,
       currentChordIndex: 0,
     );
 
@@ -117,16 +114,31 @@ class PlayState extends _$PlayState {
     state = state.copyWith(isShowNoteOn: !state.isShowNoteOn);
   }
 
+  // 악보의 반이 지나가면 새로 랜덤 chord 생성, 최소 1
+  int getReGenerateCount(int count) {
+    final halfCount = count ~/ 2;
+    final reGenerateCount = halfCount < 1 ? 1 : halfCount;
+    return reGenerateCount;
+  }
+
   /// 가상피아노 퀴즈모드를 토글하는 함수
   /// 반복 모드 ON 시 displayChordCount를 2로 변경
-  /// 반복 모드 OFF 시 displayChordCount를 8로 값으로 변경
   void togglePianoQuiz() {
     if (state.isPianoQuizOn) {
-      state = state.copyWith(isPianoQuizOn: false);
+      state = state.copyWith(
+        isPianoQuizOn: false,
+        displayChordCount: 2,
+        reGenerateCount: getReGenerateCount(2),
+        currentChordIndex: 0,
+      );
     } else {
-      state = state.copyWith(isPianoQuizOn: true);
+      state = state.copyWith(
+        isPianoQuizOn: true,
+        displayChordCount: 2,
+        reGenerateCount: getReGenerateCount(2),
+        currentChordIndex: 0,
+      );
     }
-    setDisplayChordCount(2);
   }
 
   /// 재생 없이 다음 코드로 강제 이동 (Quiz 모드용)
