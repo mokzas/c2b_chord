@@ -98,13 +98,14 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                           ScoreArea(),
                         ],
                       ),
-                      // Quiz Next overlay at right edge when quiz on & not playing
+                      // Quiz Clear button overlay at left edge when quiz on & not playing
                       if (playState.isPianoQuizOn && !playState.isPlaying)
                         Align(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.bottomLeft,
                           child: Padding(
                             padding: EdgeInsets.only(
-                              right: C2bPadding.longSide,
+                              left: C2bPadding.longSide,
+                              bottom: C2bPadding.longSide * 3,
                             ),
                             child: SizedBox(
                               width: 72,
@@ -115,7 +116,54 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                                   IgnorePointer(
                                     ignoring: true,
                                     child: Container(
-                                      height: double.infinity,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface
+                                            .withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(
+                                          C2bRadius.medium,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Opacity(
+                                    opacity: 0.9,
+                                    child: FloatingActionButton(
+                                      heroTag: 'quizClearFAB',
+                                      onPressed: () {
+                                        ref
+                                            .read(pianoStateProvider.notifier)
+                                            .clearAllKeys();
+                                      },
+                                      child: Icon(Icons.refresh),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      // Quiz Next overlay at right edge when quiz on & not playing
+                      if (playState.isPianoQuizOn && !playState.isPlaying)
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              right: C2bPadding.longSide,
+                              bottom: C2bPadding.longSide * 3,
+                            ),
+                            child: SizedBox(
+                              width: 72,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // dim strip behind the button, non-interactive
+                                  IgnorePointer(
+                                    ignoring: true,
+                                    child: Container(
+                                      height: 200,
                                       decoration: BoxDecoration(
                                         color: Theme.of(context)
                                             .colorScheme
