@@ -16,11 +16,17 @@ class SelectedNotesWidget extends ConsumerWidget {
     final playState = ref.watch(playStateProvider);
     final randomChords = ref.watch(randomChordsProvider);
 
-    final selectedNotes =
+    // MIDI 번호와 노트 이름을 함께 저장 (정렬된 순서)
+    final selectedNotesWithMidi =
         pianoState.pressedKeys
-            .map((midi) => Pitch.fromMidiNumber(midi).toString())
+            .map(
+              (midi) => (
+                midi: midi,
+                name: Pitch.fromMidiNumber(midi).toString(),
+              ),
+            )
             .toList()
-          ..sort(); // 알파벳 순으로 정렬
+          ..sort((a, b) => a.name.compareTo(b.name)); // 알파벳 순으로 정렬
 
     // 현재 코드의 구성음 (MIDI 값 / 12로 옥타브 무시)
     final currentChord =
@@ -34,25 +40,13 @@ class SelectedNotesWidget extends ConsumerWidget {
             .toSet() ??
         <int>{};
 
-    // 선택된 노트들의 옥타브 무시한 pitch 값들
-    final selectedNotesPitch =
-        pianoState.pressedKeys
-            .map((midi) => midi % 12) // 0-11 범위로 변환
-            .toSet();
-
-    // 선택된 노트들이 현재 코드의 구성음과 정확히 일치하는지 확인
-    final isChordMatch =
-        currentChordNotes.isNotEmpty &&
-        selectedNotesPitch.length == currentChordNotes.length &&
-        selectedNotesPitch.every((pitch) => currentChordNotes.contains(pitch));
-
     return Container(
       padding: EdgeInsets.all(C2bPadding.medium),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (selectedNotes.isEmpty)
+          if (selectedNotesWithMidi.isEmpty)
             Text(
               'No notes selected',
               style: musicTextTheme(context).bodyMedium?.copyWith(
@@ -67,7 +61,12 @@ class SelectedNotesWidget extends ConsumerWidget {
               spacing: C2bPadding.small,
               runSpacing: C2bPadding.small,
               children:
-                  selectedNotes.map((note) {
+                  selectedNotesWithMidi.map((noteInfo) {
+                    // 이 노트의 pitch (0-11)
+                    final notePitch = noteInfo.midi % 12;
+                    // 이 노트가 현재 코드 구성음에 포함되는지 확인
+                    final isInChord = currentChordNotes.contains(notePitch);
+
                     return Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: C2bPadding.small,
@@ -75,14 +74,14 @@ class SelectedNotesWidget extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color:
-                            isChordMatch
+                            isInChord
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(
                                   context,
                                 ).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(C2bRadius.small),
                         border:
-                            isChordMatch
+                            isInChord
                                 ? null
                                 : Border.all(
                                   color: Theme.of(
@@ -92,10 +91,10 @@ class SelectedNotesWidget extends ConsumerWidget {
                                 ),
                       ),
                       child: Text(
-                        note,
+                        noteInfo.name,
                         style: musicTextTheme(context).bodyMedium?.copyWith(
                           color:
-                              isChordMatch
+                              isInChord
                                   ? Theme.of(context).colorScheme.onPrimary
                                   : Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
