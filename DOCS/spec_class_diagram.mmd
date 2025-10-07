@@ -55,6 +55,10 @@ classDiagram
         folderPath,: List[String] = []
         error: String?
     }
+    class GuideStateModel{
+        showPlayScreenGuide: bool = true
+        showQuizModeGuide: bool = false
+    }
     
 
 %% Providers
@@ -88,6 +92,9 @@ classDiagram
     class PresetStateProvider{
         exposes: Future~PresetStateModel~
     }
+    class GuideStateProvider{
+        exposes: Future~GuideStateModel~
+    }
     
 
 %% Relationships
@@ -102,3 +109,4 @@ classDiagram
     PresetStateProvider ..> PresetStateModel
     PresetModel *-- ChordModel
     PresetStateModel *-- PresetModel
+    GuideStateProvider ..> GuideStateModel
