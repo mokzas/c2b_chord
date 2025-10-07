@@ -1,6 +1,7 @@
 import 'package:c2b_chord/providers/guide_state_provider.dart';
 import 'package:c2b_chord/providers/piano_state_provider.dart';
 import 'package:c2b_chord/providers/play_state_provider.dart';
+import 'package:c2b_chord/providers/random_chords_provider.dart';
 import 'package:c2b_chord/ui/screens/play/beat_indicator_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_control_area.dart';
 import 'package:c2b_chord/ui/screens/play/play_screen_guide.dart';
@@ -10,6 +11,7 @@ import 'package:c2b_chord/ui/screens/play/score_area.dart';
 import 'package:c2b_chord/ui/screens/play/volume_slider_widget.dart';
 import 'package:c2b_chord/ui/theme/tokens.dart';
 import 'package:c2b_chord/ui/widgets/guide_overlay.dart';
+import 'package:c2b_chord/ui/widgets/quiz_correct_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +27,8 @@ class PlayScreen extends ConsumerStatefulWidget {
 }
 
 class _PlayScreenState extends ConsumerState<PlayScreen> {
+  bool _showCorrectOverlay = false;
+
   @override
   void initState() {
     // 가로모드 고정
@@ -36,6 +40,40 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     super.initState();
   }
 
+  /// 정답 여부를 확인하는 함수
+  bool _checkIfCorrect() {
+    final playState = ref.read(playStateProvider);
+    final pianoState = ref.read(pianoStateProvider);
+    final randomChords = ref.read(randomChordsProvider);
+
+    // 퀴즈 모드가 아니면 false
+    if (!playState.isPianoQuizOn) return false;
+
+    // 현재 코드의 구성음 (pitch 0-11)
+    final currentChord =
+        randomChords.isNotEmpty
+            ? randomChords[playState.currentChordIndex %
+                playState.reGenerateCount]
+            : null;
+    final currentChordNotes =
+        currentChord?.tones
+            .map((note) => note.pitch) // Note의 pitch 값 사용 (0-11)
+            .toSet() ??
+        <int>{};
+
+    // 선택된 노트들의 옥타브 무시한 pitch 값들
+    final selectedNotesPitch =
+        pianoState.pressedKeys
+            .map((midi) => midi % 12) // 0-11 범위로 변환
+            .toSet();
+
+    // 선택된 노트들이 현재 코드의 구성음과 정확히 일치하는지 확인
+    return currentChordNotes.isNotEmpty &&
+        selectedNotesPitch.isNotEmpty &&
+        selectedNotesPitch.length == currentChordNotes.length &&
+        selectedNotesPitch.every((pitch) => currentChordNotes.contains(pitch));
+  }
+
   @override
   Widget build(BuildContext context) {
     final playState = ref.watch(playStateProvider);
@@ -43,22 +81,43 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
     final currentTick = playState.currentTick;
     final timeSignature = playState.timeSignature;
 
-    // 코드가 변경될 때 피아노 키 리셋
+    // 코드가 변경될 때 피아노 키 리셋 및 오버레이 숨김
     ref.listen(playStateProvider, (previous, next) {
       if (previous?.currentChordIndex != next.currentChordIndex) {
         ref.read(pianoStateProvider.notifier).clearAllKeys();
+        setState(() {
+          _showCorrectOverlay = false;
+        });
       }
     });
 
-    // Quiz 모드 진입 시 가이드 표시
+    // Quiz 모드 진입/종료 감지
     ref.listen(playStateProvider, (previous, next) {
+      // Quiz 모드 진입 시 가이드 표시
       if (previous?.isPianoQuizOn == false && next.isPianoQuizOn == true) {
-        // Quiz 모드로 진입했을 때 가이드 표시
         Future.delayed(const Duration(milliseconds: 500), () {
           if (mounted) {
             ref.read(guideStateProvider.notifier).showQuizModeGuide();
           }
         });
+      }
+      // Quiz 모드 종료 시 오버레이 숨김
+      if (previous?.isPianoQuizOn == true && next.isPianoQuizOn == false) {
+        setState(() {
+          _showCorrectOverlay = false;
+        });
+      }
+    });
+
+    // 피아노 키 변경 시 정답 확인
+    ref.listen(pianoStateProvider, (previous, next) {
+      final currentPlayState = ref.read(playStateProvider);
+      if (currentPlayState.isPianoQuizOn && !_showCorrectOverlay) {
+        if (_checkIfCorrect()) {
+          setState(() {
+            _showCorrectOverlay = true;
+          });
+        }
       }
     });
 
@@ -294,6 +353,15 @@ class _PlayScreenState extends ConsumerState<PlayScreen> {
                                         ),
                                       ),
                                     ),
+                                  ),
+                                // Quiz Correct Overlay
+                                if (_showCorrectOverlay)
+                                  QuizCorrectOverlay(
+                                    onNext: () {
+                                      setState(() {
+                                        _showCorrectOverlay = false;
+                                      });
+                                    },
                                   ),
                               ],
                             );
