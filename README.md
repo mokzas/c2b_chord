@@ -65,11 +65,12 @@ Customize beats per chord, BPM, and number of chords displayed on screen.
 
 ## 📦 Changelog
 
-### [v1.1.1] - 2025-10-06
+### [v1.1.1] - 2025-10-07
 
-- Add Clear button (bottom-left) to reset selected piano keys
-- Add Next button (bottom-right) to manually advance to next chord (generates new chord when Repeat is OFF, cycles existing chords when Repeat is ON)
-- Remove "Chord Quiz" title for better space utilization
+- [Quiz Mode] Add Clear button (bottom-left) to reset all selected keys
+- [Quiz Mode] Add Next button (bottom-right) to manually advance chords
+- [Quiz Mode] Highlight correct notes in primary color when pressed
+- [Quiz Mode] Show "Perfect!" celebration when answer is correct
 
 
 ### [v1.1.0] - 2025-09-23
